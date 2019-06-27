@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">YZBase</string>
+
+    <string name="yz_base_net_error">Net connection failed, Please try again after</string>
+    <string name="yz_base_data_error">Data parse failed</string>
+    <string name="yz_base_exit">Exit</string>
+    <string name="yz_base_setting">Setting</string>
+    <string name="yz_base_ok">Ok</string>
+    <string name="yz_base_cancel">Cancel</string>
+    <string name="yz_base_permissions_error">App need permissions, Otherwise App cannot be used</string>
+    <string name="yz_base_data_empty">No data!</string>
+    <string name="yz_base_net_empty">No net!</string>
+    <string name="yz_base_reload">Reload</string>
+    <string name="yz_base_check_update">Check update</string>
+    <string name="yz_base_background_download">Background download</string>
+</resources>

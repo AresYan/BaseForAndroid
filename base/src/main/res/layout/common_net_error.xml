@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/gray_f7f7f7">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/common_icon_net_error" />
+
+    <TextView
+        android:text="@string/yz_base_net_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d30"
+        android:textSize="@dimen/sp45"
+        android:textColor="@color/gray_04"/>
+
+    <TextView
+        android:text="@string/yz_base_reload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d50"
+        android:background="@drawable/common_net_error_btn_bg"
+        android:paddingTop="@dimen/d25"
+        android:paddingBottom="@dimen/d25"
+        android:paddingLeft="@dimen/d120"
+        android:paddingRight="@dimen/d120"
+        android:textSize="@dimen/sp45"
+        android:textColor="@color/red_01"
+        android:id="@+id/common_net_error_TextView_retry" />
+
+</LinearLayout>

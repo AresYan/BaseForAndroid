@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_popup_list_item_TextView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/d148"
+    android:gravity="center"
+    android:background="@drawable/common_popup_list_item_bg"
+    android:layout_margin="@dimen/d1"
+    android:textColor="@color/blue_01"
+    android:textSize="@dimen/sp50" />

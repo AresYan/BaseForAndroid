@@ -1,0 +1,107 @@
+package com.yz.base.ui.base;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.yz.base.R;
+import com.yz.base.entity.PopSelected;
+import com.yz.base.utils.MyStrHelper;
+
+import java.util.List;
+
+public abstract class BasePopupWindow extends PopupWindow {
+	
+	public View mConentView;
+	public Context mContext;
+	public LayoutInflater mInflater;
+
+	public BasePopupWindowListener listener;
+
+	public void setBasePopupWindowListener(BasePopupWindowListener listener) {
+		this.listener = listener;
+	}
+
+	public BasePopupWindow(Context context) {
+		mContext=context;
+		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mConentView = mInflater.inflate(getConentView(), null);
+		int h = ScreenUtils.getScreenHeight()/2;
+		int w = ScreenUtils.getScreenWidth();
+		// 设置SelectPicPopupWindow的View
+		this.setContentView(mConentView);
+		// 设置SelectPicPopupWindow弹出窗体的宽
+		this.setWidth(w);
+		// 设置SelectPicPopupWindow弹出窗体的高
+		this.setHeight(h);
+		// 设置SelectPicPopupWindow弹出窗体可点击
+		this.setFocusable(true);
+		this.setOutsideTouchable(true);
+		// 刷新状态
+		this.update();
+		this.setBackgroundDrawable(new ColorDrawable(0x00000000));
+		this.setAnimationStyle(android.R.style.Animation_InputMethod);
+		this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		this.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				setBackgroundAlpha(1.0f);
+			}
+		});
+	}
+
+	protected abstract int getConentView();
+
+	protected void setBackgroundAlpha(float alpha) {
+		WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
+		lp.alpha = alpha;
+		((Activity) mContext).getWindow().setAttributes(lp);
+	}
+
+	@Override
+	public void showAtLocation(View parent, int gravity, int x, int y) {
+		super.showAtLocation(parent, gravity, x, y);
+		setBackgroundAlpha(0.5f);
+	}
+
+	public void show(View parent) {
+		if (!this.isShowing()) {
+			this.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+		} else {
+			this.dismiss();
+		}
+	}
+
+	public void show(View parent, int gravity, int x, int y) {
+		if (!this.isShowing()) {
+			this.showAtLocation(parent, gravity, x, y);
+		} else {
+			this.dismiss();
+		}
+	}
+
+	public interface BasePopupWindowListener<T> {
+		public void onClick(T item);
+	}
+
+	public static abstract class Builder {
+		public Context context;
+		public BasePopupWindowListener listener;
+
+		public Builder(Context context){
+			this.context=context;
+		}
+
+		public BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
+			this.listener = listener;
+			return this;
+		}
+
+		public abstract BasePopupWindow build();
+	}
+}

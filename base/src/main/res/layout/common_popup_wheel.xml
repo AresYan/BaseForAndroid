@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d150"
+        android:background="@color/grayccc" >
+
+        <TextView
+            android:id="@+id/common_wheel_popup_TextView_cannel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:text="取消"
+            android:textColor="@color/blue_01"
+            android:textSize="@dimen/sp50" />
+
+        <TextView
+            android:id="@+id/common_wheel_popup_TextView_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:text="确定"
+            android:textColor="@color/blue_01"
+            android:textSize="@dimen/sp50" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/common_wheel_popup_wv1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/common_wheel_view" />
+
+        <include
+            android:id="@+id/common_wheel_popup_wv2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/common_wheel_view" />
+        
+        <include
+            android:id="@+id/common_wheel_popup_wv3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/common_wheel_view" />
+
+        <include
+            android:id="@+id/common_wheel_popup_wv4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/common_wheel_view" />
+
+        <include
+            android:id="@+id/common_wheel_popup_wv5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            layout="@layout/common_wheel_view" />
+    </LinearLayout>
+
+</LinearLayout>
