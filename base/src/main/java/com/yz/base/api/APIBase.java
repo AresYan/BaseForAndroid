@@ -1,6 +1,5 @@
 package com.yz.base.api;
 
-import com.yz.base.entity.BaseEntity;
 import com.yz.base.http.BaseEaseHttp;
 import com.yz.base.http.MyResultDownloadListener;
 import com.yz.base.http.MyResultListener;
@@ -40,7 +39,7 @@ public abstract class APIBase {
         return mBaseEaseHttp.request(BaseEaseHttp.GET,baseUrl,url,params,type,listener);
     }
 
-    public static Object post(String baseUrl, String url, BaseEntity params, Type type, MyResultListener listener){
+    public static Object post(String baseUrl, String url, Object params, Type type, MyResultListener listener){
         return mBaseEaseHttp.request(BaseEaseHttp.POST,baseUrl,url,params,type,listener);
     }
 
@@ -48,7 +47,7 @@ public abstract class APIBase {
         return mBaseEaseHttp.request(BaseEaseHttp.POST,baseUrl,url,params,type,listener);
     }
 
-    public static Object put(String baseUrl, String url, BaseEntity params, Type type, MyResultListener listener){
+    public static Object put(String baseUrl, String url, Object params, Type type, MyResultListener listener){
         return mBaseEaseHttp.request(BaseEaseHttp.PUT,baseUrl,url,params,type,listener);
     }
 
@@ -56,7 +55,7 @@ public abstract class APIBase {
         return mBaseEaseHttp.request(BaseEaseHttp.PUT,baseUrl,url,params,type,listener);
     }
 
-    public static Object del(String baseUrl, String url, BaseEntity params, Type type, MyResultListener listener){
+    public static Object del(String baseUrl, String url, Object params, Type type, MyResultListener listener){
         return mBaseEaseHttp.request(BaseEaseHttp.DEL,baseUrl,url,params,type,listener);
     }
 

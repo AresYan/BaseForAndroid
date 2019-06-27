@@ -7,7 +7,6 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.google.gson.Gson;
 import com.yz.base.R;
 import com.yz.base.api.APIBase;
-import com.yz.base.entity.BaseEntity;
 import com.yz.base.utils.MyLogger;
 import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.MyStrHelper;
@@ -75,76 +74,14 @@ public abstract class BaseEaseHttp {
     }
 
     public <T> Disposable request(int mode, String baseUrl, String url, Object params, Type type, MyResultListener<T> listener) {
-        if(params!=null){
-            if(params instanceof BaseEntity){
-                 return requestForJson(mode,baseUrl,url,(BaseEntity)params,type,listener);
-            }
-            else if(params instanceof Map){
-                return requestForParams(mode,baseUrl,url,(Map)params,type,listener);
-            }
-        }
-        return request(mode,baseUrl,url,type,listener);
-    }
-
-    public <T> Disposable request(int mode, String baseUrl, String url, Type type, MyResultListener<T> listener) {
-        if(!isConnected(listener)){
-            return null;
-        }
-        BaseRequest request = null;
-        switch (mode){
-            case GET:
-                request = EasyHttp.get(url);
-                break;
-            case POST:
-                request = EasyHttp.post(url);
-                break;
-            case PUT:
-                request = EasyHttp.put(url);
-                break;
-            case DEL:
-                request = EasyHttp.delete(url);
-                break;
-        }
-        baseUrl(request,baseUrl);
-        return execute(request,baseUrl+url,type,listener);
-    }
-
-    public <T> Disposable requestForJson(int mode, String baseUrl, String url, BaseEntity params, Type type, MyResultListener<T> listener) {
-        if(!isConnected(listener)){
-            return null;
-        }
-        BaseRequest request = null;
-        switch (mode){
-            case GET:
-                request = EasyHttp.get(url);
-                break;
-            case POST:
-                request = EasyHttp.post(url);
-                break;
-            case PUT:
-                request = EasyHttp.put(url);
-                break;
-            case DEL:
-                request = EasyHttp.delete(url);
-                break;
-        }
-        baseUrl(request,baseUrl);
-        if(params!=null && request instanceof BaseBodyRequest){
-            RequestBody body= RequestBody.create(MediaType.parse("application/json; charset=utf-8"),params.toString());
-            ((BaseBodyRequest)request).requestBody(body);
-        }
-        return execute(request,baseUrl+url,type,listener);
-    }
-
-    public <T> Disposable requestForParams(int mode, String baseUrl, String url, Map<String,String> params, Type type, MyResultListener<T> listener) {
         if(!isConnected(listener)){
             return null;
         }
         StringBuffer buffer=new StringBuffer();
-        if(params!=null && ! params.isEmpty()){
+        if(params!=null && params instanceof Map && ! ((Map)params).isEmpty()){
             buffer.append("?");
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                buffer.append(entry.getKey()).append("=").append(entry.getValue());
+            for (Object key : ((Map)params).keySet()) {
+                buffer.append(key).append("=").append(((Map) params).get(key));
                 buffer.append("&");
             }
             url+=buffer.toString();
@@ -166,13 +103,21 @@ public abstract class BaseEaseHttp {
         }
         baseUrl(request,baseUrl);
         if(request instanceof BaseBodyRequest){
-            if(params!=null && ! params.isEmpty()){
-                for (Map.Entry<String, String> entry : params.entrySet()) {
-                    ((BaseBodyRequest)request).params(entry.getKey(),entry.getValue());
+            if(params!=null ){
+                RequestBody body= RequestBody.create(MediaType.parse("application/json; charset=utf-8"),new Gson().toJson(params));
+                ((BaseBodyRequest)request).requestBody(body);
+            }
+            if(params!=null && params instanceof Map && ! ((Map)params).isEmpty()){
+                for (Object key : ((Map)params).keySet()) {
+                    ((BaseBodyRequest)request).params(key.toString(),((Map) params).get(key).toString());
                 }
             }
         }
         return execute(request,baseUrl+url,type,listener);
+    }
+
+    public <T> Disposable request(int mode, String baseUrl, String url, Type type, MyResultListener<T> listener) {
+        return request(mode,baseUrl,url,null,type,listener);
     }
 
     public <T> Disposable postFiles(String baseUrl, String url, Map<String, File> fileParams, Type type, MyResultListener<T> listener) {
@@ -233,13 +178,13 @@ public abstract class BaseEaseHttp {
             }
             @Override
             public void onError(ApiException e) {
-                MyLogger.e("MyEasyHttp url : "+url+" , onError : " + e.getMessage());
+                MyLogger.e("MyEasyHttp url : "+url+" , Params : "+request.getParams().toString()+" , onError : " + e.getMessage());
                 finished(listener);
                 failure(listener,e.getMessage());
             }
             @Override
             public void onSuccess(String result) {
-                MyLogger.d("MyEasyHttp url : "+url+" , onSuccess : " + result);
+                MyLogger.d("MyEasyHttp url : "+url+" , Params : "+request.getParams().toString()+" , onSuccess : " + result);
                 finished(listener);
                 success(result,type,listener);
             }
