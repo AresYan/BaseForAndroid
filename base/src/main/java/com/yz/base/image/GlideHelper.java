@@ -19,8 +19,6 @@ import com.yz.base.utils.MyMainHandler;
 
 import java.io.File;
 
-import static com.bumptech.glide.Glide.with;
-
 /**
  * Created by YZ on 2016/11/29.
  */
@@ -29,8 +27,8 @@ public class GlideHelper {
     public static final int WIDTH=150;
     public static final int HEIGHT=150;
 
-    private static DrawableRequestBuilder<Object> getHelper(View view, Object object){
-        return with(view.getContext())
+    public static DrawableRequestBuilder<Object> getHelper(View view, Object object){
+        return Glide.with(view.getContext())
                 .load(object)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT);
@@ -40,7 +38,7 @@ public class GlideHelper {
         into(view,object,0,null,null);
     }
 
-    public static void into(ImageView view, Object object, final IntoListener listener) {
+    public static void into(ImageView view, Object object, IntoListener listener) {
         into(view,object,0,null,listener);
     }
 
@@ -48,7 +46,7 @@ public class GlideHelper {
         into(view,object,errorRid,null,null);
     }
 
-    public static void into(ImageView view, Object object, int errorRid, final IntoListener listener) {
+    public static void into(ImageView view, Object object, int errorRid, IntoListener listener) {
         into(view,object,errorRid,null,listener);
     }
 
@@ -97,7 +95,7 @@ public class GlideHelper {
                 helper.error(errorRid);
             }
             helper.into(view);
-            view.setTag(object.toString());
+//            view.setTag(object.toString());
         }
     }
 
