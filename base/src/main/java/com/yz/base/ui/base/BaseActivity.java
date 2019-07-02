@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import butterknife.ButterKnife;
-import com.jaeger.library.StatusBarUtil;
 import com.yz.base.R;
 import com.yz.base.config.BaseContants;
 import com.yz.base.event.BaseEvent;
@@ -25,6 +24,7 @@ import com.yz.base.permission.ZbPermission;
 import com.yz.base.utils.AppManager;
 import com.yz.base.utils.MyEventBus;
 import com.yz.base.utils.MyMainHandler;
+import com.yz.base.utils.StatusBarUtil;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
