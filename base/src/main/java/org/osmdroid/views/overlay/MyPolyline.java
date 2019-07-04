@@ -203,7 +203,7 @@ public class MyPolyline extends OverlayWithIW {
         final Projection pj = mapView.getProjection();
 
         mLineDrawer.setCanvas(canvas);
-        mOutline.setClipArea(mapView);
+        mOutline.setClipArea(pj);
         mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
             milestoneManager.init();
