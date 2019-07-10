@@ -95,7 +95,7 @@ public class GlideHelper {
                 helper.error(errorRid);
             }
             helper.into(view);
-//            view.setTag(object.toString());
+            view.setTag(object.toString());
         }
     }
 
