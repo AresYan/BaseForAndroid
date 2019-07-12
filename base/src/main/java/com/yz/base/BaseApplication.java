@@ -12,6 +12,7 @@ public abstract class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        setGlideTagId(R.id.tag_glide);
         initNeverCrash();
     }
 
@@ -47,4 +48,6 @@ public abstract class BaseApplication extends MultiDexApplication {
     }
 
     public abstract void writeFile(String sb) throws Exception;
+
+    public abstract void setGlideTagId(int tag);
 }
