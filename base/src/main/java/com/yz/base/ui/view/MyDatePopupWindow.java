@@ -232,7 +232,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 				try {
 					mYear = getYearCurrentItem()+getCurrentYear();
 					monthWv = getMonthWheelView(getMonthArray(mYear));
-					monthWv.setCurrent(0);
+					monthWv.setCurrent(getCurrentMonth()-1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -252,7 +252,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 						mMonth=index+1;
 					}
 					dayWv = getDayWheelView(getDayArray(mYear,mMonth));
-					dayWv.setCurrent(0);
+					dayWv.setCurrent(getCurrentDay()-1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

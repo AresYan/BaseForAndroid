@@ -39,6 +39,25 @@ public abstract class BaseEaseHttp {
     public Context mContext;
     public int mSuccess = 0;
     public int mInvalid = -1;
+    public String mediaType = "application/json; charset=utf-8";
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    private boolean isPostParamsUrl=false;
+
+    public boolean isPostParamsUrl() {
+        return isPostParamsUrl;
+    }
+
+    public void setPostParamsUrl(boolean postParamsUrl) {
+        isPostParamsUrl = postParamsUrl;
+    }
 
     public void init(Application application, int success, int invalid){
         mContext=application.getApplicationContext();
@@ -84,11 +103,14 @@ public abstract class BaseEaseHttp {
                 buffer.append(key).append("=").append(((Map) params).get(key));
                 buffer.append("&");
             }
+        }
+        if(isPostParamsUrl){
             url+=buffer.toString();
         }
         BaseRequest request = null;
         switch (mode){
             case GET:
+                url+=buffer.toString();
                 request = EasyHttp.get(url);
                 break;
             case POST:
@@ -103,14 +125,18 @@ public abstract class BaseEaseHttp {
         }
         baseUrl(request,baseUrl);
         if(request instanceof BaseBodyRequest){
-            if(params!=null ){
-                RequestBody body= RequestBody.create(MediaType.parse("application/json; charset=utf-8"),new Gson().toJson(params));
+            if(!TextUtils.isEmpty(mediaType)&&mediaType.startsWith("application/json")&&params!=null){
+                RequestBody body = RequestBody.create(MediaType.parse(mediaType),new Gson().toJson(params));
                 ((BaseBodyRequest)request).requestBody(body);
             }
-            if(params!=null && params instanceof Map && ! ((Map)params).isEmpty()){
+            if(!TextUtils.isEmpty(mediaType)&&mediaType.startsWith("application/x-www-form-urlencoded")&&params!=null && params instanceof Map && ! ((Map)params).isEmpty()){
+                buffer=new StringBuffer();
                 for (Object key : ((Map)params).keySet()) {
-                    ((BaseBodyRequest)request).params(key.toString(),((Map) params).get(key).toString());
+                    buffer.append(key).append("=").append(((Map) params).get(key));
+                    buffer.append("&");
                 }
+                RequestBody body = RequestBody.create(MediaType.parse(mediaType),buffer.toString());
+                ((BaseBodyRequest)request).requestBody(body);
             }
         }
         return execute(request,baseUrl+url,type,listener);
