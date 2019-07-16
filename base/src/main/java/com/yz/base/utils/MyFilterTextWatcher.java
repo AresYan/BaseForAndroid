@@ -15,6 +15,7 @@ public class MyFilterTextWatcher implements TextWatcher {
     private int cou = 0;
     private String filter="";
     private String beforeStr="";
+    private boolean isNumber;
     private double maxValue=0;
     private int decimalLenth=0;
     private EditText mEditText;
@@ -27,6 +28,14 @@ public class MyFilterTextWatcher implements TextWatcher {
     public MyFilterTextWatcher(EditText editText, MyTextWatcherListener listener){
         mEditText=editText;
         mListener=listener;
+    }
+
+    public boolean isNumber() {
+        return isNumber;
+    }
+
+    public void setNumber(boolean number) {
+        isNumber = number;
     }
 
     public double getMaxValue() {
@@ -86,7 +95,7 @@ public class MyFilterTextWatcher implements TextWatcher {
                 mEditText.setSelection(start);
             } 
         }
-        if(!TextUtils.isEmpty(beforeStr)&&beforeStr.contains(".")&&!TextUtils.isEmpty(editable)){
+        if(isNumber && !TextUtils.isEmpty(beforeStr) && beforeStr.contains(".") && !TextUtils.isEmpty(editable)){
             try {
                 CharSequence sub1 = editable.subSequence(0,start);
                 CharSequence sub2 = editable.subSequence(start,start+count);
@@ -101,7 +110,7 @@ public class MyFilterTextWatcher implements TextWatcher {
                 MyLogger.e(e.getMessage(),e);
             }
         }
-        if(!TextUtils.isEmpty(editable)&&maxValue>0){
+        if(isNumber && !TextUtils.isEmpty(editable) && maxValue>0){
             try {
                 if(editable.contains(".")){
                     String[] ss=editable.split("\\.");
@@ -131,7 +140,7 @@ public class MyFilterTextWatcher implements TextWatcher {
                 MyLogger.e(e.getMessage(),e);
             }
         }
-        if(!TextUtils.isEmpty(editable)&&decimalLenth>0){
+        if(isNumber && !TextUtils.isEmpty(editable) && decimalLenth>0){
             try {
                 if(editable.contains(".")){
                     String[] ss=editable.split("\\.");
