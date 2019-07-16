@@ -107,18 +107,23 @@ public abstract class BaseEaseHttp {
             url+="?"+buffer.toString();
         }
         BaseRequest request = null;
+        String modeStr="";
         switch (mode){
             case GET:
+                modeStr="GET";
                 url+="?"+buffer.toString();
                 request = EasyHttp.get(url);
                 break;
             case POST:
+                modeStr="POST";
                 request = EasyHttp.post(url);
                 break;
             case PUT:
+                modeStr="PUT";
                 request = EasyHttp.put(url);
                 break;
             case DEL:
+                modeStr="DEL";
                 request = EasyHttp.delete(url);
                 break;
         }
@@ -136,12 +141,7 @@ public abstract class BaseEaseHttp {
                 ((BaseBodyRequest)request).requestBody(body);
             }
         }
-        return execute(request,baseUrl+url,content,type,listener);
-    }
-
-    private RequestBody createRequestBody(String mediaType,String content){
-        MyLogger.d("");
-        return RequestBody.create(MediaType.parse(mediaType),content);
+        return execute(request,modeStr,baseUrl+url,content,type,listener);
     }
 
     public <T> Disposable request(int mode, String baseUrl, String url, Type type, MyResultListener<T> listener) {
@@ -182,7 +182,7 @@ public abstract class BaseEaseHttp {
                 }
             }
         }
-        return execute(request,baseUrl+url,content,type,listener);
+        return execute(request,"POST",baseUrl+url,content,type,listener);
     }
 
     public <T> Disposable postFile(String baseUrl, String url, File file, Type type, MyResultListener<T> listener) {
@@ -197,10 +197,10 @@ public abstract class BaseEaseHttp {
             RequestBody body= RequestBody.create(null,file);
             ((BaseBodyRequest)request).requestBody(body);
         }
-        return execute(request,baseUrl+url,content,type,listener);
+        return execute(request,"POST",baseUrl+url,content,type,listener);
     }
 
-    public <T> Disposable execute(final BaseRequest request, final String url, final String params, final Type type, final MyResultListener<T> listener){
+    public <T> Disposable execute(final BaseRequest request, final String mode, final String url, final String params, final Type type, final MyResultListener<T> listener){
         CallBack callBack=new CallBack<String>() {
             @Override
             public void onStart() {
@@ -211,13 +211,13 @@ public abstract class BaseEaseHttp {
             }
             @Override
             public void onError(ApiException e) {
-                MyLogger.e("MyEasyHttp url : "+url+" , Params : "+params+" , onError : " + e.getMessage());
+                MyLogger.e("EasyHttp "+mode+" , url : "+url+" , Params : "+params+" , onError : " + e.getMessage());
                 finished(listener);
                 failure(listener,e.getMessage());
             }
             @Override
             public void onSuccess(String result) {
-                MyLogger.d("MyEasyHttp url : "+url+" , Params : "+params+" , onSuccess : " + result);
+                MyLogger.d("EasyHttp "+mode+" , url : "+url+" , Params : "+params+" , onSuccess : " + result);
                 finished(listener);
                 success(result,type,listener);
             }
