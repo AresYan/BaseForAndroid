@@ -212,14 +212,12 @@ public abstract class BaseEaseHttp {
             @Override
             public void onError(ApiException e) {
                 MyLogger.e("EasyHttp "+mode+" , url : "+url+" , Params : "+params+" , onError : " + e.getMessage());
-                finished(listener);
                 failure(listener,e.getMessage());
             }
             @Override
             public void onSuccess(String result) {
                 MyLogger.d("EasyHttp "+mode+" , url : "+url+" , Params : "+params+" , onSuccess : " + result);
-                finished(listener);
-                success(result,type,listener);
+                result(result,type,listener);
             }
         };
         if(request instanceof GetRequest){
@@ -271,20 +269,36 @@ public abstract class BaseEaseHttp {
 
     public <T> boolean isConnected(MyResultListener<T> listener){
         if(!NetworkUtils.isConnected()){
-            finished(listener);
             failure(listener, MyStrHelper.getString(mContext,R.string.yz_base_net_error));
             return false;
         }
         return true;
     }
 
-    public abstract <T> void success(final String result, final Type type, final MyResultListener<T> listener);;
+    public abstract <T> void result(final String result, final Type type, final MyResultListener<T> listener);;
 
     public <T> void failure(final MyResultListener<T> listener, final String msg) {
         MyMainHandler.post(new Runnable() {
             @Override
             public void run() {
                 listener.onFailure(msg);
+                listener.onFinished();
+                if(listener instanceof MyResultHasMoreListener){
+                    ((MyResultHasMoreListener)listener).onHasMore(false);
+                }
+            }
+        });
+    }
+
+    public <T> void success(final MyResultListener<T> listener, final T t, final boolean hasMore) {
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onSuccess(t);
+                listener.onFinished();
+                if(listener instanceof MyResultHasMoreListener){
+                    ((MyResultHasMoreListener)listener).onHasMore(hasMore);
+                }
             }
         });
     }
@@ -294,24 +308,6 @@ public abstract class BaseEaseHttp {
             @Override
             public void run() {
                 listener.onStart();
-            }
-        });
-    }
-
-    public <T> void finished(final MyResultListener<T> listener) {
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                listener.onFinished();
-            }
-        });
-    }
-
-    public <T> void hasMore(final MyResultHasMoreListener listener, final boolean hasMore) {
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                listener.onHasMore(hasMore);
             }
         });
     }

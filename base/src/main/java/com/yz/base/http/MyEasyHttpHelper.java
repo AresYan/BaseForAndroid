@@ -33,7 +33,7 @@ public class MyEasyHttpHelper extends BaseEaseHttp{
         return SingletonHolder.instance;
     }
 
-    public <T> void success(final String result, final Type type, final MyResultListener<T> listener){
+    public <T> void result(final String result, final Type type, final MyResultListener<T> listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,32 +66,19 @@ public class MyEasyHttpHelper extends BaseEaseHttp{
                     return;
                 }
                 if(type.equals(new TypeToken<String>(){}.getType())){
-                    MyMainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(!TextUtils.isEmpty(returnData)){
-                                listener.onSuccess((T)returnData);
-                            }else{
-                                listener.onSuccess((T)message);
-                            }
-                        }
-                    });
+                    if(!TextUtils.isEmpty(returnData)){
+                        success(listener,(T)returnData,hasNext!=0);
+                    }else{
+                        success(listener,(T)message,hasNext!=0);
+                    }
                 }else{
                     try {
                         final T t = new Gson().fromJson(returnData, type);
-                        MyMainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                listener.onSuccess(t);
-                            }
-                        });
+                        success(listener,t,hasNext!=0);
                     } catch (Exception e) {
                         MyLogger.e(e.getMessage(),e);
                         failure(listener, MyStrHelper.getString(mContext,R.string.yz_base_data_error));
                     }
-                }
-                if(listener instanceof MyResultHasMoreListener){
-                    hasMore((MyResultHasMoreListener)listener,hasNext!=0);
                 }
             }
         }).start();
