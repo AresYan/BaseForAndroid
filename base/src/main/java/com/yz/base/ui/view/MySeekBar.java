@@ -132,7 +132,7 @@ public class MySeekBar extends AppCompatSeekBar {
 			for (Integer color : mLineColors) {
 				mLinePaint.setStrokeWidth(mLineWidth);
 				mLinePaint.setColor(color);
-				canvas.drawLine(startX, cy, startX+segmentWidth, cy, mLinePaint);
+				canvas.drawLine(startX, cy, width, cy, mLinePaint);
 				startX+=segmentWidth;
 			}
 		}

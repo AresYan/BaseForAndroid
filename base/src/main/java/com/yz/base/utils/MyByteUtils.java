@@ -4,7 +4,7 @@ package com.yz.base.utils;
  * Created by yz on 2018/1/9.
  */
 
-public class ByteUtils {
+public class MyByteUtils {
 
     public static String bytes2hex(byte[] bytes)
     {

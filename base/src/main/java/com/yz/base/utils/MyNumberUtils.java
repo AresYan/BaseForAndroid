@@ -9,6 +9,11 @@ public class MyNumberUtils {
 		return Double.parseDouble(df.format(d));
 	}
 
+	public static double format3(double d){
+		DecimalFormat df=new DecimalFormat("######0.000");
+		return Double.parseDouble(df.format(d));
+	}
+
 	public static double format2(double d){
 		DecimalFormat df=new DecimalFormat("######0.00");
 		return Double.parseDouble(df.format(d));

@@ -21,7 +21,7 @@ import com.yz.base.config.BaseContants;
 import com.yz.base.event.BaseEvent;
 import com.yz.base.permission.MyPermissionHelper;
 import com.yz.base.permission.ZbPermission;
-import com.yz.base.utils.AppManager;
+import com.yz.base.utils.MyActivityManager;
 import com.yz.base.utils.MyEventBus;
 import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.StatusBarUtil;
@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppManager.getAppManager().addActivity(this);
+        MyActivityManager.getInstance().addActivity(this);
         setContentView(getContentViewId());
         ButterKnife.bind(this);
         MyEventBus.register(this);
@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
     @Override
     protected void onDestroy() {
-        AppManager.getAppManager().removeActivity(this);
+        MyActivityManager.getInstance().removeActivity(this);
         MyEventBus.unregister(this);
         destroyLoading();
         super.onDestroy();
