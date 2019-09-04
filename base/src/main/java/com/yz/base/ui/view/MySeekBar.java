@@ -127,12 +127,12 @@ public class MySeekBar extends AppCompatSeekBar {
             int thumbOffset = getThumbOffset();
 			float width = getWidth();
 			float cy = getHeight() / 2;
-			float startX=0+thumbOffset;
+			float startX=thumbOffset;
 			float segmentWidth=(width-thumbOffset*2)/mLineColors.size();
 			for (Integer color : mLineColors) {
 				mLinePaint.setStrokeWidth(mLineWidth);
 				mLinePaint.setColor(color);
-				canvas.drawLine(startX, cy, width, cy, mLinePaint);
+				canvas.drawLine(startX, cy, width-thumbOffset, cy, mLinePaint);
 				startX+=segmentWidth;
 			}
 		}
