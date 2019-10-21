@@ -1,6 +1,6 @@
 package com.yz.base;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.king.thread.nevercrash.NeverCrash;
 import com.yz.base.utils.*;
