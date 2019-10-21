@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import androidx.core.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
