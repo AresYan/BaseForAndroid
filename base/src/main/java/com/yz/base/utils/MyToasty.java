@@ -27,13 +27,17 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mToast == null) {
-					mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
-				} else {
-					mToast.setText(text);
-					mToast.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mToast == null) {
+						mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
+					} else {
+						mToast.setText(text);
+						mToast.setDuration(Toast.LENGTH_SHORT);
+					}
+					mToast.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mToast.show();
 			}
 		});
 	}
@@ -47,14 +51,18 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mError == null) {
-					mError = Toasty.error(mContext,text, Toast.LENGTH_SHORT,true);
-				} else {
-					TextView textView = (TextView)mError.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
-					textView.setText(text);
-					mError.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mError == null) {
+						mError = Toasty.error(mContext,text, Toast.LENGTH_SHORT,true);
+					} else {
+						TextView textView = (TextView)mError.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
+						textView.setText(text);
+						mError.setDuration(Toast.LENGTH_SHORT);
+					}
+					mError.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mError.show();
 			}
 		});
 	}
@@ -68,14 +76,18 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mInfo == null) {
-					mInfo = Toasty.info(mContext,text, Toast.LENGTH_SHORT,true);
-				} else {
-					TextView textView = (TextView)mInfo.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
-					textView.setText(text);
-					mInfo.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mInfo == null) {
+						mInfo = Toasty.info(mContext,text, Toast.LENGTH_SHORT,true);
+					} else {
+						TextView textView = (TextView)mInfo.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
+						textView.setText(text);
+						mInfo.setDuration(Toast.LENGTH_SHORT);
+					}
+					mInfo.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mInfo.show();
 			}
 		});
 	}
@@ -89,14 +101,18 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mNormal == null) {
-					mNormal = Toasty.normal(mContext,text, Toast.LENGTH_SHORT);
-				} else {
-					TextView textView = (TextView)mNormal.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
-					textView.setText(text);
-					mNormal.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mNormal == null) {
+						mNormal = Toasty.normal(mContext,text, Toast.LENGTH_SHORT);
+					} else {
+						TextView textView = (TextView)mNormal.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
+						textView.setText(text);
+						mNormal.setDuration(Toast.LENGTH_SHORT);
+					}
+					mNormal.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mNormal.show();
 			}
 		});
 	}
@@ -110,14 +126,18 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mSuccess == null) {
-					mSuccess = Toasty.success(mContext,text, Toast.LENGTH_SHORT,true);
-				} else {
-					TextView textView = (TextView)mSuccess.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
-					textView.setText(text);
-					mSuccess.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mSuccess == null) {
+						mSuccess = Toasty.success(mContext,text, Toast.LENGTH_SHORT,true);
+					} else {
+						TextView textView = (TextView)mSuccess.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
+						textView.setText(text);
+						mSuccess.setDuration(Toast.LENGTH_SHORT);
+					}
+					mSuccess.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mSuccess.show();
 			}
 		});
 	}
@@ -131,14 +151,18 @@ public class MyToasty {
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mWarning == null) {
-					mWarning = Toasty.warning(mContext,text, Toast.LENGTH_SHORT,true);
-				} else {
-					TextView textView = (TextView)mWarning.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
-					textView.setText(text);
-					mWarning.setDuration(Toast.LENGTH_SHORT);
+				try {
+					if (mWarning == null) {
+						mWarning = Toasty.warning(mContext,text, Toast.LENGTH_SHORT,true);
+					} else {
+						TextView textView = (TextView)mWarning.getView().findViewById(es.dmoral.toasty.R.id.toast_text);
+						textView.setText(text);
+						mWarning.setDuration(Toast.LENGTH_SHORT);
+					}
+					mWarning.show();
+				}catch (Exception e){
+				    e.printStackTrace();
 				}
-				mWarning.show();
 			}
 		});
 	}
