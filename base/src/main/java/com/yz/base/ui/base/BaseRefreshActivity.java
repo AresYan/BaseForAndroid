@@ -1,5 +1,6 @@
 package com.yz.base.ui.base;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,7 +40,7 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mTitleLayout = findViewById(R.id.common_title_Layout);
         mTitleLeftImv = findViewById(R.id.common_title_ImageView_left);
         mTitleNameTv = findViewById(R.id.common_title_TextView_name);

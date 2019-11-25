@@ -9,8 +9,8 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha04'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }

@@ -63,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                 MyPermissionHelper.dialog(BaseActivity.this);
             }
         });
-        initView();
+        initView(savedInstanceState);
     }
 
     @Override
@@ -100,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
     protected abstract BaseDialog initLoading();
 
-    protected abstract void initView();
+    protected abstract void initView(Bundle savedInstanceState);
 
     protected void showLoading() {
         MyMainHandler.post(new Runnable() {
