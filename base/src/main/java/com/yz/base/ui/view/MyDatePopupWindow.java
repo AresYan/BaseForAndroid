@@ -7,11 +7,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.yz.base.R;
-import com.yz.base.entity.PopSelected;
 import com.yz.base.ui.base.BasePopupWindow;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author :yanzheng

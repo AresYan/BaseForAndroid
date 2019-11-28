@@ -1,7 +1,5 @@
 package com.yz.base.utils;
 
-import com.yz.base.entity.BaseEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +71,8 @@ public class MyGPSUtils {
         lat += dLat;
         lng += dLon;
         double[] p=new double[2];
-        p[0]=MyNumberUtils.format6(lat);
-        p[1]=MyNumberUtils.format6(lng);
+        p[0]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
+        p[1]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
         return p;
     }
 
@@ -119,8 +117,8 @@ public class MyGPSUtils {
         lat -= dLat;
         lng -= dLng;
         double[] p=new double[2];
-        p[0]=MyNumberUtils.format6(lat);
-        p[1]=MyNumberUtils.format6(lng);
+        p[0]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
+        p[1]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
         return p;
     }
 
@@ -166,7 +164,7 @@ public class MyGPSUtils {
         sa2 = Math.sin(a / 2.0);
         sb2 = Math.sin(b / 2.0);
         d = 2* R* Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(lat1)* Math.cos(lat2) * sb2 * sb2));
-        return MyNumberUtils.format2(d);
+        return MyFormatUtils.doubleAfter(d,MyFormatUtils.AFTER_2);
     }
     public static double M_PI = Math.PI;
 

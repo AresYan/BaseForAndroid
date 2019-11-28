@@ -20,7 +20,6 @@ import com.yz.base.ui.base.BaseActivity;
 import com.yz.base.ui.base.BaseAlertDialog;
 import com.yz.base.ui.base.BaseRecyclerDialog;
 import com.yz.base.utils.MyFileUtils;
-import com.yz.base.utils.MyLogger;
 import com.yz.base.utils.MyStrHelper;
 import com.yz.base.utils.MyToasty;
 

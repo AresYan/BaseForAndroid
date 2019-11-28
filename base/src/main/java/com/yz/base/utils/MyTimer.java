@@ -81,10 +81,12 @@ public class MyTimer {
             };
         }
         mTimer.schedule(mTimerTask, delay, period);
+        start();
         return this;
     }
 
     public void cancel() {
+        end();
         index = 0;
         isKeep=false;
         isPause=false;
@@ -100,10 +102,38 @@ public class MyTimer {
 
     public void pause(){
         isPause=true;
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.pause(MyTimer.this);
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.pause(MyTimer.this);
+                }
+            }
+        });
     }
 
     public void resume(){
         isPause=false;
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.resume(MyTimer.this);
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.resume(MyTimer.this);
+                }
+            }
+        });
     }
 
     public boolean isKeep(){
@@ -114,7 +144,41 @@ public class MyTimer {
         return isPause;
     }
 
-    private void keep(final long index){
+    private void start(){
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.start(MyTimer.this);
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.start(MyTimer.this);
+                }
+            }
+        });
+    }
+
+    private void end(){
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.end(MyTimer.this);
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.end(MyTimer.this);
+                }
+            }
+        });
+    }
+
+    private void keep(long index){
         if(!isMainTheard){
             if(listener!=null){
                 listener.keep(MyTimer.this,index);
@@ -132,6 +196,10 @@ public class MyTimer {
     }
 
     public interface TimerListener {
+        void start(MyTimer timer);
+        void end(MyTimer timer);
+        void resume(MyTimer timer);
+        void pause(MyTimer timer);
         void keep(MyTimer timer, long t);
     }
 }

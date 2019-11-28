@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * Created by YZ on 2016/11/29.
  */
-public class GlideHelper {
+public class MyGlideHelper {
 
     public static final int WIDTH=150;
     public static final int HEIGHT=150;
