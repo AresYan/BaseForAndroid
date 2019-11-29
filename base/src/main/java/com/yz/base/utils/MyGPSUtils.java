@@ -72,7 +72,7 @@ public class MyGPSUtils {
         lng += dLon;
         double[] p=new double[2];
         p[0]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
-        p[1]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
+        p[1]=MyFormatUtils.doubleAfter(lng,MyFormatUtils.AFTER_6);
         return p;
     }
 
@@ -118,7 +118,7 @@ public class MyGPSUtils {
         lng -= dLng;
         double[] p=new double[2];
         p[0]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
-        p[1]=MyFormatUtils.doubleAfter(lat,MyFormatUtils.AFTER_6);
+        p[1]=MyFormatUtils.doubleAfter(lng,MyFormatUtils.AFTER_6);
         return p;
     }
 
