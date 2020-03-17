@@ -26,7 +26,6 @@ public interface IMarker {
     void setDraggable(boolean isDraggable);
     void setOnMarkerClickListener(OnMarkerClickListener listener);
     void setOnMarkerDragListener(OnMarkerDragListener listener);
-    void setInfoWindow(IInfoWindow infoWindow);
     IInfoWindow getInfoWindow();
     boolean isInfoWindowShown();
     boolean isInfoWindowEnable();

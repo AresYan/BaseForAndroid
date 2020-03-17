@@ -18,14 +18,13 @@ public interface IMap {
 
     IMarker addMarker(Point point);
     void setMarkerIcon(IMarker marker, Bitmap bitmap, boolean isAnchorCenter);
-    void setMarkerPosition(IMarker marker, Point point) ;
+    void setMarkerPosition(IMarker marker, Point point);
     void setMarkerRotateAngle(IMarker marker, float r);
     void setMarkerVisible(IMarker marker, boolean isVisible);
     boolean isMarkerVisible(IMarker marker);
     void removeMarker(IMarker marker);
     void setOnMarkerClickListener(IMarker marker, OnMarkerClickListener listener);
     void setOnMarkerDragListener(IMarker marker, OnMarkerDragListener listener);
-    void setInfoWindow(IMarker marker, IInfoWindow infoWindow);
     void setInfoWindowData(IInfoWindow infoWindow, Object data);
     void setInfoWindowEnable(IMarker marker, boolean isEnable);
     boolean isInfoWindowShown(IMarker marker);
