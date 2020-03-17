@@ -22,11 +22,12 @@ public interface IMarker {
     void setVisible(boolean isVisible);
     boolean isVisible();
     void remove();
-    boolean isInfoWindowShown();
-    boolean isInfoWindowEnable();
-    void setInfoWindowData(Object data);
     void setClickable(boolean isClickable);
     void setDraggable(boolean isDraggable);
     void setOnMarkerClickListener(OnMarkerClickListener listener);
     void setOnMarkerDragListener(OnMarkerDragListener listener);
+    void setInfoWindow(IInfoWindow infoWindow);
+    IInfoWindow getInfoWindow();
+    boolean isInfoWindowShown();
+    boolean isInfoWindowEnable();
 }

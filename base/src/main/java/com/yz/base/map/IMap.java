@@ -22,12 +22,13 @@ public interface IMap {
     void setMarkerRotateAngle(IMarker marker, float r);
     void setMarkerVisible(IMarker marker, boolean isVisible);
     boolean isMarkerVisible(IMarker marker);
-    void setMarkerData(IMarker marker, Object data);
     void removeMarker(IMarker marker);
-    void setInfoWindowEnable(IMarker marker, boolean isEnable);
-    boolean isInfoWindowShown(IMarker marker);
     void setOnMarkerClickListener(IMarker marker, OnMarkerClickListener listener);
     void setOnMarkerDragListener(IMarker marker, OnMarkerDragListener listener);
+    void setInfoWindow(IMarker marker, IInfoWindow infoWindow);
+    void setInfoWindowData(IInfoWindow infoWindow, Object data);
+    void setInfoWindowEnable(IMarker marker, boolean isEnable);
+    boolean isInfoWindowShown(IMarker marker);
 
     IPolyline addPolyline(List<Point> points, int color, int w);
     void setPolylinePoints(IPolyline polyline, List<Point> points);
