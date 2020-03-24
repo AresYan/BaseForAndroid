@@ -1,6 +1,9 @@
 package com.yz.base.map;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * @ClassName: IMarker
@@ -26,7 +29,7 @@ public interface IMarker {
     void setDraggable(boolean isDraggable);
     void setOnMarkerClickListener(OnMarkerClickListener listener);
     void setOnMarkerDragListener(OnMarkerDragListener listener);
-    IInfoWindow getInfoWindow();
+    IInfoWindow getInfoWindow(Context context);
     boolean isInfoWindowShown();
     boolean isInfoWindowEnable();
 }
