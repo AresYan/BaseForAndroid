@@ -8,8 +8,7 @@ package com.yz.base.map;
  */
 public interface ICircle extends IPoly{
 
-    void setCenter(Point point);
-    void setRadius(double radius);
+    void setCircle(Point point, double radius);
     void setFillColor(int color);
     void setStrokeColor(int color);
     void setStrokeWidth(int width);
