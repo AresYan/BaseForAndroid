@@ -1,16 +1,15 @@
 package com.yz.base.map;
 
-import java.util.List;
-
 /**
- * @ClassName: IPolygon
+ * @ClassName: ICircle
  * @Description: java类作用描述
  * @Author: YZ-PC
  * @Date: 2020/2/5 19:48
  */
-public interface IPolygon extends IPoly{
+public interface ICircle extends IPoly{
 
-    void setPoints(List<Point> points);
+    void setCenter(Point point);
+    void setRadius(double radius);
     void setFillColor(int color);
     void setStrokeColor(int color);
     void setStrokeWidth(int width);

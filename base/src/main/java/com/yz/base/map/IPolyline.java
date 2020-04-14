@@ -8,14 +8,10 @@ import java.util.List;
  * @Author: YZ-PC
  * @Date: 2020/2/5 19:48
  */
-public interface IPolyline {
-
-    void setVisible(boolean isVisible);
-    boolean isVisible();
+public interface IPolyline extends IPoly{
 
     void setPoints(List<Point> points);
     void setColor(int color);
     void setWidth(int width);
     void setDotted(boolean isDotted);
-    void remove();
 }
