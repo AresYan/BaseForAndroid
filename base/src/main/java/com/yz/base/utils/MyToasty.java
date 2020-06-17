@@ -1,6 +1,8 @@
 package com.yz.base.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import es.dmoral.toasty.Toasty;
 
@@ -11,87 +13,38 @@ import es.dmoral.toasty.Toasty;
  */
 public class MyToasty {
 
-    private static Context mContext;
+	public static final int TYPE_ERROR=1;
+	public static final int TYPE_INFO=2;
+	public static final int TYPE_NORMAL=3;
+	public static final int TYPE_SUCCESS=4;
+	public static final int TYPE_WARNING=5;
 
-    public static void init(Context context){
-        mContext=context;
-    }
-
-	public static void error(String text){
-        if(mContext==null){
-            return;
-        }
+	public static void show(Activity activity, String text, int tpye){
+		if (activity == null) {
+			return;
+		}
+		if (activity.isFinishing()) {
+			return;
+		}
 		MyMainHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					Toasty.error(mContext,text, Toast.LENGTH_SHORT,true).show();
-				}catch (Exception e){
-				    e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void info(final String text){
-        if(mContext==null){
-            return;
-        }
-		MyMainHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Toasty.info(mContext,text, Toast.LENGTH_SHORT,true).show();
-				}catch (Exception e){
-				    e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void normal(final String text){
-        if(mContext==null){
-            return;
-        }
-		MyMainHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Toasty.normal(mContext,text, Toast.LENGTH_SHORT).show();
-				}catch (Exception e){
-				    e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void success(final String text){
-        if(mContext==null){
-            return;
-        }
-		MyMainHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Toasty.success(mContext,text, Toast.LENGTH_SHORT,true).show();
-				}catch (Exception e){
-				    e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void warning(final String text){
-        if(mContext==null){
-            return;
-        }
-		MyMainHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Toasty.warning(mContext,text, Toast.LENGTH_SHORT,true).show();
-				}catch (Exception e){
-				    e.printStackTrace();
+				switch(tpye){
+				    case TYPE_ERROR:
+						Toasty.error(activity, text, Toast.LENGTH_SHORT,true).show();
+				        break;
+				    case TYPE_INFO:
+						Toasty.info(activity, text, Toast.LENGTH_SHORT,true).show();
+				        break;
+					case TYPE_NORMAL:
+						Toasty.normal(activity, text, Toast.LENGTH_SHORT).show();
+						break;
+					case TYPE_SUCCESS:
+						Toasty.success(activity, text, Toast.LENGTH_SHORT,true).show();
+						break;
+					case TYPE_WARNING:
+						Toasty.warning(activity, text, Toast.LENGTH_SHORT,true).show();
+						break;
 				}
 			}
 		});

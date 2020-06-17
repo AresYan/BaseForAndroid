@@ -24,6 +24,7 @@ import com.yz.base.permission.ZbPermission;
 import com.yz.base.utils.MyActivityManager;
 import com.yz.base.utils.MyEventBus;
 import com.yz.base.utils.MyMainHandler;
+import com.yz.base.utils.MyToasty;
 import com.yz.base.utils.StatusBarUtil;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -127,6 +128,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     private void destroyLoading() {
         dismissLoading();
         mLoadingDialog = null;
+    }
+
+    protected void toast(String text, int type) {
+        MyToasty.show(this,text,type);
     }
 
     protected void actLeftIn() {
