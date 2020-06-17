@@ -130,7 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         mLoadingDialog = null;
     }
 
-    protected void toast(String text, int type) {
+    public void toast(String text, int type) {
         MyToasty.show(this,text,type);
     }
 

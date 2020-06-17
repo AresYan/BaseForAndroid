@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import com.yz.base.R;
 import com.yz.base.event.BaseEvent;
 import com.yz.base.utils.MyEventBus;
+import com.yz.base.utils.MyToasty;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -46,6 +48,10 @@ public abstract class BaseDialog extends Dialog {
 		params.height = h;
 		params.gravity = Gravity.CENTER;
 		window.setAttributes(params);
+	}
+
+	public void toast(String text, int type) {
+		MyToasty.show((BaseActivity)mContext,text,type);
 	}
 
 	public boolean isLand(){

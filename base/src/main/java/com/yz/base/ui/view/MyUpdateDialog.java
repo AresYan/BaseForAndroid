@@ -204,7 +204,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	private void download(String url){
 		if(TextUtils.isEmpty(url)){
-			MyToasty.error(MyStrHelper.getString(mContext,R.string.yz_base_data_error));
+			toast(MyStrHelper.getString(mContext,R.string.yz_base_data_error),MyToasty.TYPE_WARNING);
 			return;
 		}
 		mInfos.clear();
@@ -219,7 +219,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		if(ss!=null&&ss.length>0){
 			name = ss[ss.length-1];
 			if(!name.contains(".apk")){
-				MyToasty.error(MyStrHelper.getString(mContext,R.string.yz_base_data_error));
+				toast(MyStrHelper.getString(mContext,R.string.yz_base_data_error),MyToasty.TYPE_ERROR);
 				return;
 			}
 		}
@@ -249,7 +249,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			public void onFailure(String msg) {
 				dismiss();
 				isDownloading=false;
-				MyToasty.error("更新失败");
+				toast("更新失败",MyToasty.TYPE_ERROR);
 			}
 		});
 	}
