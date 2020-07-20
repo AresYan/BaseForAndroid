@@ -36,7 +36,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 	private List<CommonItem> mInfos=new ArrayList<>();
 	private MyUpdateInfoDialogAdapter mAdapter;
 	private boolean isDownloading=false;
-	private String version;
 	private String content;
 	private String url;
 	private boolean isForce;
@@ -48,21 +47,12 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		setAdapter(mAdapter);
 	}
 
-
-	public void setVersion(String version) {
-		this.version=version;
-	}
-
 	public void setContent(String content) {
 		this.content=content;
 	}
 
 	public void setUrl(String url) {
 		this.url=url;
-	}
-
-	public boolean isForce() {
-		return isForce;
 	}
 
 	public void setForce(boolean force) {
@@ -117,18 +107,12 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	public static class Builder extends BaseAlertDialog.Builder{
 
-		private String version;
 		private String content;
 		private String url;
 		private boolean isForce;
 
 		public Builder(Context context) {
 			super(context);
-		}
-
-		public Builder setVersion(String version) {
-			this.version=version;
-			return this;
 		}
 
 		public Builder setContent(String content) {
@@ -141,14 +125,14 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			return this;
 		}
 
-		public void setForce(boolean force) {
+		public Builder setForce(boolean force) {
 			isForce = force;
+			return this;
 		}
 
 		private void construct(MyUpdateDialog dialog) {
 			dialog.setLeft(left);
 			dialog.setRight(right);
-			dialog.setVersion(version);
 			dialog.setContent(content);
 			dialog.setUrl(url);
 			dialog.setForce(isForce);
