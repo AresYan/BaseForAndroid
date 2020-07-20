@@ -39,8 +39,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 	private String version;
 	private String content;
 	private String url;
-	private int force;
-	private int status;
+	private boolean isForce;
 
 	private MyUpdateDialog(Context context) {
 		super(context);
@@ -62,12 +61,12 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		this.url=url;
 	}
 
-	public void setForce(int force) {
-		this.force=force;
+	public boolean isForce() {
+		return isForce;
 	}
 
-	public void setStatus(int status) {
-		this.status=status;
+	public void setForce(boolean force) {
+		isForce = force;
 	}
 
 	@Override
@@ -121,8 +120,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		private String version;
 		private String content;
 		private String url;
-		private int force;
-		private int status;
+		private boolean isForce;
 
 		public Builder(Context context) {
 			super(context);
@@ -143,14 +141,8 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			return this;
 		}
 
-		public Builder setForce(int force) {
-			this.force=force;
-			return this;
-		}
-
-		public Builder setStatus(int status) {
-			this.status=status;
-			return this;
+		public void setForce(boolean force) {
+			isForce = force;
 		}
 
 		private void construct(MyUpdateDialog dialog) {
@@ -159,8 +151,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			dialog.setVersion(version);
 			dialog.setContent(content);
 			dialog.setUrl(url);
-			dialog.setForce(force);
-			dialog.setStatus(status);
+			dialog.setForce(isForce);
 		}
 
 		@Override
@@ -173,6 +164,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	public void show() {
 		mInfos.clear();
+		setLeftEnabled(!isForce);
 		String title= MyStrHelper.getString(mContext, R.string.yz_base_check_update);
 		String left= MyStrHelper.getString(mContext,R.string.yz_base_cancel);
 		String right=isDownloading ? MyStrHelper.getString(mContext,R.string.yz_base_background_download) : MyStrHelper.getString(mContext,R.string.yz_base_ok);
