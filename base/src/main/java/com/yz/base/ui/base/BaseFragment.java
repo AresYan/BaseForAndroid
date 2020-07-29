@@ -17,12 +17,9 @@ import butterknife.Unbinder;
 import com.yz.base.R;
 import com.yz.base.event.BaseEvent;
 import com.yz.base.utils.MyEventBus;
-import com.yz.base.utils.MyToasty;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.lang.reflect.Field;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -84,11 +81,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected void dismissLoading(){
         mActivity.dismissLoading();
-    }
-
-
-    protected void toast(String text, int type) {
-        mActivity.toast(text,type);
     }
 
     protected void add(int layoutRes, BaseFragment fragment, String tag){

@@ -20,33 +20,25 @@ public class MyToasty {
 	public static final int TYPE_WARNING=5;
 
 	public static void show(Activity activity, String text, int tpye){
-		if (activity == null) {
+		if (activity == null||activity.isFinishing()) {
 			return;
 		}
-		if (activity.isFinishing()) {
-			return;
+		switch(tpye){
+			case TYPE_ERROR:
+				Toasty.error(activity, text, Toast.LENGTH_SHORT,true).show();
+				break;
+			case TYPE_INFO:
+				Toasty.info(activity, text, Toast.LENGTH_SHORT,true).show();
+				break;
+			case TYPE_NORMAL:
+				Toasty.normal(activity, text, Toast.LENGTH_SHORT).show();
+				break;
+			case TYPE_SUCCESS:
+				Toasty.success(activity, text, Toast.LENGTH_SHORT,true).show();
+				break;
+			case TYPE_WARNING:
+				Toasty.warning(activity, text, Toast.LENGTH_SHORT,true).show();
+				break;
 		}
-		MyMainHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				switch(tpye){
-				    case TYPE_ERROR:
-						Toasty.error(activity, text, Toast.LENGTH_SHORT,true).show();
-				        break;
-				    case TYPE_INFO:
-						Toasty.info(activity, text, Toast.LENGTH_SHORT,true).show();
-				        break;
-					case TYPE_NORMAL:
-						Toasty.normal(activity, text, Toast.LENGTH_SHORT).show();
-						break;
-					case TYPE_SUCCESS:
-						Toasty.success(activity, text, Toast.LENGTH_SHORT,true).show();
-						break;
-					case TYPE_WARNING:
-						Toasty.warning(activity, text, Toast.LENGTH_SHORT,true).show();
-						break;
-				}
-			}
-		});
 	}
 }
