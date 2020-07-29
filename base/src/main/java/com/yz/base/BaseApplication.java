@@ -8,6 +8,8 @@ import com.yz.base.utils.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 
+import es.dmoral.toasty.Toasty;
+
 public abstract class BaseApplication extends MultiDexApplication {
 
     @Override
@@ -15,6 +17,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         super.onCreate();
         ViewTarget.setTagId(R.id.tag_glide);
         initNeverCrash();
+        Toasty.Config.getInstance().allowQueue(false).apply();
     }
 
     private void initNeverCrash(){

@@ -1,8 +1,6 @@
 package com.yz.base.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 import es.dmoral.toasty.Toasty;
 
