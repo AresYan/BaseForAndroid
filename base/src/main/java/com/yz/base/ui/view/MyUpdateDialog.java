@@ -1,5 +1,6 @@
 package com.yz.base.ui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -180,7 +181,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	private void download(String url){
 		if(TextUtils.isEmpty(url)){
-			toast(MyStrHelper.getString(mContext,R.string.yz_base_data_error),MyToasty.TYPE_WARNING);
+			MyToasty.show((Activity) getContext(),"数据解析失败",MyToasty.TYPE_ERROR);
 			return;
 		}
 		mInfos.clear();
@@ -195,7 +196,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		if(ss!=null&&ss.length>0){
 			name = ss[ss.length-1];
 			if(!name.contains(".apk")){
-				toast(MyStrHelper.getString(mContext,R.string.yz_base_data_error),MyToasty.TYPE_ERROR);
+				MyToasty.show((Activity) getContext(),"数据解析失败",MyToasty.TYPE_ERROR);
 				return;
 			}
 		}
@@ -225,7 +226,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			public void onFailure(String msg) {
 				dismiss();
 				isDownloading=false;
-				toast("更新失败",MyToasty.TYPE_ERROR);
+				MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_ERROR);
 			}
 		});
 	}
