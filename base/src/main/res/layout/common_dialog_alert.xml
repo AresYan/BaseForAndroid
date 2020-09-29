@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/common_dialog_alert_TextView_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/d150"
             android:gravity="center"
             android:paddingTop="@dimen/d30"
             android:paddingBottom="@dimen/d30"
@@ -36,7 +36,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d158"
+            android:layout_height="@dimen/d150"
             android:orientation="horizontal">
 
             <TextView
