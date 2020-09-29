@@ -27,8 +27,7 @@
         <FrameLayout
             android:id="@+id/common_dialog_alert_FrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" />
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
