@@ -3,6 +3,7 @@ package com.yz.base.ui.base;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public abstract class BaseRefreshFragment extends BaseFragment {
 
     protected static final int DELAYED=200;
 
+    protected LinearLayout mLinearLayout;
     protected RelativeLayout mTitleLayout;
     protected ImageView mTitleLeftImv;
     protected TextView mTitleNameTv;
@@ -40,6 +42,7 @@ public abstract class BaseRefreshFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        mLinearLayout = view.findViewById(R.id.common_refresh_activity_LinearLayout);
         mTitleLayout = view.findViewById(R.id.common_title_Layout);
         mTitleLeftImv = view.findViewById(R.id.common_title_ImageView_left);
         mTitleNameTv = view.findViewById(R.id.common_title_TextView_name);
@@ -48,6 +51,12 @@ public abstract class BaseRefreshFragment extends BaseFragment {
         mSwipeRefreshLayout = view.findViewById(R.id.common_refresh_SwipeRefreshLayout);
         mNetErrorView = view.findViewById(R.id.include_common_net_error);
         mDataEmptyView = view.findViewById(R.id.include_common_data_empty);
+    }
+
+    protected void setBackground(int rid) {
+        if(mLinearLayout!=null){
+            mLinearLayout.setBackgroundResource(rid);
+        }
     }
 
     protected void showTitle(){
