@@ -1,6 +1,5 @@
 package com.yz.base.ui.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
@@ -9,11 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.yz.base.R;
-import com.yz.base.entity.PopSelected;
-import com.yz.base.utils.MyStrHelper;
-
-import java.util.List;
 
 public abstract class BasePopupWindow extends PopupWindow {
 	
@@ -44,30 +38,12 @@ public abstract class BasePopupWindow extends PopupWindow {
 		this.setOutsideTouchable(true);
 		// 刷新状态
 		this.update();
-		this.setBackgroundDrawable(new ColorDrawable(0x00000000));
+		this.setBackgroundDrawable(new ColorDrawable(0x64000000));
 		this.setAnimationStyle(android.R.style.Animation_InputMethod);
 		this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		this.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss() {
-				setBackgroundAlpha(1.0f);
-			}
-		});
 	}
 
 	protected abstract int getConentView();
-
-	protected void setBackgroundAlpha(float alpha) {
-		WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
-		lp.alpha = alpha;
-		((Activity) mContext).getWindow().setAttributes(lp);
-	}
-
-	@Override
-	public void showAtLocation(View parent, int gravity, int x, int y) {
-		super.showAtLocation(parent, gravity, x, y);
-//		setBackgroundAlpha(0.5f);
-	}
 
 	public void show(View parent) {
 		if (!this.isShowing()) {
@@ -86,7 +62,7 @@ public abstract class BasePopupWindow extends PopupWindow {
 	}
 
 	public interface BasePopupWindowListener<T> {
-		public void onClick(T item);
+		void onClick(T item);
 	}
 
 	public static abstract class Builder {
