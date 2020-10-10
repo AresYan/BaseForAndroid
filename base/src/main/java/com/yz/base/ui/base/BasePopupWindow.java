@@ -66,7 +66,7 @@ public abstract class BasePopupWindow extends PopupWindow {
 	@Override
 	public void showAtLocation(View parent, int gravity, int x, int y) {
 		super.showAtLocation(parent, gravity, x, y);
-		setBackgroundAlpha(0.5f);
+//		setBackgroundAlpha(0.5f);
 	}
 
 	public void show(View parent) {
