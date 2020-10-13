@@ -55,6 +55,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 break;
         }
+
+        StatusBarUtil.setTransparentForImageViewInFragment(this, null);
         int mode = getIntent().getIntExtra(BaseContants.IntentKey.STATUSBAR_MODE, BaseContants.StatusBarMode.LIGHT);
         switch(mode){
             case BaseContants.StatusBarMode.LIGHT:
@@ -62,10 +64,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                 break;
             case BaseContants.StatusBarMode.DARK:
                 StatusBarUtil.setDarkMode(this);
-                StatusBarUtil.setColor(this, ContextCompat.getColor(this,R.color.gray_333333));
+//                StatusBarUtil.setColor(this, ContextCompat.getColor(this,R.color.gray_333333));
                 break;
         }
-        StatusBarUtil.setTransparentForImageViewInFragment(this, null);
         mFragmentManager = getSupportFragmentManager();
         mLoadingDialog = initLoading();
         MyPermissionHelper.storage(this, new ZbPermission.ZbPermissionCallback() {
