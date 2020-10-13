@@ -63,7 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                 break;
             case BaseContants.StatusBarMode.DARK:
                 StatusBarUtil.setDarkMode(this);
-                StatusBarUtil.setColor(this, ContextCompat.getColor(this,R.color.gray_333333));
                 break;
         }
         mFragmentManager = getSupportFragmentManager();
