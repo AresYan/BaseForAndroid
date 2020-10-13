@@ -10,6 +10,7 @@ public class BaseContants {
     public static class IntentKey{
         public final static String ORIENTATION="orientation";
         public final static String NOTITF_MSG="MyNotifyMsg";
+        public final static String STATUSBAR_MODE="StatusBarMode";
     }
 
 	public static class Orientation{
@@ -21,6 +22,11 @@ public class BaseContants {
 		public final static int TYPE_SATELLITE=1;
 		public final static int TYPE_ROAD=2;
 		public final static int TYPE_TERRAIN=3;
+	}
+
+	public static class StatusBarMode{
+		public final static int LIGHT=0;
+		public final static int DARK=1;
 	}
 
 }

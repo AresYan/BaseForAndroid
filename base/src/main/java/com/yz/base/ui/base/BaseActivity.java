@@ -43,14 +43,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         setContentView(getContentViewId());
         ButterKnife.bind(this);
         MyEventBus.register(this);
-        int orientation = getIntent().getIntExtra(BaseContants.IntentKey.ORIENTATION, 0);
-        if (orientation == BaseContants.Orientation.PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else if (orientation == BaseContants.Orientation.SENSOR_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        int orientation = getIntent().getIntExtra(BaseContants.IntentKey.ORIENTATION, BaseContants.Orientation.PORTRAIT);
+        switch(orientation){
+            case BaseContants.Orientation.PORTRAIT:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
+            case BaseContants.Orientation.SENSOR_LANDSCAPE:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                break;
+        }
+        int mode = getIntent().getIntExtra(BaseContants.IntentKey.STATUSBAR_MODE, BaseContants.StatusBarMode.LIGHT);
+        switch(mode){
+            case BaseContants.StatusBarMode.LIGHT:
+                StatusBarUtil.setLightMode(this);
+                break;
+            case BaseContants.StatusBarMode.DARK:
+                StatusBarUtil.setDarkMode(this);
+                break;
+        }
         StatusBarUtil.setTransparentForImageViewInFragment(this, null);
         mFragmentManager = getSupportFragmentManager();
         mLoadingDialog = initLoading();
