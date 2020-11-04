@@ -38,7 +38,7 @@ public abstract class BasePopupWindow extends PopupWindow {
 		this.setOutsideTouchable(true);
 		// 刷新状态
 		this.update();
-		this.setBackgroundDrawable(new ColorDrawable(0x00000000));
+		this.setBackgroundDrawable(new ColorDrawable(0x46000000));
 		this.setAnimationStyle(android.R.style.Animation_InputMethod);
 		this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	}
