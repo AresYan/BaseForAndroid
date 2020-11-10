@@ -2,6 +2,7 @@ package com.yz.base.map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -12,7 +13,13 @@ import java.util.List;
  * @Author: yz
  * @Date: 2019/11/25 14:00
  */
-public interface IMap {
+public interface IMap<T> {
+
+    void onCreate(T t);
+    void onSaveInstanceState(T t);
+    void onResume();
+    void onPause();
+    void onDestroy();
 
     void addMapView(Context context, ViewGroup viewGroup);
     void setCenter(Point point, boolean isAnim);
