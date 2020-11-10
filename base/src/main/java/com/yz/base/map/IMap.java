@@ -1,11 +1,7 @@
 package com.yz.base.map;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.ViewGroup;
-
-import java.util.List;
 
 /**
  * @ClassName: IMap
