@@ -20,7 +20,9 @@ import com.yz.base.item.CommonItem;
 import com.yz.base.ui.base.BaseActivity;
 import com.yz.base.ui.base.BaseAlertDialog;
 import com.yz.base.ui.base.BaseRecyclerDialog;
+import com.yz.base.utils.MyActivityManager;
 import com.yz.base.utils.MyFileUtils;
+import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.MyStrHelper;
 import com.yz.base.utils.MyToasty;
 
@@ -33,10 +35,8 @@ import java.util.List;
  */
 public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialog.MyAlertDialogListener {
 
-	private Object mRequest;
 	private List<CommonItem> mInfos=new ArrayList<>();
 	private MyUpdateInfoDialogAdapter mAdapter;
-	private boolean isDownloading=false;
 	private String content;
 	private String url;
 	private boolean isForce;
@@ -63,9 +63,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 	@Override
 	public void left(BaseAlertDialog dialog) {
 		dialog.dismiss();
-		if(isDownloading){
-			cannel();
-		}
 	}
 
 	@Override
@@ -99,11 +96,30 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 				return;
 			}
 		}
-		if(isDownloading){
-			dialog.dismiss();
-		}else{
-			download(url);
-		}
+		setLeftEnabled(false);
+		setRightEnabled(false);
+		download(url, new MyDownloadListener(){
+			@Override
+			public void onSuccess(String path) {
+				dismiss();
+				AppUtils.installApp(path);
+			}
+			@Override
+			public void onFailure() {
+				dismiss();
+				if(isForce){
+					MyToasty.show((Activity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
+					MyMainHandler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							MyActivityManager.getInstance().finishAllActivity(true);
+						}
+					},1000);
+				}else{
+					MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
+				}
+			}
+		});
 	}
 
 	public static class Builder extends BaseAlertDialog.Builder{
@@ -152,15 +168,11 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		setLeftEnabled(!isForce);
 		String title= MyStrHelper.getString(mContext, R.string.yz_base_check_update);
 		String left= MyStrHelper.getString(mContext,R.string.yz_base_cancel);
-		String right=isDownloading ? MyStrHelper.getString(mContext,R.string.yz_base_background_download) : MyStrHelper.getString(mContext,R.string.yz_base_ok);
+		String right= MyStrHelper.getString(mContext,R.string.yz_base_ok);
 		setTitle(title);
 		setLeft(left);
 		setRight(right);
-		if(isDownloading){
-			addProgress();
-		}else{
-			addMsg(content);
-		}
+		addMsg(content);
 		super.show();
 	}
 
@@ -179,33 +191,33 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		mAdapter.notifyDataSetChanged();
 	}
 
-	private void download(String url){
+	private void download(String url, MyDownloadListener listener){
 		if(TextUtils.isEmpty(url)){
-			MyToasty.show((Activity) getContext(),"数据解析失败",MyToasty.TYPE_ERROR);
+			if(listener!=null){
+				listener.onFailure();
+			}
 			return;
 		}
 		mInfos.clear();
 		addProgress();
 		String rihgt= MyStrHelper.getString(mContext,R.string.yz_base_background_download);
 		setRight(rihgt);
-		if(isDownloading){
-			return;
-		}
 		String name = "";
 		String[] ss=url.split("/");
 		if(ss!=null&&ss.length>0){
 			name = ss[ss.length-1];
 			if(!name.contains(".apk")){
-				MyToasty.show((Activity) getContext(),"数据解析失败",MyToasty.TYPE_ERROR);
+				if(listener!=null){
+					listener.onFailure();
+				}
 				return;
 			}
 		}
 		String dir = MyFileUtils.getTYJWPath();
-		final String path = dir + name;
-		mRequest=APIBase.download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
+		String path = dir + name;
+		APIBase.download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
 			@Override
 			public void onStart() {
-				isDownloading=true;
 			}
 			@Override
 			public void onFinished() {
@@ -217,23 +229,18 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			public void onDownloading(int progress, boolean done) {
 				setProgress(progress);
 				if(done){
-					dismiss();
-					isDownloading=false;
-					AppUtils.installApp(path);
+					if(listener!=null){
+						listener.onSuccess(path);
+					}
 				}
 			}
 			@Override
 			public void onFailure(String msg) {
-				dismiss();
-				isDownloading=false;
-				MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_ERROR);
+				if(listener!=null){
+					listener.onFailure();
+				}
 			}
 		});
-	}
-
-	private void cannel(){
-		isDownloading=false;
-		APIBase.cancel(mRequest);
 	}
 
 	private void setProgress(int progress) {
@@ -280,6 +287,11 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 					break;
 			}
 		}
+	}
+
+	public interface MyDownloadListener{
+		void onSuccess(String path);
+		void onFailure();
 	}
 
 }
