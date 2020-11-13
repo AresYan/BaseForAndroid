@@ -33,7 +33,7 @@ import java.util.List;
  * @author :yanzheng
  * @describe ：自定义update提示框
  */
-public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialog.MyAlertDialogListener {
+public class MyUpdateDialog extends BaseRecyclerDialog {
 
 	private List<CommonItem> mInfos=new ArrayList<>();
 	private MyUpdateInfoDialogAdapter mAdapter;
@@ -42,7 +42,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	private MyUpdateDialog(Context context) {
 		super(context);
-		setMyAlertDialogListener(this);
 		mAdapter=new MyUpdateInfoDialogAdapter(mInfos);
 		setAdapter(mAdapter);
 	}
@@ -62,13 +61,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		setRightEnabled(true);
 	}
 
-	@Override
-	public void left(BaseAlertDialog dialog) {
-		dialog.dismiss();
-	}
-
-	@Override
-	public void right(BaseAlertDialog dialog) {
+	public void download(){
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			if (!mContext.getPackageManager().canRequestPackageInstalls()) {
 				String msg= MyStrHelper.getString(getContext(),R.string.yz_base_permissions_error);
@@ -100,28 +93,126 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		}
 		setLeftEnabled(false);
 		setRightEnabled(false);
-		download(url, new MyDownloadListener(){
+		if(TextUtils.isEmpty(url)){
+			failure();
+			return;
+		}
+		mInfos.clear();
+		addProgress();
+		String name = "";
+		String[] ss=url.split("/");
+		if(ss!=null&&ss.length>0){
+			name = ss[ss.length-1];
+			if(!name.contains(".apk")){
+				failure();
+				return;
+			}
+		}
+		String dir = MyFileUtils.getTYJWPath();
+		String path = dir + name;
+		APIBase.download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
 			@Override
-			public void onSuccess(String path) {
-				dismiss();
-				AppUtils.installApp(path);
+			public void onStart() {
 			}
 			@Override
-			public void onFailure() {
-				dismiss();
-				if(isForce){
-					MyToasty.show((Activity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
-					MyMainHandler.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							MyActivityManager.getInstance().finishAllActivity(true);
-						}
-					},1000);
-				}else{
-					MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
+			public void onFinished() {
+			}
+			@Override
+			public void onSuccess(Object result) {
+			}
+			@Override
+			public void onDownloading(int progress, boolean done) {
+				setProgress(progress);
+				if(done){
+					success(path);
 				}
 			}
+			@Override
+			public void onFailure(String msg) {
+				failure();
+			}
 		});
+	}
+
+	private void success(String path){
+		dismiss();
+		AppUtils.installApp(path);
+	}
+
+	private void failure(){
+		dismiss();
+		if(isForce){
+			MyToasty.show((Activity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
+			MyMainHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					MyActivityManager.getInstance().finishAllActivity(true);
+				}
+			},1000);
+		}else{
+			MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
+		}
+	}
+
+	private void addMsg(String content){
+		CommonItem item=new CommonItem();
+		item.setContent(content);
+		item.setType(CommonItem.COMMON_TYPE_MSG);
+		mInfos.add(item);
+		mAdapter.notifyDataSetChanged();
+	}
+
+	private void addProgress(){
+		CommonItem item=new CommonItem();
+		item.setType(CommonItem.COMMON_TYPE_PROGRESS);
+		mInfos.add(item);
+		mAdapter.notifyDataSetChanged();
+	}
+
+	private void setProgress(int progress) {
+		if(mAdapter!=null){
+			mAdapter.setProgress(progress);
+		}
+	}
+
+	private class MyUpdateInfoDialogAdapter extends BaseMultiItemQuickAdapter<CommonItem, BaseViewHolder> {
+
+		private ProgressBar mProgressBar;
+		private TextView mProgressTv;
+
+		public void setProgress(int progress){
+			if(mProgressBar!=null){
+				mProgressBar.setProgress(progress);
+			}
+			if(mProgressTv!=null){
+				mProgressTv.setText(progress+"%");
+			}
+		}
+
+		public MyUpdateInfoDialogAdapter(List<CommonItem> list) {
+			super(list);
+			addItemType(CommonItem.COMMON_TYPE_MSG, R.layout.common_msg_item);
+			addItemType(CommonItem.COMMON_TYPE_PROGRESS, R.layout.common_progress_item);
+		}
+
+		@Override
+		protected void convert(BaseViewHolder helper, CommonItem item) {
+			item.setPosition(helper.getAdapterPosition());
+			switch(item.getItemType()){
+				case CommonItem.COMMON_TYPE_MSG:
+					TextView msgTv=helper.getView(R.id.common_msg_item_TextView);
+					msgTv.setGravity(Gravity.CENTER_VERTICAL);
+					msgTv.setTextSize(14);
+					msgTv.setText(item.getContent());
+					break;
+				case CommonItem.COMMON_TYPE_PROGRESS:
+					mProgressBar=helper.getView(R.id.common_progress_item_ProgressBar);
+					mProgressTv=helper.getView(R.id.common_progress_item_TextView);
+					mProgressBar.setMax(100);
+					setProgress(0);
+					break;
+			}
+		}
 	}
 
 	public static class Builder extends BaseAlertDialog.Builder{
@@ -163,123 +254,4 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			return dialog;
 		}
 	}
-
-	private void addProgress(){
-		CommonItem item=new CommonItem();
-		item.setType(CommonItem.COMMON_TYPE_PROGRESS);
-		mInfos.add(item);
-		mAdapter.notifyDataSetChanged();
-	}
-
-	private void addMsg(String content){
-		CommonItem item=new CommonItem();
-		item.setContent(content);
-		item.setType(CommonItem.COMMON_TYPE_MSG);
-		mInfos.add(item);
-		mAdapter.notifyDataSetChanged();
-	}
-
-	private void download(String url, MyDownloadListener listener){
-		if(TextUtils.isEmpty(url)){
-			if(listener!=null){
-				listener.onFailure();
-			}
-			return;
-		}
-		mInfos.clear();
-		addProgress();
-		String rihgt= MyStrHelper.getString(mContext,R.string.yz_base_background_download);
-		setRight(rihgt);
-		String name = "";
-		String[] ss=url.split("/");
-		if(ss!=null&&ss.length>0){
-			name = ss[ss.length-1];
-			if(!name.contains(".apk")){
-				if(listener!=null){
-					listener.onFailure();
-				}
-				return;
-			}
-		}
-		String dir = MyFileUtils.getTYJWPath();
-		String path = dir + name;
-		APIBase.download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
-			@Override
-			public void onStart() {
-			}
-			@Override
-			public void onFinished() {
-			}
-			@Override
-			public void onSuccess(Object result) {
-			}
-			@Override
-			public void onDownloading(int progress, boolean done) {
-				setProgress(progress);
-				if(done){
-					if(listener!=null){
-						listener.onSuccess(path);
-					}
-				}
-			}
-			@Override
-			public void onFailure(String msg) {
-				if(listener!=null){
-					listener.onFailure();
-				}
-			}
-		});
-	}
-
-	private void setProgress(int progress) {
-		if(mAdapter!=null){
-			mAdapter.setProgress(progress);
-		}
-	}
-
-	private class MyUpdateInfoDialogAdapter extends BaseMultiItemQuickAdapter<CommonItem, BaseViewHolder> {
-
-		private ProgressBar mProgressBar;
-		private TextView mProgressTv;
-		
-		public void setProgress(int progress){
-			if(mProgressBar!=null){
-				mProgressBar.setProgress(progress);
-			}
-			if(mProgressTv!=null){
-				mProgressTv.setText(progress+"%");
-			}
-		}
-		
-		public MyUpdateInfoDialogAdapter(List<CommonItem> list) {
-			super(list);
-			addItemType(CommonItem.COMMON_TYPE_MSG, R.layout.common_msg_item);
-			addItemType(CommonItem.COMMON_TYPE_PROGRESS, R.layout.common_progress_item);
-		}
-
-		@Override
-		protected void convert(BaseViewHolder helper, CommonItem item) {
-			item.setPosition(helper.getAdapterPosition());
-			switch(item.getItemType()){
-				case CommonItem.COMMON_TYPE_MSG:
-					TextView msgTv=helper.getView(R.id.common_msg_item_TextView);
-					msgTv.setGravity(Gravity.CENTER_VERTICAL);
-					msgTv.setTextSize(14);
-					msgTv.setText(item.getContent());
-					break;
-				case CommonItem.COMMON_TYPE_PROGRESS:
-					mProgressBar=helper.getView(R.id.common_progress_item_ProgressBar);
-					mProgressTv=helper.getView(R.id.common_progress_item_TextView);
-					mProgressBar.setMax(100);
-					setProgress(0);
-					break;
-			}
-		}
-	}
-
-	public interface MyDownloadListener{
-		void onSuccess(String path);
-		void onFailure();
-	}
-
 }
