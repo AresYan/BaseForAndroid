@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.yz.base.R;
 import com.yz.base.utils.MyStrHelper;
@@ -15,11 +16,13 @@ public abstract class BaseAlertDialog extends BaseDialog {
 	private TextView mLeftTv;
 	private TextView mRightTv;
 	private FrameLayout mFrameLayout;
+	private RelativeLayout mButtonLayout;
 	private View mCenterView;
 	private String title;
 	private String left;
 	private String right;
 	private boolean isLeftEnabled=true;
+	private boolean isRightEnabled=true;
 	private MyAlertDialogListener mListener;
 
 	public BaseAlertDialog(Context context) {
@@ -27,11 +30,12 @@ public abstract class BaseAlertDialog extends BaseDialog {
 		View view = LayoutInflater.from(context).inflate(R.layout.common_dialog_alert, null);
         setContentView(view);
         setCancelable(false);
-		mTitleTv = (TextView)view.findViewById(R.id.common_dialog_alert_TextView_title);
-		mFrameLayout = (FrameLayout)view.findViewById(R.id.common_dialog_alert_FrameLayout);
-		mLeftTv = (TextView)view.findViewById(R.id.common_dialog_alert_TextView_left);
-		mRightTv = (TextView)view.findViewById(R.id.common_dialog_alert_TextView_right);
-		mCenterView = (View)view.findViewById(R.id.common_dialog_alert_View_center);
+		mTitleTv = view.findViewById(R.id.common_dialog_alert_TextView_title);
+		mFrameLayout = view.findViewById(R.id.common_dialog_alert_FrameLayout);
+		mButtonLayout = view.findViewById(R.id.common_dialog_alert_RelativeLayout_button);
+		mLeftTv = view.findViewById(R.id.common_dialog_alert_TextView_left);
+		mRightTv = view.findViewById(R.id.common_dialog_alert_TextView_right);
+		mCenterView = view.findViewById(R.id.common_dialog_alert_View_center);
 		mFrameLayout.addView(getFrameLayoutView());
 		mLeftTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +65,9 @@ public abstract class BaseAlertDialog extends BaseDialog {
 		mRightTv.setText(right);
 		mTitleTv.setVisibility(!TextUtils.isEmpty(title)?View.VISIBLE:View.GONE);
 		mLeftTv.setVisibility(isLeftEnabled?View.VISIBLE:View.GONE);
-		mCenterView.setVisibility(isLeftEnabled?View.VISIBLE:View.GONE);
+		mLeftTv.setVisibility(isRightEnabled?View.VISIBLE:View.GONE);
+		mCenterView.setVisibility(!isLeftEnabled||!isRightEnabled?View.GONE:View.VISIBLE);
+		mButtonLayout.setVisibility(!isLeftEnabled&&!isRightEnabled?View.GONE:View.VISIBLE);
 		super.show();
 	}
 
@@ -83,12 +89,21 @@ public abstract class BaseAlertDialog extends BaseDialog {
 		right=s;
 	}
 
-	public void setLeftEnabled(boolean isLeftEnabled) {
-		this.isLeftEnabled = isLeftEnabled;
-	}
-
 	public boolean isLeftEnabled() {
 		return isLeftEnabled;
+	}
+
+	public void setLeftEnabled(boolean leftEnabled) {
+		this.isLeftEnabled = leftEnabled;
+	}
+
+
+	public boolean isRightEnabled() {
+		return isRightEnabled;
+	}
+
+	public void setRightEnabled(boolean rightEnabled) {
+		isRightEnabled = rightEnabled;
 	}
 
 	public interface MyAlertDialogListener{
