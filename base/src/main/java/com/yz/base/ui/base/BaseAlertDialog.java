@@ -18,12 +18,9 @@ public abstract class BaseAlertDialog extends BaseDialog {
 	private FrameLayout mFrameLayout;
 	private RelativeLayout mButtonLayout;
 	private View mCenterView;
-	private String title;
-	private String left;
-	private String right;
+	private MyAlertDialogListener mListener;
 	private boolean isLeftEnabled=true;
 	private boolean isRightEnabled=true;
-	private MyAlertDialogListener mListener;
 
 	public BaseAlertDialog(Context context) {
 		super(context);
@@ -59,51 +56,35 @@ public abstract class BaseAlertDialog extends BaseDialog {
         });
 	}
 
-	public void show() {
-		mTitleTv.setText(title);
-		mLeftTv.setText(left);
-		mRightTv.setText(right);
-		mTitleTv.setVisibility(!TextUtils.isEmpty(title)?View.VISIBLE:View.GONE);
-		mLeftTv.setVisibility(isLeftEnabled?View.VISIBLE:View.GONE);
-		mLeftTv.setVisibility(isRightEnabled?View.VISIBLE:View.GONE);
-		mCenterView.setVisibility(!isLeftEnabled||!isRightEnabled?View.GONE:View.VISIBLE);
-		mButtonLayout.setVisibility(!isLeftEnabled&&!isRightEnabled?View.GONE:View.VISIBLE);
-		super.show();
-	}
-
 	public abstract View getFrameLayoutView();
 
 	public void setMyAlertDialogListener(MyAlertDialogListener listener) {
 		mListener = listener;
 	}
 
-	public void setTitle(String s){
-		title=s;
+	public void setTitle(String title){
+		mTitleTv.setText(title);
+		mTitleTv.setVisibility(!TextUtils.isEmpty(title)?View.VISIBLE:View.GONE);
 	}
 
-	public void setLeft(String s){
-		left=s;
+	public void setLeft(String left){
+		mLeftTv.setText(left);
 	}
 
-	public void setRight(String s){
-		right=s;
+	public void setRight(String right){
+		mRightTv.setText(right);
 	}
 
-	public boolean isLeftEnabled() {
-		return isLeftEnabled;
+	public void setLeftEnabled(boolean isLeftEnabled) {
+		mLeftTv.setVisibility(isLeftEnabled?View.VISIBLE:View.GONE);
+		mCenterView.setVisibility((!isLeftEnabled||!isRightEnabled)?View.GONE:View.VISIBLE);
+		mButtonLayout.setVisibility((!isLeftEnabled&&!isRightEnabled)?View.GONE:View.VISIBLE);
 	}
 
-	public void setLeftEnabled(boolean leftEnabled) {
-		this.isLeftEnabled = leftEnabled;
-	}
-
-
-	public boolean isRightEnabled() {
-		return isRightEnabled;
-	}
-
-	public void setRightEnabled(boolean rightEnabled) {
-		isRightEnabled = rightEnabled;
+	public void setRightEnabled(boolean isRightEnabled) {
+		mRightTv.setVisibility(isRightEnabled?View.VISIBLE:View.GONE);
+		mCenterView.setVisibility((!isLeftEnabled||!isRightEnabled)?View.GONE:View.VISIBLE);
+		mButtonLayout.setVisibility((!isLeftEnabled&&!isRightEnabled)?View.GONE:View.VISIBLE);
 	}
 
 	public interface MyAlertDialogListener{
