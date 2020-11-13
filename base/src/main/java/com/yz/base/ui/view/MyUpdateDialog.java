@@ -148,8 +148,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		}
 
 		private void construct(MyUpdateDialog dialog) {
-			dialog.setLeft(left);
-			dialog.setRight(right);
 			dialog.setContent(content);
 			dialog.setUrl(url);
 			dialog.setForce(isForce);

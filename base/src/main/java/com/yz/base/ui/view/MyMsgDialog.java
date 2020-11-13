@@ -66,6 +66,7 @@ public class MyMsgDialog extends BaseRecyclerDialog {
 			dialog.setLeft(left);
 			dialog.setRight(right);
 			dialog.setLeftEnabled(isLeftEnabled);
+			dialog.setRightEnabled(isRightEnabled);
 			dialog.setMyAlertDialogListener(mListener);
 			dialog.setMessgae(msg);
 		}

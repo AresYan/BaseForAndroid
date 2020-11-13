@@ -100,6 +100,7 @@ public abstract class BaseAlertDialog extends BaseDialog {
         public String left;
         public String right;
 		public boolean isLeftEnabled=true;
+		public boolean isRightEnabled=true;
 		public MyAlertDialogListener mListener;
 
 		public Builder(Context context){
@@ -127,6 +128,11 @@ public abstract class BaseAlertDialog extends BaseDialog {
 			this.isLeftEnabled = isleftEnabled;
 			return this;
 		}
+
+        public Builder setRightEnabled(boolean isRightEnabled) {
+            this.isRightEnabled = isRightEnabled;
+            return this;
+        }
 
 		public Builder setMyAlertDialogListener(MyAlertDialogListener listener) {
 			this.mListener = listener;
