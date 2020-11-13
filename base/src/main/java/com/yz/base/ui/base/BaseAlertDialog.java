@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.yz.base.R;
+import com.yz.base.ui.view.MyUpdateDialog;
 import com.yz.base.utils.MyStrHelper;
 
 public abstract class BaseAlertDialog extends BaseDialog {
@@ -101,7 +102,7 @@ public abstract class BaseAlertDialog extends BaseDialog {
         public String right;
 		public boolean isLeftEnabled=true;
 		public boolean isRightEnabled=true;
-		public MyAlertDialogListener mListener;
+		public MyAlertDialogListener listener;
 
 		public Builder(Context context){
             this.context=context;
@@ -135,8 +136,17 @@ public abstract class BaseAlertDialog extends BaseDialog {
         }
 
 		public Builder setMyAlertDialogListener(MyAlertDialogListener listener) {
-			this.mListener = listener;
+			this.listener = listener;
 			return this;
+		}
+
+		public void construct(BaseAlertDialog dialog) {
+			dialog.setTitle(title);
+			dialog.setLeft(left);
+			dialog.setRight(right);
+			dialog.setLeftEnabled(isLeftEnabled);
+			dialog.setRightEnabled(isRightEnabled);
+			dialog.setMyAlertDialogListener(listener);
 		}
 
 		public abstract BaseAlertDialog build();

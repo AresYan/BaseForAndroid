@@ -37,7 +37,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	private List<CommonItem> mInfos=new ArrayList<>();
 	private MyUpdateInfoDialogAdapter mAdapter;
-	private String content;
 	private String url;
 	private boolean isForce;
 
@@ -49,7 +48,8 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 	}
 
 	public void setContent(String content) {
-		this.content=content;
+		mInfos.clear();
+		addMsg(content);
 	}
 
 	public void setUrl(String url) {
@@ -58,6 +58,8 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 
 	public void setForce(boolean force) {
 		isForce = force;
+		setLeftEnabled(!force);
+		setRightEnabled(true);
 	}
 
 	@Override
@@ -148,6 +150,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 		}
 
 		private void construct(MyUpdateDialog dialog) {
+			super.construct(dialog);
 			dialog.setContent(content);
 			dialog.setUrl(url);
 			dialog.setForce(isForce);
@@ -159,19 +162,6 @@ public class MyUpdateDialog extends BaseRecyclerDialog implements BaseAlertDialo
 			construct(dialog);
 			return dialog;
 		}
-	}
-
-	public void show() {
-		mInfos.clear();
-		setLeftEnabled(!isForce);
-		String title= MyStrHelper.getString(mContext, R.string.yz_base_check_update);
-		String left= MyStrHelper.getString(mContext,R.string.yz_base_cancel);
-		String right= MyStrHelper.getString(mContext,R.string.yz_base_ok);
-		setTitle(title);
-		setLeft(left);
-		setRight(right);
-		addMsg(content);
-		super.show();
 	}
 
 	private void addProgress(){
