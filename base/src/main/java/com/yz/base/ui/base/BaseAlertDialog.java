@@ -76,12 +76,14 @@ public abstract class BaseAlertDialog extends BaseDialog {
 	}
 
 	public void setLeftEnabled(boolean isLeftEnabled) {
+		this.isLeftEnabled=isLeftEnabled;
 		mLeftTv.setVisibility(isLeftEnabled?View.VISIBLE:View.GONE);
 		mCenterView.setVisibility((!isLeftEnabled||!isRightEnabled)?View.GONE:View.VISIBLE);
 		mButtonLayout.setVisibility((!isLeftEnabled&&!isRightEnabled)?View.GONE:View.VISIBLE);
 	}
 
 	public void setRightEnabled(boolean isRightEnabled) {
+		this.isRightEnabled=isRightEnabled;
 		mRightTv.setVisibility(isRightEnabled?View.VISIBLE:View.GONE);
 		mCenterView.setVisibility((!isLeftEnabled||!isRightEnabled)?View.GONE:View.VISIBLE);
 		mButtonLayout.setVisibility((!isLeftEnabled&&!isRightEnabled)?View.GONE:View.VISIBLE);
