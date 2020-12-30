@@ -1,6 +1,7 @@
 package com.yz.base.entity;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.Serializable;
 
@@ -13,7 +14,8 @@ public class BaseEntity implements Serializable, Cloneable {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		Gson gson = new GsonBuilder().serializeNulls().create();
+		return gson.toJson(this);
 	}
 
 	@Override
