@@ -5,8 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.*;
-import com.yz.base.R;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.yz.base.ui.base.BasePopupWindow;
 
 import java.util.Calendar;
@@ -18,10 +23,11 @@ import java.util.Calendar;
  */
 public class MyDatePopupWindow extends BasePopupWindow {
 
-	public static final int NUM = 7;
+	public static final int ITEM_NUM = 7;
 	public static final int TYPE_YMD = 1;
 	public static final int TYPE_YMDHM = 2;
-	
+	private static final int YAER_SIZE = 100;
+
 	private View Wv1,Wv2,Wv3,Wv4,Wv5;
 	
 	private MyWheelView yearWv;
@@ -30,146 +36,131 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	private MyWheelView hourWv;
 	private MyWheelView minWv;
 
-	private int mYear=0;
-	private int mMonth=0;
-	private int mDay=0;
-	private int mHour=0;
-	private int mMin=0;
-	private int yearSize = 100;
-	private int h;
+	private int type=TYPE_YMDHM;
+	private int year =0;
+	private int month =0;
+	private int day =0;
+	private int hour =0;
+	private int min =0;
 
-	private MyDatePopupWindowListener mDatelistener;
-	private int type;
-	private int forthYear;
+	private int outYear=0;
+	private int outMonth=0;
+	private int outDay=0;
+	private int outHour=0;
+	private int outMin=0;
 
-	public void setDatelistener(MyDatePopupWindowListener mDatelistener) {
-		this.mDatelistener = mDatelistener;
-	}
+	private int itemHeight;
 
 	public void setType(int type) {
 		this.type = type;
 	}
 
-	public void setForthYear(int forthYear) {
-		this.forthYear = forthYear;
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	private MyDatePopupWindowListener mDatelistener;
+
+	public void setDatelistener(MyDatePopupWindowListener mDatelistener) {
+		this.mDatelistener = mDatelistener;
 	}
 
 	private MyDatePopupWindow(Context context) {
 		super(context);
-	}
-
-	@Override
-	protected int getConentView() {
-		return R.layout.common_popup_wheel;
-	}
-
-	@Override
-	public void show(View parent) {
-		h = (int) mContext.getResources().getDimension(R.dimen.d120);
-		setHeight(h*(NUM+1));
-		mConentView.findViewById(R.id.common_wheel_popup_TextView_commit).setOnClickListener(new OnClickListener() {
+		itemHeight = (int) mContext.getResources().getDimension(com.yz.base.R.dimen.d120);
+		setHeight(itemHeight*(ITEM_NUM +1));
+		mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_TextView_commit).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				dismiss();
 				if(mDatelistener!=null){
-					mDatelistener.onCommit(mYear,mMonth,mDay,mHour,mMin);
+					mDatelistener.onCommit(outYear,outMonth,outDay,outHour,outMin);
 				}
 			}
 		});
-		mConentView.findViewById(R.id.common_wheel_popup_TextView_cannel).setOnClickListener(new OnClickListener() {
+		mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_TextView_cannel).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				dismiss();
 			}
 		});
 
-		Wv1 = mConentView.findViewById(R.id.common_wheel_popup_wv1);
-		Wv2 = mConentView.findViewById(R.id.common_wheel_popup_wv2);
-		Wv3 = mConentView.findViewById(R.id.common_wheel_popup_wv3);
-		Wv4 = mConentView.findViewById(R.id.common_wheel_popup_wv4);
-		Wv5 = mConentView.findViewById(R.id.common_wheel_popup_wv5);
+		Wv1 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv1);
+		Wv2 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv2);
+		Wv3 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv3);
+		Wv4 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv4);
+		Wv5 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv5);
 
+		dayWv = getDayWheelView(getDayArray(getStartYear(),1));
+		monthWv = getMonthWheelView(getMonthArray());
+		yearWv = getYearWheelView(getYearArray());
+		hourWv = getHourWheelView(getHourArray());
+		minWv = getMinWheelView(getMinArray());
+	}
+
+	@Override
+	protected int getConentView() {
+		return com.yz.base.R.layout.common_popup_wheel;
+	}
+
+	@Override
+	public void show(View parent) {
 		if(type==TYPE_YMD){
 			Wv4.setVisibility(View.GONE);
 			Wv5.setVisibility(View.GONE);
 		}
-		yearWv = getYearWheelView(getYearArray());
-		yearWv.setCurrent(forthYear);
-		hourWv = getHourWheelView(getHourArray());
-		hourWv.setCurrent(0);
-		minWv = getMinWheelView(getMinArray());
-		minWv.setCurrent(0);
+		yearWv.setCurrent(year -getStartYear());
+		monthWv.setCurrent(month -1);
+		try{
+			dayWv.setCurrent(day -1);
+		}catch(Exception e){
+			String[] days=getDayArray(year, month);
+			dayWv.setCurrent(days.length-1);
+		}
+		hourWv.setCurrent(hour);
+		minWv.setCurrent(min);
 		super.show(parent);
 	}
 
-	public int getYearCurrentItem() {
-		if (yearWv != null) {
-			return yearWv.getCurrentIndex();
-		}
-		return 0;
-	}
-
-	public int getMonthCurrentItem() {
-		if (monthWv != null) {
-			return monthWv.getCurrentIndex();
-		}
-		return 0;
-	}
-
-	public int getDayCurrentItem() {
-		if (dayWv != null) {
-			return dayWv.getCurrentIndex();
-		}
-		return 0;
-	}
-
-	private int getCurrentYear() {
-		return Calendar.getInstance().get(Calendar.YEAR)-forthYear;
-	}
-
-	private int getCurrentMonth() {
-		return Calendar.getInstance().get(Calendar.MONTH)+1;
-	}
-
-	private int getCurrentDay() {
-		return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+	private int getStartYear(){
+		return Calendar.getInstance().get(Calendar.YEAR)-50;
 	}
 
 	private String[] getYearArray() {
-		int year = getCurrentYear();
-		String[] array = new String[yearSize];
-		for (int i = 0; i < yearSize; i++) {
-			String y=""+(year+i);
-			if((year+i)<10){
-				y="0"+(year+i);
-			}
-			array[i] = y + "年";
+		int startYear = getStartYear();
+		String[] array = new String[YAER_SIZE];
+		for (int i = 0; i < YAER_SIZE; i++) {
+			array[i] = (startYear+i) + "年";
 		}
 		return array;
 	}
 
-	private String[] getMonthArray(int year) {
-		int month = 1;
-		if(year==getCurrentYear()){
-			month=getCurrentMonth();
-		}
-		String[] array = new String[13-month];
-		for(int i = 0; i < array.length; i++){
-			String m=""+(month + i);
-			if((month + i)<10){
-				m="0"+(month + i);
-			}
-			array[i] = m + "月";
+	private String[] getMonthArray() {
+		String[] array = new String[12];
+		for(int i = 1; i <= array.length; i++){
+			array[i-1] = (i<10?("0"+i):i)+ "月";
 		}
 		return array;
 	}
 
 	private String[] getDayArray(int year, int month) {
-		int day=1;
-		if(year==getCurrentYear()&&month==getCurrentMonth()){
-			day=getCurrentDay();
-		}
-		int days = 0;
+		int size = 0;
 		switch (month) {
 			case 1:
 			case 3:
@@ -178,22 +169,18 @@ public class MyDatePopupWindow extends BasePopupWindow {
 			case 8:
 			case 10:
 			case 12:
-				days = 31;
+				size = 31;
 				break;
 			case 2:
-				days = year % 4 == 0 ? 29 : 28;
+				size = year % 4 == 0 ? 29 : 28;
 				break;
 			default:
-				days = 30;
+				size = 30;
 				break;
 		}
-		String[] array = new String[days+1-day];
-		for (int i = 0; i < array.length; i++) {
-			String d=""+(day + i);
-			if((day + i)<10){
-				d="0"+(day + i);
-			}
-			array[i] = d + "日";
+		String[] array = new String[size];
+		for (int i = 1; i <= array.length; i++) {
+			array[i-1] = (i<10?("0"+i):i)+ "日";
 		}
 		return array;
 	}
@@ -201,11 +188,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	private String[] getHourArray() {
 		String[] array = new String[24];
 		for (int i = 0; i < 24; i++) {
-			String h=""+i;
-			if(i<10){
-				h="0"+i;
-			}
-			array[i] = h + "时";
+			array[i] = (i<10?("0"+i):i)+ "时";
 		}
 		return array;
 	}
@@ -213,85 +196,56 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	private String[] getMinArray() {
 		String[] array = new String[60];
 		for (int i = 0; i < 60; i++) {
-			String m=""+i;
-			if(i<10){
-				m="0"+i;
-			}
-			array[i] = m + "分";
+			array[i] = (i<10?("0"+i):i)+ "分";
 		}
 		return array;
 	}
 
 	private MyWheelView getYearWheelView(String[] items) {
-		return 	yearWv = new MyWheelView(Wv1, false, NUM, h, items, new OnItemChangeListener() {
-
+		return 	yearWv = new MyWheelView(Wv1, false, ITEM_NUM, itemHeight, items, new OnItemChangeListener() {
 			@Override
 			public void onItemChange(int index, String item) {
-				try {
-					mYear = getYearCurrentItem()+getCurrentYear();
-					monthWv = getMonthWheelView(getMonthArray(mYear));
-					monthWv.setCurrent(getCurrentMonth()-1);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				outYear=Integer.parseInt(item.substring(0,item.length()-1));
 			}
 		});
 	}
 
 	private MyWheelView getMonthWheelView(String[] items) {
-		return new MyWheelView(Wv2, false, NUM, h, items, new OnItemChangeListener() {
-
+		return new MyWheelView(Wv2, false, ITEM_NUM, itemHeight, items, new OnItemChangeListener() {
 			@Override
 			public void onItemChange(int index, String item) {
-				try {
-					if(mYear==getCurrentYear()){
-						mMonth=index+getCurrentMonth();
-					}else{
-						mMonth=index+1;
-					}
-					dayWv = getDayWheelView(getDayArray(mYear,mMonth));
-					dayWv.setCurrent(getCurrentDay()-1);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				outMonth=Integer.parseInt(item.substring(0,item.length()-1));
+				dayWv.setItems(getDayArray(outYear,outMonth));
 			}
 		});
 	}
 
 	private MyWheelView getDayWheelView(String[] items) {
-		return new MyWheelView(Wv3, false, NUM, h, items, new OnItemChangeListener() {
-
+		return new MyWheelView(Wv3, false, ITEM_NUM, itemHeight, items, new OnItemChangeListener() {
 			@Override
 			public void onItemChange(int index, String item) {
-				if(mYear==getCurrentYear()&&mMonth==getCurrentMonth()){
-					mDay=index+getCurrentDay();
-				}else{
-					mDay=index+1;
-				}
+				outDay=Integer.parseInt(item.substring(0,item.length()-1));
 			}
-
 		});
 	}
 
 	private MyWheelView getHourWheelView(String[] items) {
-		return new MyWheelView(Wv4, false, NUM, h, items, new OnItemChangeListener() {
+		return new MyWheelView(Wv4, false, ITEM_NUM, itemHeight, items, new OnItemChangeListener() {
 
 			@Override
 			public void onItemChange(int index, String item) {
-				mHour=index;
+				outHour=index;
 			}
-
 		});
 	}
 
 	private MyWheelView getMinWheelView(String[] items) {
-		return new MyWheelView(Wv5, false, NUM, h, items, new OnItemChangeListener() {
+		return new MyWheelView(Wv5, false, ITEM_NUM, itemHeight, items, new OnItemChangeListener() {
 
 			@Override
 			public void onItemChange(int index, String item) {
-				mMin=index;
+				outMin=index;
 			}
-
 		});
 	}
 
@@ -300,7 +254,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	}
 
 	public interface OnItemChangeListener {
-		public void onItemChange(int currentIndex, String currentItem);
+		void onItemChange(int currentIndex, String currentItem);
 	}
 
 	public class MyWheelView {
@@ -330,11 +284,11 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		public MyWheelView(View wheelView, boolean isCircle, int showItemNum,
 						   int itemHeight, String[] items, OnItemChangeListener listener) {
 			mContext=wheelView.getContext();
-			wheelRl = (RelativeLayout) wheelView.findViewById(R.id.wheelRl);
-			lv = (ListView) wheelView.findViewById(R.id.wheelLv);
-			wheelTopShadowView = wheelView.findViewById(R.id.wheelTopShadowView);
+			wheelRl = (RelativeLayout) wheelView.findViewById(com.yz.base.R.id.wheelRl);
+			lv = (ListView) wheelView.findViewById(com.yz.base.R.id.wheelLv);
+			wheelTopShadowView = wheelView.findViewById(com.yz.base.R.id.wheelTopShadowView);
 			wheelBottomShadowView = wheelView
-					.findViewById(R.id.wheelBottomShadowView);
+					.findViewById(com.yz.base.R.id.wheelBottomShadowView);
 
 			this.showItemNum = showItemNum;
 			this.itemHeight = itemHeight;
@@ -470,16 +424,16 @@ public class MyDatePopupWindow extends BasePopupWindow {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				convertView = LayoutInflater.from(mContext).inflate(
-						R.layout.common_wheel_item, null, false);
+						com.yz.base.R.layout.common_wheel_item, null, false);
 
 				LinearLayout itemLl = (LinearLayout) convertView
-						.findViewById(R.id.itemLl);
+						.findViewById(com.yz.base.R.id.itemLl);
 
 				ViewGroup.LayoutParams lp = itemLl.getLayoutParams();
 				lp.height = itemHeight;
 				itemLl.setLayoutParams(lp);
 
-				TextView tv = (TextView) convertView.findViewById(R.id.itemTv);
+				TextView tv = (TextView) convertView.findViewById(com.yz.base.R.id.itemTv);
 
 				if (isCircle) {
 					int cha = position - showItemNum + 1 + currentItem;
@@ -535,12 +489,15 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		}
 	}
 
-
 	public static class Builder extends BasePopupWindow.Builder{
 
-		public MyDatePopupWindowListener listener;
-		public int type;
-		public int forthYear;
+		private MyDatePopupWindowListener listener;
+		private int type;
+		private int year=0;
+		private int month=0;
+		private int day=0;
+		private int hour=0;
+		private int min=0;
 
 		public Builder(Context context) {
 			super(context);
@@ -551,8 +508,28 @@ public class MyDatePopupWindow extends BasePopupWindow {
 			return this;
 		}
 
-		public Builder setForthYear(int forthYear) {
-			this.forthYear=forthYear;
+		public Builder setYear(int year) {
+			this.year=year;
+			return this;
+		}
+
+		public Builder setMonth(int month) {
+			this.month=month;
+			return this;
+		}
+
+		public Builder setDay(int day) {
+			this.day=day;
+			return this;
+		}
+
+		public Builder setHour(int hour) {
+			this.hour=hour;
+			return this;
+		}
+
+		public Builder setMin(int min) {
+			this.min=min;
 			return this;
 		}
 
@@ -563,7 +540,11 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 		private void construct(MyDatePopupWindow dialog) {
 			dialog.setType(type);
-			dialog.setForthYear(forthYear);
+			dialog.setYear(year);
+			dialog.setMonth(month);
+			dialog.setDay(day);
+			dialog.setHour(hour);
+			dialog.setMin(min);
 			dialog.setDatelistener(listener);
 		}
 
