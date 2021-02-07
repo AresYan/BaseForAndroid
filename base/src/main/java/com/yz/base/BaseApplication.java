@@ -3,6 +3,7 @@ package com.yz.base;
 import androidx.multidex.MultiDexApplication;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.king.thread.nevercrash.NeverCrash;
+import com.yz.base.http.MyEasyHttpHelper;
 import com.yz.base.utils.*;
 
 import java.io.*;
@@ -18,6 +19,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         ViewTarget.setTagId(R.id.tag_glide);
         initNeverCrash();
         Toasty.Config.getInstance().allowQueue(false).apply();
+        MyEasyHttpHelper.getInstance().init(this,0,-2);
     }
 
     private void initNeverCrash(){

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.google.gson.Gson;
 import com.yz.base.R;
-import com.yz.base.api.APIBase;
 import com.yz.base.utils.MyLogger;
 import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.MyStrHelper;
@@ -69,7 +68,6 @@ public abstract class BaseEaseHttp {
                 .setWriteTimeOut(10*1000)
                 .setReadTimeOut(15*1000)
                 .setRetryCount(0);
-        APIBase.init(this);
     }
 
     public InvalidListener mInvalidListener;

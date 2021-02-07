@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yz.base.R;
-import com.yz.base.api.APIBase;
+import com.yz.base.http.MyEasyHttpHelper;
 import com.yz.base.http.MyResultDownloadListener;
 import com.yz.base.item.CommonItem;
 import com.yz.base.ui.base.BaseActivity;
@@ -110,7 +110,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 		}
 		String dir = MyFileUtils.getTYJWPath();
 		String path = dir + name;
-		APIBase.download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
+		MyEasyHttpHelper.getInstance().download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
 			@Override
 			public void onStart() {
 			}
