@@ -1,5 +1,6 @@
 package com.yz.base.ui.base;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,54 +8,70 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.yz.base.R;
-import com.yz.base.ui.view.MyUpdateDialog;
+import com.yz.base.R2;
 import com.yz.base.utils.MyStrHelper;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public abstract class BaseAlertDialog extends BaseDialog {
 
-	private TextView mTitleTv;
-	private TextView mLeftTv;
-	private TextView mRightTv;
-	private FrameLayout mFrameLayout;
-	private RelativeLayout mButtonLayout;
-	private View mCenterView;
 	private MyAlertDialogListener mListener;
 	private boolean isLeftEnabled=true;
 	private boolean isRightEnabled=true;
+
+	@BindView(R2.id.common_dialog_alert_TextView_title)
+	TextView mTitleTv;
+	@BindView(R2.id.common_dialog_alert_TextView_left)
+	TextView mLeftTv;
+	@BindView(R2.id.common_dialog_alert_TextView_right)
+	TextView mRightTv;
+	@BindView(R2.id.common_dialog_alert_FrameLayout)
+	FrameLayout mFrameLayout;
+	@BindView(R2.id.common_dialog_alert_RelativeLayout_button)
+	RelativeLayout mButtonLayout;
+	@BindView(R2.id.common_dialog_alert_View_center)
+	View mCenterView;
+
+	@SuppressLint("InvalidR2Usage")
+	@OnClick(value = {
+			R2.id.common_dialog_alert_TextView_left,
+			R2.id.common_dialog_alert_TextView_right})
+	protected void onViewClick(View v){
+		switch(v.getId()){
+			case R2.id.common_dialog_alert_TextView_left:
+				left();
+				break;
+			case R2.id.common_dialog_alert_TextView_right:
+				right();
+				break;
+		}
+	}
 
 	public BaseAlertDialog(Context context) {
 		super(context);
 		View view = LayoutInflater.from(context).inflate(R.layout.common_dialog_alert, null);
         setContentView(view);
         setCancelable(false);
-		mTitleTv = view.findViewById(R.id.common_dialog_alert_TextView_title);
-		mFrameLayout = view.findViewById(R.id.common_dialog_alert_FrameLayout);
-		mButtonLayout = view.findViewById(R.id.common_dialog_alert_RelativeLayout_button);
-		mLeftTv = view.findViewById(R.id.common_dialog_alert_TextView_left);
-		mRightTv = view.findViewById(R.id.common_dialog_alert_TextView_right);
-		mCenterView = view.findViewById(R.id.common_dialog_alert_View_center);
 		mFrameLayout.addView(getFrameLayoutView());
-		mLeftTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    mListener.left(BaseAlertDialog.this);
-                }else{
-					dismiss();
-				}
-            }
-        });
-        mRightTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    mListener.right(BaseAlertDialog.this);
-                }else{
-					dismiss();
-				}
-            }
-        });
+	}
+
+	private void left(){
+		if(mListener!=null){
+			mListener.left(BaseAlertDialog.this);
+		}else{
+			dismiss();
+		}
+	}
+
+	private void right(){
+		if(mListener!=null){
+			mListener.right(BaseAlertDialog.this);
+		}else{
+			dismiss();
+		}
 	}
 
 	public abstract View getFrameLayoutView();

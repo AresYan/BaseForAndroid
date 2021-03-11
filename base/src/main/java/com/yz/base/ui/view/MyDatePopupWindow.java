@@ -1,9 +1,9 @@
 package com.yz.base.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
@@ -12,9 +12,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yz.base.R;
+import com.yz.base.R2;
 import com.yz.base.ui.base.BasePopupWindow;
 
 import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author :yanzheng
@@ -28,8 +33,6 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	public static final int TYPE_YMDHM = 2;
 	private static final int YAER_SIZE = 100;
 
-	private View Wv1,Wv2,Wv3,Wv4,Wv5;
-	
 	private MyWheelView yearWv;
 	private MyWheelView monthWv;
 	private MyWheelView dayWv;
@@ -50,6 +53,34 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	private int outMin=0;
 
 	private int itemHeight;
+
+	@BindView(R2.id.common_wheel_popup_wv1)
+	View Wv1;
+	@BindView(R2.id.common_wheel_popup_wv2)
+	View Wv2;
+	@BindView(R2.id.common_wheel_popup_wv3)
+	View Wv3;
+	@BindView(R2.id.common_wheel_popup_wv4)
+	View Wv4;
+	@BindView(R2.id.common_wheel_popup_wv5)
+	View Wv5;
+
+	@SuppressLint("InvalidR2Usage")
+	@OnClick(value = {
+			R2.id.common_wheel_popup_TextView_commit})
+	protected void onViewClick(View v){
+		switch(v.getId()){
+			case R2.id.common_wheel_popup_TextView_commit:
+				dismiss();
+				if(mDatelistener!=null){
+					mDatelistener.onCommit(outYear,outMonth,outDay,outHour,outMin);
+				}
+				break;
+			case R2.id.common_wheel_popup_TextView_cannel:
+				dismiss();
+				break;
+		}
+	}
 
 	public void setType(int type) {
 		this.type = type;
@@ -83,30 +114,8 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 	private MyDatePopupWindow(Context context) {
 		super(context);
-		itemHeight = (int) mContext.getResources().getDimension(com.yz.base.R.dimen.d120);
+		itemHeight = (int) mContext.getResources().getDimension(R.dimen.d120);
 		setHeight(itemHeight*(ITEM_NUM +1));
-		mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_TextView_commit).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				dismiss();
-				if(mDatelistener!=null){
-					mDatelistener.onCommit(outYear,outMonth,outDay,outHour,outMin);
-				}
-			}
-		});
-		mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_TextView_cannel).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				dismiss();
-			}
-		});
-
-		Wv1 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv1);
-		Wv2 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv2);
-		Wv3 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv3);
-		Wv4 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv4);
-		Wv5 = mConentView.findViewById(com.yz.base.R.id.common_wheel_popup_wv5);
-
 		dayWv = getDayWheelView(getDayArray(getStartYear(),1));
 		monthWv = getMonthWheelView(getMonthArray());
 		yearWv = getYearWheelView(getYearArray());
@@ -116,7 +125,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return com.yz.base.R.layout.common_popup_wheel;
+		return R.layout.common_popup_wheel;
 	}
 
 	@Override
@@ -284,11 +293,11 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		public MyWheelView(View wheelView, boolean isCircle, int showItemNum,
 						   int itemHeight, String[] items, OnItemChangeListener listener) {
 			mContext=wheelView.getContext();
-			wheelRl = (RelativeLayout) wheelView.findViewById(com.yz.base.R.id.wheelRl);
-			lv = (ListView) wheelView.findViewById(com.yz.base.R.id.wheelLv);
-			wheelTopShadowView = wheelView.findViewById(com.yz.base.R.id.wheelTopShadowView);
+			wheelRl = (RelativeLayout) wheelView.findViewById(R.id.wheelRl);
+			lv = (ListView) wheelView.findViewById(R.id.wheelLv);
+			wheelTopShadowView = wheelView.findViewById(R.id.wheelTopShadowView);
 			wheelBottomShadowView = wheelView
-					.findViewById(com.yz.base.R.id.wheelBottomShadowView);
+					.findViewById(R.id.wheelBottomShadowView);
 
 			this.showItemNum = showItemNum;
 			this.itemHeight = itemHeight;
@@ -424,16 +433,16 @@ public class MyDatePopupWindow extends BasePopupWindow {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				convertView = LayoutInflater.from(mContext).inflate(
-						com.yz.base.R.layout.common_wheel_item, null, false);
+						R.layout.common_wheel_item, null, false);
 
 				LinearLayout itemLl = (LinearLayout) convertView
-						.findViewById(com.yz.base.R.id.itemLl);
+						.findViewById(R.id.itemLl);
 
 				ViewGroup.LayoutParams lp = itemLl.getLayoutParams();
 				lp.height = itemHeight;
 				itemLl.setLayoutParams(lp);
 
-				TextView tv = (TextView) convertView.findViewById(com.yz.base.R.id.itemTv);
+				TextView tv = (TextView) convertView.findViewById(R.id.itemTv);
 
 				if (isCircle) {
 					int cha = position - showItemNum + 1 + currentItem;

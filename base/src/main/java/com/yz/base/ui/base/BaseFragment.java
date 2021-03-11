@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import com.yz.base.R;
 import com.yz.base.event.BaseEvent;
 import com.yz.base.utils.MyEventBus;
@@ -26,7 +25,6 @@ public abstract class BaseFragment extends Fragment {
     protected BaseActivity mActivity;
     protected FragmentManager mFragmentManager;
     protected Bundle mBundle;
-    protected Unbinder mUnbinder;
 
     private String title;
 
@@ -53,22 +51,21 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =inflater.inflate(getContentViewId(),container,false);
-        mUnbinder=ButterKnife.bind(this,view);
-        initView(view, savedInstanceState);
+        ButterKnife.bind(this,view);
         MyEventBus.register(this);
+        initView(savedInstanceState);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
         MyEventBus.unregister(this);
     }
 
     protected abstract int getContentViewId();
 
-    protected abstract void initView(View view, Bundle savedInstanceState);
+    protected abstract void initView(Bundle savedInstanceState);
 
     @Override
     public void startActivity(Intent intent) {

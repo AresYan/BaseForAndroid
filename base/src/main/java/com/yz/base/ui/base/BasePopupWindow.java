@@ -9,11 +9,11 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import com.blankj.utilcode.util.ScreenUtils;
 
+import butterknife.ButterKnife;
+
 public abstract class BasePopupWindow extends PopupWindow {
 	
-	public View mConentView;
 	public Context mContext;
-	public LayoutInflater mInflater;
 
 	public BasePopupWindowListener listener;
 
@@ -23,12 +23,12 @@ public abstract class BasePopupWindow extends PopupWindow {
 
 	public BasePopupWindow(Context context) {
 		mContext=context;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mConentView = mInflater.inflate(getConentView(), null);
+		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(getConentView(), null);
 		int h = ScreenUtils.getScreenHeight()/2;
 		int w = ScreenUtils.getScreenWidth();
 		// 设置SelectPicPopupWindow的View
-		this.setContentView(mConentView);
+		this.setContentView(view);
 		// 设置SelectPicPopupWindow弹出窗体的宽
 		this.setWidth(w);
 		// 设置SelectPicPopupWindow弹出窗体的高
@@ -41,6 +41,7 @@ public abstract class BasePopupWindow extends PopupWindow {
 		this.setBackgroundDrawable(new ColorDrawable(0x00000000));
 		this.setAnimationStyle(android.R.style.Animation_InputMethod);
 		this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		ButterKnife.bind(this,view);
 	}
 
 	protected abstract int getConentView();

@@ -1,6 +1,5 @@
 package com.yz.base.ui.base;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,10 +9,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.yz.base.R;
+import com.yz.base.R2;
 import com.yz.base.utils.MyMainHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by YZ on 2016/11/25.
@@ -23,34 +25,28 @@ public abstract class BaseRefreshFragment extends BaseFragment {
 
     protected static final int DELAYED=200;
 
-    protected LinearLayout mLinearLayout;
-    protected RelativeLayout mTitleLayout;
-    protected ImageView mTitleLeftImv;
-    protected TextView mTitleNameTv;
-    protected TextView mTitleRightTv;
-
-    protected RecyclerView mRecyclerView;
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
-
-    protected View mNetErrorView;
-    protected View mDataEmptyView;
+    @BindView(R2.id.common_refresh_activity_LinearLayout)
+    LinearLayout mLinearLayout;
+    @BindView(R2.id.common_title_Layout)
+    RelativeLayout mTitleLayout;
+    @BindView(R2.id.common_title_ImageView_left)
+    ImageView mTitleLeftImv;
+    @BindView(R2.id.common_title_TextView_name)
+    TextView mTitleNameTv;
+    @BindView(R2.id.common_title_TextView_right)
+    TextView mTitleRightTv;
+    @BindView(R2.id.common_refresh_RecyclerView)
+    RecyclerView mRecyclerView;
+    @BindView(R2.id.common_refresh_SwipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R2.id.include_common_net_error)
+    View mNetErrorView;
+    @BindView(R2.id.include_common_data_empty)
+    View mDataEmptyView;
 
     @Override
     protected int getContentViewId() {
         return R.layout.common_refresh_activity;
-    }
-
-    @Override
-    protected void initView(View view, Bundle savedInstanceState) {
-        mLinearLayout = view.findViewById(R.id.common_refresh_activity_LinearLayout);
-        mTitleLayout = view.findViewById(R.id.common_title_Layout);
-        mTitleLeftImv = view.findViewById(R.id.common_title_ImageView_left);
-        mTitleNameTv = view.findViewById(R.id.common_title_TextView_name);
-        mTitleRightTv = view.findViewById(R.id.common_title_TextView_right);
-        mRecyclerView = view.findViewById(R.id.common_refresh_RecyclerView);
-        mSwipeRefreshLayout = view.findViewById(R.id.common_refresh_SwipeRefreshLayout);
-        mNetErrorView = view.findViewById(R.id.include_common_net_error);
-        mDataEmptyView = view.findViewById(R.id.include_common_data_empty);
     }
 
     protected void setBackground(int rid) {

@@ -14,6 +14,8 @@ import com.yz.base.utils.MyEventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseDialog extends Dialog {
 
 	public Context mContext;
@@ -41,6 +43,7 @@ public abstract class BaseDialog extends Dialog {
 
 	public void setContentView(View view, int w, int h) {
 		super.setContentView(view);
+		ButterKnife.bind(this, view);
 		Window window = getWindow();
 		WindowManager.LayoutParams params = window.getAttributes();
 		params.width = w;

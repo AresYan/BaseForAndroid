@@ -1,5 +1,6 @@
 package com.yz.base.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,13 +9,31 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yz.base.R;
+import com.yz.base.R2;
 import com.yz.base.entity.PopSelected;
 import com.yz.base.ui.base.BaseAdapter;
 import com.yz.base.ui.base.BasePopupWindow;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class MyListPopupWindow extends BasePopupWindow {
+
+	@BindView(R2.id.common_popup_list_RecyclerView)
+	RecyclerView mRecyclerView;
+
+	@SuppressLint("InvalidR2Usage")
+	@OnClick(value = {
+			R2.id.common_popup_list_TextView_cannel})
+	protected void onViewClick(View v){
+		switch(v.getId()){
+			case R2.id.common_popup_list_TextView_cannel:
+				dismiss();
+				break;
+		}
+	}
 
 	private MyListPopupWindow(Context context){
 		super(context);
@@ -38,7 +57,6 @@ public class MyListPopupWindow extends BasePopupWindow {
 			int w1 = (int) mContext.getResources().getDimension(R.dimen.d160);
 			int w2 = (int) mContext.getResources().getDimension(R.dimen.d152);
 			setHeight(w1+w2*(size>5?5:size));
-			RecyclerView mRecyclerView = (RecyclerView) mConentView.findViewById(R.id.common_popup_list_RecyclerView);
 			mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 			mRecyclerView.setAdapter(new MyListPopupWindowAdapter(selecteds));
 			mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -48,12 +66,6 @@ public class MyListPopupWindow extends BasePopupWindow {
 					if(listener!=null){
 						listener.onClick(selecteds.get(i));
 					}
-				}
-			});
-			mConentView.findViewById(R.id.common_popup_list_TextView_cannel).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					dismiss();
 				}
 			});
 		}
@@ -68,7 +80,7 @@ public class MyListPopupWindow extends BasePopupWindow {
 
 		@Override
 		protected void convert(BaseViewHolder helper, PopSelected item) {
-			helper.setText(R.id.common_popup_list_item_TextView, item.getName());
+			helper.setText(R2.id.common_popup_list_item_TextView, item.getName());
 		}
 	}
 

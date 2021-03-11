@@ -9,13 +9,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yz.base.R;
+import com.yz.base.R2;
 import com.yz.base.entity.PopSelected;
 import com.yz.base.ui.base.BaseAdapter;
 import com.yz.base.ui.base.BasePopupWindow;
 
 import java.util.List;
 
+import butterknife.BindView;
+
 public class MyGridPopupWindow extends BasePopupWindow {
+
+	@BindView(R2.id.common_popup_grid_RecyclerView)
+	RecyclerView mRecyclerView;
 
 	private MyGridPopupWindow(Context context){
 		super(context);
@@ -41,7 +47,6 @@ public class MyGridPopupWindow extends BasePopupWindow {
 	public void show(View parent) {
 		if(selecteds!=null){
 			setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-			RecyclerView mRecyclerView = (RecyclerView) mConentView.findViewById(R.id.common_popup_grid_RecyclerView);
 			mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, spanCount));
 			final MyGridPopupWindowAdapter adapter=new MyGridPopupWindowAdapter(selecteds);
 			mRecyclerView.setAdapter(adapter);
@@ -70,9 +75,9 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 		@Override
 		protected void convert(BaseViewHolder helper, PopSelected item) {
-			helper.setBackgroundRes(R.id.common_popup_grid_item_LinearLayout,item.isSelected()?R.drawable.common_popup_grid_item_red_stroke_bg :R.drawable.common_popup_grid_item_gray_stroke_bg);
-			helper.setImageResource(R.id.common_popup_grid_item_ImageView_pic,item.getRes());
-			helper.setText(R.id.common_popup_grid_item_TextView_name, item.getName());
+			helper.setBackgroundRes(R2.id.common_popup_grid_item_LinearLayout,item.isSelected()?R.drawable.common_popup_grid_item_red_stroke_bg :R.drawable.common_popup_grid_item_gray_stroke_bg);
+			helper.setImageResource(R2.id.common_popup_grid_item_ImageView_pic,item.getRes());
+			helper.setText(R2.id.common_popup_grid_item_TextView_name, item.getName());
 		}
 	}
 
