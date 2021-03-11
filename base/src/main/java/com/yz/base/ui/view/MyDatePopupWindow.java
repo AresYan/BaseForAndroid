@@ -125,7 +125,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return R.layout.common_popup_wheel;
+		return R2.layout.common_popup_wheel;
 	}
 
 	@Override

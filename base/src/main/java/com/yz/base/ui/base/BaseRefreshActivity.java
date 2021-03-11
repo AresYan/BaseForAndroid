@@ -42,7 +42,7 @@ public abstract class BaseRefreshActivity extends BaseActivity{
 
     @Override
     protected int getContentViewId() {
-        return R.layout.common_refresh_activity;
+        return R2.layout.common_refresh_activity;
     }
 
     protected void setBackground(int rid) {

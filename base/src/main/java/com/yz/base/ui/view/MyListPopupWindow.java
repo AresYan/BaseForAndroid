@@ -41,7 +41,7 @@ public class MyListPopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return R.layout.common_popup_list;
+		return R2.layout.common_popup_list;
 	}
 
 	private List<PopSelected> selecteds;
@@ -80,7 +80,7 @@ public class MyListPopupWindow extends BasePopupWindow {
 
 		@Override
 		protected void convert(BaseViewHolder helper, PopSelected item) {
-			helper.setText(R2.id.common_popup_list_item_TextView, item.getName());
+			helper.setText(R.id.common_popup_list_item_TextView, item.getName());
 		}
 	}
 

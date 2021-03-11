@@ -29,7 +29,7 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return R.layout.common_popup_grid;
+		return R2.layout.common_popup_grid;
 	}
 
 	private int spanCount=1;
