@@ -76,6 +76,13 @@ public abstract class BaseRefreshActivity extends BaseActivity{
         }
     }
 
+    protected void setRight(String title, int color){
+        if(mTitleRightTv!=null){
+            mTitleRightTv.setText(title);
+            mTitleRightTv.setTextColor(color);
+        }
+    }
+
     protected void showTitle(){
         if(mTitleLayout!=null){
             mTitleLayout.setVisibility(View.VISIBLE);
