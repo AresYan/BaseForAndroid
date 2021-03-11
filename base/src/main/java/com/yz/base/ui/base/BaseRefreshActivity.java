@@ -189,6 +189,12 @@ public abstract class BaseRefreshActivity extends BaseActivity{
         }
     }
 
+    protected void addItemDecoration(RecyclerView.ItemDecoration decoration){
+        if(mSwipeRefreshLayout!=null){
+            mRecyclerView.addItemDecoration(decoration);
+        }
+    }
+
     protected void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener){
         if(mSwipeRefreshLayout!=null){
             mSwipeRefreshLayout.setOnRefreshListener(listener);
