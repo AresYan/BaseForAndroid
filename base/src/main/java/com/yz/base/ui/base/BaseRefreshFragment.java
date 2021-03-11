@@ -44,6 +44,42 @@ public abstract class BaseRefreshFragment extends BaseFragment {
     @BindView(R2.id.include_common_data_empty)
     View mDataEmptyView;
 
+    public LinearLayout getLinearLayout() {
+        return mLinearLayout;
+    }
+
+    public RelativeLayout getTitleLayout() {
+        return mTitleLayout;
+    }
+
+    public ImageView getTitleLeftImv() {
+        return mTitleLeftImv;
+    }
+
+    public TextView getTitleNameTv() {
+        return mTitleNameTv;
+    }
+
+    public TextView getTitleRightTv() {
+        return mTitleRightTv;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
+    }
+
+    public View getNetErrorView() {
+        return mNetErrorView;
+    }
+
+    public View getDataEmptyView() {
+        return mDataEmptyView;
+    }
+
     @Override
     protected int getContentViewId() {
         return R.layout.common_refresh_activity;
