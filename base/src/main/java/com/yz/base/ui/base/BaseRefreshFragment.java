@@ -92,15 +92,14 @@ public abstract class BaseRefreshFragment extends BaseFragment {
     }
 
     protected void setTitle(String title){
-        super.setTitle(title);
         if(mTitleNameTv!=null){
             mTitleNameTv.setText(title);
         }
     }
 
     protected void setTitle(String title, int color){
-        setTitle(title);
         if(mTitleNameTv!=null){
+            mTitleNameTv.setText(title);
             mTitleNameTv.setTextColor(color);
         }
     }

@@ -26,14 +26,14 @@ public abstract class BaseFragment extends Fragment {
     protected FragmentManager mFragmentManager;
     protected Bundle mBundle;
 
-    private String title;
+    private String pagerTitle;
 
-    protected String getTitle() {
-        return title;
+    public String getPagerTitle() {
+        return pagerTitle;
     }
 
-    protected void setTitle(String title) {
-        this.title = title;
+    public void setPagerTitle(String pagerTitle) {
+        this.pagerTitle = pagerTitle;
     }
 
     @Override
