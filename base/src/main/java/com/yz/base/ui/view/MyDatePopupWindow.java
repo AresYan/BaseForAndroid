@@ -65,22 +65,10 @@ public class MyDatePopupWindow extends BasePopupWindow {
 	@BindView(R2.id.common_wheel_popup_wv5)
 	View Wv5;
 
-	@SuppressLint("InvalidR2Usage")
-	@OnClick(value = {
-			R2.id.common_wheel_popup_TextView_commit})
-	protected void onViewClick(View v){
-		switch(v.getId()){
-			case R2.id.common_wheel_popup_TextView_commit:
-				dismiss();
-				if(mDatelistener!=null){
-					mDatelistener.onCommit(outYear,outMonth,outDay,outHour,outMin);
-				}
-				break;
-			case R2.id.common_wheel_popup_TextView_cannel:
-				dismiss();
-				break;
-		}
-	}
+	@BindView(R2.id.common_wheel_popup_TextView_commit)
+	TextView mCommitTv;
+	@BindView(R2.id.common_wheel_popup_TextView_cannel)
+	TextView mCannelTv;
 
 	public void setType(int type) {
 		this.type = type;
@@ -121,6 +109,21 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		yearWv = getYearWheelView(getYearArray());
 		hourWv = getHourWheelView(getHourArray());
 		minWv = getMinWheelView(getMinArray());
+		mCommitTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dismiss();
+				if(mDatelistener!=null){
+					mDatelistener.onCommit(outYear,outMonth,outDay,outHour,outMin);
+				}
+			}
+		});
+		mCannelTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dismiss();
+			}
+		});
 	}
 
 	@Override

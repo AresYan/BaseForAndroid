@@ -1,6 +1,5 @@
 package com.yz.base.ui.base;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import com.yz.base.R2;
 import com.yz.base.utils.MyStrHelper;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public abstract class BaseAlertDialog extends BaseDialog {
 
@@ -35,43 +33,32 @@ public abstract class BaseAlertDialog extends BaseDialog {
 	@BindView(R2.id.common_dialog_alert_View_center)
 	View mCenterView;
 
-	@SuppressLint("InvalidR2Usage")
-	@OnClick(value = {
-			R2.id.common_dialog_alert_TextView_left,
-			R2.id.common_dialog_alert_TextView_right})
-	protected void onViewClick(View v){
-		switch(v.getId()){
-			case R2.id.common_dialog_alert_TextView_left:
-				left();
-				break;
-			case R2.id.common_dialog_alert_TextView_right:
-				right();
-				break;
-		}
-	}
-
 	public BaseAlertDialog(Context context) {
 		super(context);
 		View view = LayoutInflater.from(context).inflate(R.layout.common_dialog_alert, null);
         setContentView(view);
         setCancelable(false);
 		mFrameLayout.addView(getFrameLayoutView());
-	}
-
-	private void left(){
-		if(mListener!=null){
-			mListener.left(BaseAlertDialog.this);
-		}else{
-			dismiss();
-		}
-	}
-
-	private void right(){
-		if(mListener!=null){
-			mListener.right(BaseAlertDialog.this);
-		}else{
-			dismiss();
-		}
+		mLeftTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if(mListener!=null){
+					mListener.left(BaseAlertDialog.this);
+				}else{
+					dismiss();
+				}
+			}
+		});
+		mRightTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if(mListener!=null){
+					mListener.right(BaseAlertDialog.this);
+				}else{
+					dismiss();
+				}
+			}
+		});
 	}
 
 	public abstract View getFrameLayoutView();

@@ -1,8 +1,9 @@
 package com.yz.base.ui.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,23 +18,13 @@ import com.yz.base.ui.base.BasePopupWindow;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MyListPopupWindow extends BasePopupWindow {
 
 	@BindView(R2.id.common_popup_list_RecyclerView)
 	RecyclerView mRecyclerView;
-
-	@SuppressLint("InvalidR2Usage")
-	@OnClick(value = {
-			R2.id.common_popup_list_TextView_cannel})
-	protected void onViewClick(View v){
-		switch(v.getId()){
-			case R2.id.common_popup_list_TextView_cannel:
-				dismiss();
-				break;
-		}
-	}
+	@BindView(R2.id.common_popup_list_TextView_cannel)
+	TextView mCannelTv;
 
 	private MyListPopupWindow(Context context){
 		super(context);
@@ -66,6 +57,12 @@ public class MyListPopupWindow extends BasePopupWindow {
 					if(listener!=null){
 						listener.onClick(selecteds.get(i));
 					}
+				}
+			});
+			mCannelTv.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					dismiss();
 				}
 			});
 		}
