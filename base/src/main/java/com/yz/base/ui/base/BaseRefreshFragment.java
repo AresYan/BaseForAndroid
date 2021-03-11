@@ -25,8 +25,6 @@ public abstract class BaseRefreshFragment extends BaseFragment {
 
     protected static final int DELAYED=200;
 
-    @BindView(R2.id.common_refresh_activity_LinearLayout)
-    LinearLayout mLinearLayout;
     @BindView(R2.id.common_title_Layout)
     RelativeLayout mTitleLayout;
     @BindView(R2.id.common_title_ImageView_left)
@@ -46,13 +44,11 @@ public abstract class BaseRefreshFragment extends BaseFragment {
 
     @Override
     protected int getContentViewId() {
-        return R2.layout.common_refresh_activity;
+        return R.layout.common_refresh_activity;
     }
 
     protected void setBackground(int rid) {
-        if(mLinearLayout!=null){
-            mLinearLayout.setBackgroundResource(rid);
-        }
+        getView().setBackgroundResource(rid);
     }
 
     protected void setTitle(String title){

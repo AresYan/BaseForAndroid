@@ -6,8 +6,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.yz.base.R;
 import com.yz.base.R2;
 import com.yz.base.utils.MyMainHandler;
@@ -21,8 +23,6 @@ public abstract class BaseRefreshActivity extends BaseActivity{
 
     protected static final int DELAYED=200;
 
-    @BindView(R2.id.common_refresh_activity_LinearLayout)
-    LinearLayout mLinearLayout;
     @BindView(R2.id.common_title_Layout)
     RelativeLayout mTitleLayout;
     @BindView(R2.id.common_title_ImageView_left)
@@ -42,13 +42,11 @@ public abstract class BaseRefreshActivity extends BaseActivity{
 
     @Override
     protected int getContentViewId() {
-        return R2.layout.common_refresh_activity;
+        return R.layout.common_refresh_activity;
     }
 
     protected void setBackground(int rid) {
-        if(mLinearLayout!=null){
-            mLinearLayout.setBackgroundResource(rid);
-        }
+        getWindow().getDecorView().setBackgroundResource(rid);
     }
 
     protected void setTitle(String title){

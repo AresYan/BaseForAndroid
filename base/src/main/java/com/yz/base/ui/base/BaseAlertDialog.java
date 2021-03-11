@@ -52,7 +52,7 @@ public abstract class BaseAlertDialog extends BaseDialog {
 
 	public BaseAlertDialog(Context context) {
 		super(context);
-		View view = LayoutInflater.from(context).inflate(R2.layout.common_dialog_alert, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.common_dialog_alert, null);
         setContentView(view);
         setCancelable(false);
 		mFrameLayout.addView(getFrameLayoutView());

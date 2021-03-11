@@ -29,7 +29,7 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return R2.layout.common_popup_grid;
+		return R.layout.common_popup_grid;
 	}
 
 	private int spanCount=1;
@@ -75,9 +75,9 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 		@Override
 		protected void convert(BaseViewHolder helper, PopSelected item) {
-			helper.setBackgroundRes(R2.id.common_popup_grid_item_LinearLayout,item.isSelected()?R.drawable.common_popup_grid_item_red_stroke_bg :R.drawable.common_popup_grid_item_gray_stroke_bg);
-			helper.setImageResource(R2.id.common_popup_grid_item_ImageView_pic,item.getRes());
-			helper.setText(R2.id.common_popup_grid_item_TextView_name, item.getName());
+			helper.setBackgroundRes(R.id.common_popup_grid_item_LinearLayout,item.isSelected()?R.drawable.common_popup_grid_item_red_stroke_bg :R.drawable.common_popup_grid_item_gray_stroke_bg);
+			helper.setImageResource(R.id.common_popup_grid_item_ImageView_pic,item.getRes());
+			helper.setText(R.id.common_popup_grid_item_TextView_name, item.getName());
 		}
 	}
 

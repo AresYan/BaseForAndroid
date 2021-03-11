@@ -41,7 +41,7 @@ public class MyListPopupWindow extends BasePopupWindow {
 
 	@Override
 	protected int getConentView() {
-		return R2.layout.common_popup_list;
+		return R.layout.common_popup_list;
 	}
 
 	private List<PopSelected> selecteds;
