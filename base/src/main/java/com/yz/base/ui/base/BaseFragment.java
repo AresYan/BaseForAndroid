@@ -28,11 +28,11 @@ public abstract class BaseFragment extends Fragment {
 
     private String title;
 
-    public String getTitle() {
+    protected String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    protected void setTitle(String title) {
         this.title = title;
     }
 

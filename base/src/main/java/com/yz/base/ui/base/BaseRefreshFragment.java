@@ -91,6 +91,32 @@ public abstract class BaseRefreshFragment extends BaseFragment {
         }
     }
 
+    protected void setTitle(String title){
+        super.setTitle(title);
+        if(mTitleNameTv!=null){
+            mTitleNameTv.setText(title);
+        }
+    }
+
+    protected void setTitle(String title, int color){
+        setTitle(title);
+        if(mTitleNameTv!=null){
+            mTitleNameTv.setTextColor(color);
+        }
+    }
+
+    protected void setLeft(int rid){
+        if(mTitleLeftImv!=null){
+            mTitleLeftImv.setImageResource(rid);
+        }
+    }
+
+    protected void setRight(String right){
+        if(mTitleRightTv!=null){
+            mTitleRightTv.setText(right);
+        }
+    }
+
     protected void showTitle(){
         if(mTitleLayout!=null){
             mTitleLayout.setVisibility(View.VISIBLE);
@@ -192,4 +218,21 @@ public abstract class BaseRefreshFragment extends BaseFragment {
         }
     }
 
+    protected void setAdapter(RecyclerView.Adapter adapter){
+        if(mRecyclerView!=null){
+            mRecyclerView.setAdapter(adapter);
+        }
+    }
+
+    protected void setLayoutManager(RecyclerView.LayoutManager manager){
+        if(mRecyclerView!=null){
+            mRecyclerView.setLayoutManager(manager);
+        }
+    }
+
+    protected void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener){
+        if(mSwipeRefreshLayout!=null){
+            mSwipeRefreshLayout.setOnRefreshListener(listener);
+        }
+    }
 }

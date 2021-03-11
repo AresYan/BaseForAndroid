@@ -40,42 +40,6 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     @BindView(R2.id.include_common_data_empty)
     View mDataEmptyView;
 
-    public LinearLayout getLinearLayout() {
-        return mLinearLayout;
-    }
-
-    public RelativeLayout getTitleLayout() {
-        return mTitleLayout;
-    }
-
-    public ImageView getTitleLeftImv() {
-        return mTitleLeftImv;
-    }
-
-    public TextView getTitleNameTv() {
-        return mTitleNameTv;
-    }
-
-    public TextView getTitleRightTv() {
-        return mTitleRightTv;
-    }
-
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
-    public SwipeRefreshLayout getSwipeRefreshLayout() {
-        return mSwipeRefreshLayout;
-    }
-
-    public View getNetErrorView() {
-        return mNetErrorView;
-    }
-
-    public View getDataEmptyView() {
-        return mDataEmptyView;
-    }
-
     @Override
     protected int getContentViewId() {
         return R.layout.common_refresh_activity;
@@ -84,6 +48,31 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     protected void setBackground(int rid) {
         if(mLinearLayout!=null){
             mLinearLayout.setBackgroundResource(rid);
+        }
+    }
+
+    protected void setTitle(String title){
+        if(mTitleNameTv!=null){
+            mTitleNameTv.setText(title);
+        }
+    }
+
+    protected void setTitle(String title, int color){
+        if(mTitleNameTv!=null){
+            mTitleNameTv.setText(title);
+            mTitleNameTv.setTextColor(color);
+        }
+    }
+
+    protected void setLeft(int rid){
+        if(mTitleLeftImv!=null){
+            mTitleLeftImv.setImageResource(rid);
+        }
+    }
+
+    protected void setRight(String right){
+        if(mTitleRightTv!=null){
+            mTitleRightTv.setText(right);
         }
     }
 
@@ -185,6 +174,24 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     protected void setRefreshing(boolean refreshing){
         if(mSwipeRefreshLayout!=null){
             mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
+    }
+
+    protected void setAdapter(RecyclerView.Adapter adapter){
+        if(mRecyclerView!=null){
+            mRecyclerView.setAdapter(adapter);
+        }
+    }
+
+    protected void setLayoutManager(RecyclerView.LayoutManager manager){
+        if(mRecyclerView!=null){
+            mRecyclerView.setLayoutManager(manager);
+        }
+    }
+
+    protected void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener){
+        if(mSwipeRefreshLayout!=null){
+            mSwipeRefreshLayout.setOnRefreshListener(listener);
         }
     }
 
