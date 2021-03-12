@@ -5,69 +5,57 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-/**
- * Created by YZ on 2017/3/31.
- */
-
 public class MyFilterTextWatcher implements TextWatcher {
 
-    private int mMaxLenth = Integer.MAX_VALUE;//设置允许输入的字符长度
-    private int cou = 0;
-    private String filter="";
-    private String beforeStr="";
+    private int maxLenth = Integer.MAX_VALUE;//设置允许输入的字符长度
+    private String filter;
     private boolean isNumber;
-    private double maxValue=0;
-    private int decimalLenth=0;
-    private EditText mEditText;
-    private MyTextWatcherListener mListener;
+    private double maxValue;
+    private double minValue;
+    private int decimalLenth;
+    private EditText editText;
+    private MyTextWatcherListener textWatcherListener;
 
-    public MyFilterTextWatcher(EditText editText){
-        mEditText=editText;
+    private String beforeStr;
+    private int cou;
+
+    public interface MyTextWatcherListener {
+        void afterTextChanged(String s);
     }
 
-    public MyFilterTextWatcher(EditText editText, MyTextWatcherListener listener){
-        mEditText=editText;
-        mListener=listener;
+    private MyFilterTextWatcher(){
     }
 
-    public boolean isNumber() {
-        return isNumber;
+    public void setMaxLenth(int maxLenth) {
+        this.maxLenth = maxLenth;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     public void setNumber(boolean number) {
         isNumber = number;
     }
 
-    public double getMaxValue() {
-        return maxValue;
-    }
-
     public void setMaxValue(double maxValue) {
         this.maxValue = maxValue;
     }
 
-    public int getDecimalLenth() {
-        return decimalLenth;
+    public void setMinValue(double minValue) {
+        this.minValue = minValue;
     }
 
     public void setDecimalLenth(int decimalLenth) {
         this.decimalLenth = decimalLenth;
     }
 
-    public int getMaxLenth() {
-        return mMaxLenth;
+    public void setEditText(EditText editText) {
+        this.editText = editText;
     }
 
-    public void setMaxLenth(int maxLenth) {
-        this.mMaxLenth = maxLenth;
-    }
-
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setTextWatcherListener(MyTextWatcherListener textWatcherListener) {
+        this.textWatcherListener = textWatcherListener;
     }
 
     private String filter(String character) {
@@ -82,17 +70,17 @@ public class MyFilterTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        cou = mEditText.length();
-        if (cou > mMaxLenth) {
-            mEditText.setText(beforeStr);
-            mEditText.setSelection(start);
+        cou = editText.length();
+        if (cou > maxLenth) {
+            editText.setText(beforeStr);
+            editText.setSelection(start);
         }
-        String editable = mEditText.getText().toString().trim();
+        String editable = editText.getText().toString().trim();
         if(!TextUtils.isEmpty(filter)){
             String str=filter(editable);//过滤特殊字符
             if (!editable.equals(str)) {
-                mEditText.setText(str);
-                mEditText.setSelection(start);
+                editText.setText(str);
+                editText.setSelection(start);
             } 
         }
         if(isNumber && !TextUtils.isEmpty(beforeStr) && beforeStr.contains(".") && !TextUtils.isEmpty(editable)){
@@ -104,58 +92,99 @@ public class MyFilterTextWatcher implements TextWatcher {
                     StringBuffer sb=new StringBuffer();
                     sb.append(sub1).append(sub3);
                     String str=sb.toString();
-                    mEditText.setText(str);
+                    editText.setText(str);
                 }
             }catch (Exception e){
                 MyLogger.e(e.getMessage(),e);
             }
         }
-        if(isNumber && !TextUtils.isEmpty(editable) && maxValue>0){
-            try {
-                if(editable.contains(".")){
-                    String[] ss=editable.split("\\.");
-                    String ss0=ss[0];
-                    String ss1=ss[1];
-                    if(!TextUtils.isEmpty(ss0)){
-                        double d0= Double.parseDouble(ss0);
-                        if(Math.abs(d0)>maxValue){
-                            mEditText.setText(beforeStr);
-                            mEditText.setSelection(mEditText.length());
-                        }else if(Math.abs(d0)==maxValue&&!TextUtils.isEmpty(ss1)){
-                            double d1= Double.parseDouble(ss1);
-                            if(d1>0){
-                                mEditText.setText(beforeStr);
-                                mEditText.setSelection(mEditText.length());
-                            }
+        if(isNumber && !TextUtils.isEmpty(editable)){
+            if(maxValue!=0){
+                try {
+                    double d= Double.parseDouble(editable);
+                    if(d>maxValue){
+                        editText.setText(beforeStr);
+                        editText.setSelection(editText.length());
+                    }
+                }catch (Exception e){
+                    MyLogger.e(e.getMessage(),e);
+                }
+            }
+
+            if(minValue!=0){
+                try {
+                    double d= Double.parseDouble(editable);
+                    if(d<minValue){
+                        editText.setText(beforeStr);
+                        editText.setSelection(editText.length());
+                    }
+                }catch (Exception e){
+                    MyLogger.e(e.getMessage(),e);
+                }
+            }
+
+            if(decimalLenth!=0){
+                try {
+                    if(editable.contains(".")){
+                        String[] ss=editable.split("\\.");
+                        String end=ss[1];
+                        if(!TextUtils.isEmpty(end)&&end.length()>decimalLenth){
+                            editText.setText(beforeStr);
+                            editText.setSelection(editText.length());
                         }
                     }
-                }else{
-                    double d= Double.parseDouble(editable);
-                    if(Math.abs(d)>maxValue){
-                        mEditText.setText(beforeStr);
-                        mEditText.setSelection(mEditText.length());
-                    }
+                }catch (Exception e){
+                    MyLogger.e(e.getMessage(),e);
                 }
-            }catch (Exception e){
-                MyLogger.e(e.getMessage(),e);
             }
         }
-        if(isNumber && !TextUtils.isEmpty(editable) && decimalLenth>0){
-            try {
-                if(editable.contains(".")){
-                    String[] ss=editable.split("\\.");
-                    String end=ss[1];
-                    if(!TextUtils.isEmpty(end)&&end.length()>decimalLenth){
-                        mEditText.setText(beforeStr);
-                        mEditText.setSelection(mEditText.length());
-                    }
-                }
-            }catch (Exception e){
-                MyLogger.e(e.getMessage(),e);
-            }
-        }
-        if(mListener!=null){
-            mListener.afterTextChanged(mEditText.getText().toString().trim());
+
+//        if(isNumber && !TextUtils.isEmpty(editable) && maxValue>0){
+//            try {
+//                if(editable.contains(".")){
+//                    String[] ss=editable.split("\\.");
+//                    String ss0=ss[0];
+//                    String ss1=ss[1];
+//                    if(!TextUtils.isEmpty(ss0)){
+//                        double d0= Double.parseDouble(ss0);
+//                        if(Math.abs(d0)>maxValue){
+//                            mEditText.setText(beforeStr);
+//                            mEditText.setSelection(mEditText.length());
+//                        }else if(Math.abs(d0)==maxValue&&!TextUtils.isEmpty(ss1)){
+//                            double d1= Double.parseDouble(ss1);
+//                            if(d1>0){
+//                                mEditText.setText(beforeStr);
+//                                mEditText.setSelection(mEditText.length());
+//                            }
+//                        }
+//                    }
+//                }else{
+//                    double d= Double.parseDouble(editable);
+//                    if(Math.abs(d)>maxValue){
+//                        mEditText.setText(beforeStr);
+//                        mEditText.setSelection(mEditText.length());
+//                    }
+//                }
+//            }catch (Exception e){
+//                MyLogger.e(e.getMessage(),e);
+//            }
+//        }
+//        if(isNumber && !TextUtils.isEmpty(editable) && decimalLenth>0){
+//            try {
+//                if(editable.contains(".")){
+//                    String[] ss=editable.split("\\.");
+//                    String end=ss[1];
+//                    if(!TextUtils.isEmpty(end)&&end.length()>decimalLenth){
+//                        mEditText.setText(beforeStr);
+//                        mEditText.setSelection(mEditText.length());
+//                    }
+//                }
+//            }catch (Exception e){
+//                MyLogger.e(e.getMessage(),e);
+//            }
+//        }
+        if(textWatcherListener!=null){
+            textWatcherListener.afterTextChanged(editText.getText().toString().trim());
         }
     }
 
@@ -163,7 +192,68 @@ public class MyFilterTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable s) {
     }
 
-    public interface MyTextWatcherListener {
-        void afterTextChanged(String s);
+    public static class Builder {
+
+        public boolean isNumber;
+        public int maxLenth;
+        public double maxValue;
+        public double minValue;
+        public int decimalLenth;
+        public String filter;
+        public EditText editText;
+        public MyTextWatcherListener textWatcherlistener;
+
+        public MyFilterTextWatcher.Builder setNumber(boolean number) {
+            isNumber = number;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setMaxLenth(int maxLenth) {
+            this.maxLenth=maxLenth;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setMaxValue(double maxValue) {
+            this.maxValue = maxValue;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setMinValue(double minValue) {
+            this.minValue = minValue;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setDecimalLenth(int decimalLenth) {
+            this.decimalLenth = decimalLenth;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setFilter(String filter) {
+            this.filter = filter;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setEditText(EditText editText) {
+            this.editText = editText;
+            return this;
+        }
+
+        public MyFilterTextWatcher.Builder setTextWatcherlistener(MyTextWatcherListener textWatcherlistener) {
+            this.textWatcherlistener = textWatcherlistener;
+            return this;
+        }
+
+        public MyFilterTextWatcher build() {
+            MyFilterTextWatcher dialog = new MyFilterTextWatcher();
+            dialog.setNumber(isNumber);
+            dialog.setMaxLenth(maxLenth);
+            dialog.setMaxValue(maxValue);
+            dialog.setMinValue(minValue);
+            dialog.setDecimalLenth(decimalLenth);
+            dialog.setFilter(filter);
+            dialog.setEditText(editText);
+            dialog.setTextWatcherListener(textWatcherlistener);
+            return dialog;
+        }
     }
 }
