@@ -52,6 +52,7 @@ public class MyFilterTextWatcher implements TextWatcher {
 
     public void setEditText(EditText editText) {
         this.editText = editText;
+        this.editText.addTextChangedListener(this);
     }
 
     public void setTextWatcherListener(MyTextWatcherListener textWatcherListener) {
