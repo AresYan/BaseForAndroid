@@ -11,7 +11,6 @@ public class MyFilterTextWatcher implements TextWatcher {
     private String filter;
     private boolean isNumber;
     private double maxValue;
-    private double minValue;
     private int decimalLenth;
     private EditText editText;
     private MyTextWatcherListener textWatcherListener;
@@ -40,10 +39,6 @@ public class MyFilterTextWatcher implements TextWatcher {
 
     public void setMaxValue(double maxValue) {
         this.maxValue = maxValue;
-    }
-
-    public void setMinValue(double minValue) {
-        this.minValue = minValue;
     }
 
     public void setDecimalLenth(int decimalLenth) {
@@ -104,18 +99,6 @@ public class MyFilterTextWatcher implements TextWatcher {
                 try {
                     double d= Double.parseDouble(editable);
                     if(d>maxValue){
-                        editText.setText(beforeStr);
-                        editText.setSelection(editText.length());
-                    }
-                }catch (Exception e){
-                    MyLogger.e(e.getMessage(),e);
-                }
-            }
-
-            if(minValue!=0){
-                try {
-                    double d= Double.parseDouble(editable);
-                    if(d<minValue){
                         editText.setText(beforeStr);
                         editText.setSelection(editText.length());
                     }
@@ -198,7 +181,6 @@ public class MyFilterTextWatcher implements TextWatcher {
         public boolean isNumber;
         public int maxLenth;
         public double maxValue;
-        public double minValue;
         public int decimalLenth;
         public String filter;
         public EditText editText;
@@ -216,11 +198,6 @@ public class MyFilterTextWatcher implements TextWatcher {
 
         public MyFilterTextWatcher.Builder setMaxValue(double maxValue) {
             this.maxValue = maxValue;
-            return this;
-        }
-
-        public MyFilterTextWatcher.Builder setMinValue(double minValue) {
-            this.minValue = minValue;
             return this;
         }
 
@@ -249,7 +226,6 @@ public class MyFilterTextWatcher implements TextWatcher {
             dialog.setNumber(isNumber);
             dialog.setMaxLenth(maxLenth);
             dialog.setMaxValue(maxValue);
-            dialog.setMinValue(minValue);
             dialog.setDecimalLenth(decimalLenth);
             dialog.setFilter(filter);
             dialog.setEditText(editText);
