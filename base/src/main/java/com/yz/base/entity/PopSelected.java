@@ -6,9 +6,15 @@ package com.yz.base.entity;
 
 public class PopSelected extends BaseEntity implements Comparable<PopSelected>{
 
+    public static final int RES_TOP=1;
+    public static final int RES_BOTTOM=2;
+    public static final int RES_LEFT=3;
+    public static final int RES_RIGHT=4;
+
     private int id;
     private int res;
     private int resPress;
+    private int resPosition;
     private String name;
     private boolean isSelected;
     private int position;
@@ -35,6 +41,14 @@ public class PopSelected extends BaseEntity implements Comparable<PopSelected>{
 
     public void setResPress(int resPress) {
         this.resPress = resPress;
+    }
+
+    public int getResPosition() {
+        return resPosition;
+    }
+
+    public void setResPosition(int resPosition) {
+        this.resPosition = resPosition;
     }
 
     public String getName() {

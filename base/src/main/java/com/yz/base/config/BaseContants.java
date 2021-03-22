@@ -9,7 +9,7 @@ public class BaseContants {
 
     public static class IntentKey{
         public final static String ORIENTATION="orientation";
-        public final static String NOTITF_MSG="MyNotifyMsg";
+        public final static String NOTITF_MSG="NotifyMsg";
         public final static String STATUSBAR_MODE="StatusBarMode";
     }
 
