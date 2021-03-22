@@ -12,16 +12,16 @@ import com.blankj.utilcode.util.ScreenUtils;
 import butterknife.ButterKnife;
 
 public abstract class BasePopupWindow extends PopupWindow {
-	
-	public Context mContext;
 
-	public BasePopupWindowListener listener;
+	private Context mContext;
+
+	private BasePopupWindowListener listener;
 
 	public void setBasePopupWindowListener(BasePopupWindowListener listener) {
 		this.listener = listener;
 	}
 
-	public BasePopupWindow(Context context) {
+	private BasePopupWindow(Context context) {
 		mContext=context;
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(getConentView(), null);

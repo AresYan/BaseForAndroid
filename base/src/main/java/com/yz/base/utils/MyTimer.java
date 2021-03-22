@@ -11,85 +11,116 @@ public class MyTimer {
 
     private Timer mTimer;
     private TimerTask mTimerTask;
+    private boolean isPause = true;
+
     private long index = 0;
     private long delay = 1000;  //1s
     private long period = 1000;  //1s
-    private boolean isKeep = false;
-    private boolean isPause = false;
-    private boolean isDownTimer = false;
-    private boolean isMainTheard = false;
+    private boolean isDownTimer;
+    private boolean isMainTheard;
     private TimerListener listener;
 
-    public MyTimer index(long index){
-        this.index = index;
-        return this;
-    }
-
-    public MyTimer delay(long delay){
-        this.delay = delay;
-        return this;
-    }
-
-    public MyTimer period(long period){
-        this.period = period;
-        return this;
-    }
-
-    public MyTimer isDownTimer(boolean isDownTimer){
-        this.isDownTimer = isDownTimer;
-        return this;
-    }
-
-    public MyTimer isMainTheard(boolean isMainTheard){
-        this.isMainTheard = isMainTheard;
-        return this;
-    }
-
-    public MyTimer listener(TimerListener listener){
-        this.listener = listener;
-        return this;
-    }
-
-    public MyTimer schedule() {
-        isKeep=true;
-        isPause=false;
-        if(mTimer==null){
-            mTimer=new Timer();
-        }
-        if(mTimerTask==null){
-            mTimerTask= new TimerTask() {
-                @Override
-                public void run() {
-                    if(isKeep){
-                        do {
-                            try {
-                                Thread.sleep(period);
-                            } catch (InterruptedException e) {
-                                MyLogger.e(e.getMessage(),e);
-                            }
-                        } while (isPause);
-                        if(isKeep){
-                            if(isDownTimer){
-                                index--;
-                            }else{
-                                index++;
-                            }
-                            keep(index);
+    private MyTimer(){
+        mTimer=new Timer();
+        mTimerTask= new TimerTask() {
+            @Override
+            public void run() {
+                do {
+                    try {
+                        Thread.sleep(period);
+                    } catch (InterruptedException e) {
+                        MyLogger.e(e.getMessage(),e);
+                    }
+                } while (isPause);
+                if(isDownTimer){
+                    index--;
+                }else{
+                    index++;
+                }
+                if(!isMainTheard){
+                    if(listener!=null){
+                        listener.onKeep(index);
+                    }
+                    return;
+                }
+                MyMainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(listener!=null){
+                            listener.onKeep(index);
                         }
                     }
-                }
-            };
-        }
+                });
+            }
+        };
         mTimer.schedule(mTimerTask, delay, period);
-        start();
-        return this;
     }
 
-    public void cancel() {
-        end();
-        index = 0;
-        isKeep=false;
+    public boolean isPause() {
+        return isPause;
+    }
+
+    public void setIndex(long index) {
+        this.index = index;
+    }
+
+    public void setDelay(long delay) {
+        this.delay = delay;
+    }
+
+    public void setPeriod(long period) {
+        this.period = period;
+    }
+
+    public void setDownTimer(boolean downTimer) {
+        isDownTimer = downTimer;
+    }
+
+    public void setMainTheard(boolean mainTheard) {
+        isMainTheard = mainTheard;
+    }
+
+    public void setListener(TimerListener listener) {
+        this.listener = listener;
+    }
+
+    public void start(){
         isPause=false;
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.onStart();
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.onStart();
+                }
+            }
+        });
+    }
+
+    public void pause(){
+        isPause=true;
+        if(!isMainTheard){
+            if(listener!=null){
+                listener.onPause();
+            }
+            return;
+        }
+        MyMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(listener!=null){
+                    listener.onPause();
+                }
+            }
+        });
+    }
+
+    public void destroy() {
         if(mTimer!=null){
             mTimer.cancel();
             mTimer=null;
@@ -100,106 +131,60 @@ public class MyTimer {
         }
     }
 
-    public void pause(){
-        isPause=true;
-        if(!isMainTheard){
-            if(listener!=null){
-                listener.pause(MyTimer.this);
-            }
-            return;
-        }
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(listener!=null){
-                    listener.pause(MyTimer.this);
-                }
-            }
-        });
-    }
-
-    public void resume(){
-        isPause=false;
-        if(!isMainTheard){
-            if(listener!=null){
-                listener.resume(MyTimer.this);
-            }
-            return;
-        }
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(listener!=null){
-                    listener.resume(MyTimer.this);
-                }
-            }
-        });
-    }
-
-    public boolean isKeep(){
-        return isKeep;
-    }
-
-    public boolean isPause() {
-        return isPause;
-    }
-
-    private void start(){
-        if(!isMainTheard){
-            if(listener!=null){
-                listener.start(MyTimer.this);
-            }
-            return;
-        }
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(listener!=null){
-                    listener.start(MyTimer.this);
-                }
-            }
-        });
-    }
-
-    private void end(){
-        if(!isMainTheard){
-            if(listener!=null){
-                listener.end(MyTimer.this);
-            }
-            return;
-        }
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(listener!=null){
-                    listener.end(MyTimer.this);
-                }
-            }
-        });
-    }
-
-    private void keep(long index){
-        if(!isMainTheard){
-            if(listener!=null){
-                listener.keep(MyTimer.this,index);
-            }
-            return;
-        }
-        MyMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(listener!=null){
-                    listener.keep(MyTimer.this,index);
-                }
-            }
-        });
-    }
-
     public interface TimerListener {
-        void start(MyTimer timer);
-        void end(MyTimer timer);
-        void resume(MyTimer timer);
-        void pause(MyTimer timer);
-        void keep(MyTimer timer, long t);
+        void onStart();
+        void onPause();
+        void onKeep(long t);
+    }
+
+    public static class Builder {
+
+        private long index = 0;
+        private long delay = 1000;  //1s
+        private long period = 1000;  //1s
+        private boolean isDownTimer = false;
+        private boolean isMainTheard = false;
+        private TimerListener listener;
+
+        public MyTimer.Builder setIndex(long index) {
+            this.index = index;
+            return this;
+        }
+
+        public MyTimer.Builder setDelay(long delay) {
+            this.delay = delay;
+            return this;
+        }
+
+        public MyTimer.Builder setPeriod(long period) {
+            this.period = period;
+            return this;
+        }
+
+        public MyTimer.Builder setDownTimer(boolean downTimer) {
+            isDownTimer = downTimer;
+            return this;
+        }
+
+        public MyTimer.Builder setMainTheard(boolean mainTheard) {
+            isMainTheard = mainTheard;
+            return this;
+        }
+
+        public MyTimer.Builder setListener(TimerListener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+        public MyTimer build() {
+            MyTimer timer = new MyTimer();
+            timer.setIndex(index);
+            timer.setDelay(delay);
+            timer.setPeriod(period);
+            timer.setDownTimer(isDownTimer);
+            timer.setMainTheard(isMainTheard);
+            timer.setListener(listener);
+            return timer;
+        }
     }
 }
