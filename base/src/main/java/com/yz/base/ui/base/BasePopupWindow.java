@@ -25,7 +25,7 @@ public abstract class BasePopupWindow extends PopupWindow {
 		this.basePopupWindowListener = basePopupWindowListener;
 	}
 
-	public BasePopupWindow() {
+	public void initView() {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(getConentView(), null);
 		int h = ScreenUtils.getScreenHeight()/2;
@@ -65,23 +65,30 @@ public abstract class BasePopupWindow extends PopupWindow {
 		}
 	}
 
-	public interface BasePopupWindowListener<T> {
-		void onClick(T item);
-	}
-
 	public static abstract class Builder {
-		public Context context;
-		public BasePopupWindowListener listener;
+		protected Context context;
+		protected BasePopupWindowListener listener;
 
-		public Builder(Context context){
+		protected BasePopupWindow.Builder setContext(Context context){
 			this.context=context;
+			return this;
 		}
 
-		public BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
+		protected BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
 			this.listener = listener;
 			return this;
 		}
 
-		public abstract BasePopupWindow build();
+		protected void construct(BasePopupWindow dialog) {
+			dialog.setContext(context);
+			dialog.setBasePopupWindowListener(listener);
+			dialog.initView();
+		}
+
+		protected abstract BasePopupWindow build();
+	}
+
+	public interface BasePopupWindowListener<T> {
+		void onClick(T item);
 	}
 }

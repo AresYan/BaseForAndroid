@@ -1,6 +1,5 @@
 package com.yz.base.ui.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,8 +98,14 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		this.mDatelistener = mDatelistener;
 	}
 
-	private MyDatePopupWindow() {
-		super();
+	@Override
+	protected int getConentView() {
+		return R.layout.common_popup_wheel;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
 		itemHeight = (int) context.getResources().getDimension(R.dimen.d120);
 		setHeight(itemHeight*(ITEM_NUM +1));
 		dayWv = getDayWheelView(getDayArray(getStartYear(),1));
@@ -123,15 +128,6 @@ public class MyDatePopupWindow extends BasePopupWindow {
 				dismiss();
 			}
 		});
-	}
-
-	@Override
-	protected int getConentView() {
-		return R.layout.common_popup_wheel;
-	}
-
-	@Override
-	public void show(View parent) {
 		if(type==TYPE_YMD){
 			Wv4.setVisibility(View.GONE);
 			Wv5.setVisibility(View.GONE);
@@ -146,7 +142,6 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		}
 		hourWv.setCurrent(hour);
 		minWv.setCurrent(min);
-		super.show(parent);
 	}
 
 	private int getStartYear(){
@@ -502,17 +497,13 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 	public static class Builder extends BasePopupWindow.Builder{
 
-		private MyDatePopupWindowListener listener;
 		private int type;
 		private int year=0;
 		private int month=0;
 		private int day=0;
 		private int hour=0;
 		private int min=0;
-
-		public Builder(Context context) {
-			super(context);
-		}
+		private MyDatePopupWindowListener listener;
 
 		public Builder setType(int type) {
 			this.type=type;
@@ -558,6 +549,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 			dialog.setHour(hour);
 			dialog.setMin(min);
 			dialog.setDatelistener(listener);
+			super.construct(dialog);
 		}
 
 		@Override

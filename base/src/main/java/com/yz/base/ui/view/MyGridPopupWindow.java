@@ -1,6 +1,5 @@
 package com.yz.base.ui.view;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,14 +19,6 @@ import butterknife.BindView;
 
 public class MyGridPopupWindow extends BasePopupWindow {
 
-	@BindView(R2.id.common_popup_grid_RecyclerView)
-	RecyclerView mRecyclerView;
-
-	@Override
-	protected int getConentView() {
-		return R.layout.common_popup_grid;
-	}
-
 	private int spanCount=1;
 	private List<PopSelected> selecteds;
 
@@ -39,28 +30,34 @@ public class MyGridPopupWindow extends BasePopupWindow {
 		this.selecteds=selecteds;
 	}
 
+	@BindView(R2.id.common_popup_grid_RecyclerView)
+	RecyclerView mRecyclerView;
+
 	@Override
-	public void show(View parent) {
-		if(selecteds!=null){
-			setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-			mRecyclerView.setLayoutManager(new GridLayoutManager(context, spanCount));
-			final MyGridPopupWindowAdapter adapter=new MyGridPopupWindowAdapter(selecteds);
-			mRecyclerView.setAdapter(adapter);
-			mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-				@Override
-				public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-					dismiss();
-					int size=selecteds.size();
-					for (int j=0; j<size; j++){
-						selecteds.get(j).setSelected(j==i?true:false);
-					}
-					if(basePopupWindowListener!=null){
-						basePopupWindowListener.onClick(selecteds.get(i));
-					}
+	protected int getConentView() {
+		return R.layout.common_popup_grid;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
+		setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+		mRecyclerView.setLayoutManager(new GridLayoutManager(context, spanCount));
+		final MyGridPopupWindowAdapter adapter=new MyGridPopupWindowAdapter(selecteds);
+		mRecyclerView.setAdapter(adapter);
+		mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+			@Override
+			public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+				dismiss();
+				int size=selecteds.size();
+				for (int j=0; j<size; j++){
+					selecteds.get(j).setSelected(j==i?true:false);
 				}
-			});
-		}
-		super.show(parent);
+				if(basePopupWindowListener!=null){
+					basePopupWindowListener.onClick(selecteds.get(i));
+				}
+			}
+		});
 	}
 
 	public class MyGridPopupWindowAdapter extends BaseAdapter<PopSelected> {
@@ -82,10 +79,6 @@ public class MyGridPopupWindow extends BasePopupWindow {
 		public int spanCount=1;
 		public List<PopSelected> selecteds;
 
-		public Builder(Context context) {
-			super(context);
-		}
-
 		public Builder setSpanCount(int spanCount) {
 			this.spanCount=spanCount;
 			return this;
@@ -100,6 +93,7 @@ public class MyGridPopupWindow extends BasePopupWindow {
 			dialog.setSpanCount(spanCount);
 			dialog.setPopSelecteds(selecteds);
 			dialog.setBasePopupWindowListener(listener);
+			super.construct(dialog);
 		}
 
 		@Override

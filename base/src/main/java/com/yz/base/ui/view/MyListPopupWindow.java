@@ -1,6 +1,5 @@
 package com.yz.base.ui.view;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +20,12 @@ import butterknife.BindView;
 
 public class MyListPopupWindow extends BasePopupWindow {
 
+	private List<PopSelected> selecteds;
+
+	public void setPopSelecteds(List<PopSelected> selecteds) {
+		this.selecteds=selecteds;
+	}
+
 	@BindView(R2.id.common_popup_list_RecyclerView)
 	RecyclerView mRecyclerView;
 	@BindView(R2.id.common_popup_list_TextView_cannel)
@@ -29,12 +34,6 @@ public class MyListPopupWindow extends BasePopupWindow {
 	@Override
 	protected int getConentView() {
 		return R.layout.common_popup_list;
-	}
-
-	private List<PopSelected> selecteds;
-
-	public void setPopSelecteds(List<PopSelected> selecteds) {
-		this.selecteds=selecteds;
 	}
 
 	@Override
@@ -81,19 +80,14 @@ public class MyListPopupWindow extends BasePopupWindow {
 
 		public List<PopSelected> selecteds;
 
-		public Builder(Context context) {
-			super(context);
-		}
-
 		public Builder setPopSelecteds(List<PopSelected> selecteds) {
 			this.selecteds=selecteds;
 			return this;
 		}
 
 		private void construct(MyListPopupWindow dialog) {
-			dialog.setContext(context);
 			dialog.setPopSelecteds(selecteds);
-			dialog.setBasePopupWindowListener(listener);
+			super.construct(dialog);
 		}
 
 		@Override
