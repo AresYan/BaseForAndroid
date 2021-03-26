@@ -1,5 +1,6 @@
 package com.yz.base.ui.view;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -79,6 +80,10 @@ public class MyListPopupWindow extends BasePopupWindow {
 	public static class Builder extends BasePopupWindow.Builder{
 
 		public List<PopSelected> selecteds;
+
+		public Builder(Context context) {
+			super(context);
+		}
 
 		public Builder setPopSelecteds(List<PopSelected> selecteds) {
 			this.selecteds=selecteds;

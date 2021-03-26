@@ -1,5 +1,6 @@
 package com.yz.base.ui.view;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -78,6 +79,10 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 		public int spanCount=1;
 		public List<PopSelected> selecteds;
+
+		public Builder(Context context) {
+			super(context);
+		}
 
 		public Builder setSpanCount(int spanCount) {
 			this.spanCount=spanCount;

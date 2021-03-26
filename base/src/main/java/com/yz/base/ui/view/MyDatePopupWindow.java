@@ -505,6 +505,10 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		private int min=0;
 		private MyDatePopupWindowListener listener;
 
+		public Builder(Context context) {
+			super(context);
+		}
+
 		public Builder setType(int type) {
 			this.type=type;
 			return this;

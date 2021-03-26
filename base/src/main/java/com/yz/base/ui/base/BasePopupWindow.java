@@ -69,9 +69,8 @@ public abstract class BasePopupWindow extends PopupWindow {
 		public Context context;
 		public BasePopupWindowListener listener;
 
-		public BasePopupWindow.Builder setContext(Context context){
+		public Builder(Context context){
 			this.context=context;
-			return this;
 		}
 
 		public BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
