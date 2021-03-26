@@ -19,7 +19,6 @@ import com.yz.base.ui.base.BasePopupWindow;
 import java.util.Calendar;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * @author :yanzheng
@@ -100,9 +99,9 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		this.mDatelistener = mDatelistener;
 	}
 
-	private MyDatePopupWindow(Context context) {
-		super(context);
-		itemHeight = (int) mContext.getResources().getDimension(R.dimen.d120);
+	private MyDatePopupWindow() {
+		super();
+		itemHeight = (int) context.getResources().getDimension(R.dimen.d120);
 		setHeight(itemHeight*(ITEM_NUM +1));
 		dayWv = getDayWheelView(getDayArray(getStartYear(),1));
 		monthWv = getMonthWheelView(getMonthArray());
@@ -551,6 +550,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 		}
 
 		private void construct(MyDatePopupWindow dialog) {
+			dialog.setContext(context);
 			dialog.setType(type);
 			dialog.setYear(year);
 			dialog.setMonth(month);
@@ -562,7 +562,7 @@ public class MyDatePopupWindow extends BasePopupWindow {
 
 		@Override
 		public MyDatePopupWindow build() {
-			MyDatePopupWindow dialog = new MyDatePopupWindow(context);
+			MyDatePopupWindow dialog = new MyDatePopupWindow();
 			construct(dialog);
 			return dialog;
 		}

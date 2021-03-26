@@ -13,17 +13,20 @@ import butterknife.ButterKnife;
 
 public abstract class BasePopupWindow extends PopupWindow {
 
-	private Context mContext;
+	protected Context context;
 
-	private BasePopupWindowListener listener;
+	protected BasePopupWindowListener basePopupWindowListener;
 
-	public void setBasePopupWindowListener(BasePopupWindowListener listener) {
-		this.listener = listener;
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
-	private BasePopupWindow(Context context) {
-		mContext=context;
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public void setBasePopupWindowListener(BasePopupWindowListener basePopupWindowListener) {
+		this.basePopupWindowListener = basePopupWindowListener;
+	}
+
+	public BasePopupWindow() {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(getConentView(), null);
 		int h = ScreenUtils.getScreenHeight()/2;
 		int w = ScreenUtils.getScreenWidth();

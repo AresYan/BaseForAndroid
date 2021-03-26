@@ -23,10 +23,6 @@ public class MyGridPopupWindow extends BasePopupWindow {
 	@BindView(R2.id.common_popup_grid_RecyclerView)
 	RecyclerView mRecyclerView;
 
-	private MyGridPopupWindow(Context context){
-		super(context);
-	}
-
 	@Override
 	protected int getConentView() {
 		return R.layout.common_popup_grid;
@@ -47,7 +43,7 @@ public class MyGridPopupWindow extends BasePopupWindow {
 	public void show(View parent) {
 		if(selecteds!=null){
 			setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-			mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, spanCount));
+			mRecyclerView.setLayoutManager(new GridLayoutManager(context, spanCount));
 			final MyGridPopupWindowAdapter adapter=new MyGridPopupWindowAdapter(selecteds);
 			mRecyclerView.setAdapter(adapter);
 			mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -58,8 +54,8 @@ public class MyGridPopupWindow extends BasePopupWindow {
 					for (int j=0; j<size; j++){
 						selecteds.get(j).setSelected(j==i?true:false);
 					}
-					if(listener!=null){
-						listener.onClick(selecteds.get(i));
+					if(basePopupWindowListener!=null){
+						basePopupWindowListener.onClick(selecteds.get(i));
 					}
 				}
 			});
@@ -108,7 +104,7 @@ public class MyGridPopupWindow extends BasePopupWindow {
 
 		@Override
 		public MyGridPopupWindow build() {
-			MyGridPopupWindow dialog = new MyGridPopupWindow(context);
+			MyGridPopupWindow dialog = new MyGridPopupWindow();
 			construct(dialog);
 			return dialog;
 		}

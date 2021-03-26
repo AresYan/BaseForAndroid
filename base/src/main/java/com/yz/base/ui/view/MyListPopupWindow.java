@@ -26,10 +26,6 @@ public class MyListPopupWindow extends BasePopupWindow {
 	@BindView(R2.id.common_popup_list_TextView_cannel)
 	TextView mCannelTv;
 
-	private MyListPopupWindow(Context context){
-		super(context);
-	}
-
 	@Override
 	protected int getConentView() {
 		return R.layout.common_popup_list;
@@ -45,17 +41,17 @@ public class MyListPopupWindow extends BasePopupWindow {
 	public void show(View parent) {
 		if(selecteds!=null){
 			int size=selecteds.size();
-			int w1 = (int) mContext.getResources().getDimension(R.dimen.d160);
-			int w2 = (int) mContext.getResources().getDimension(R.dimen.d152);
+			int w1 = (int) context.getResources().getDimension(R.dimen.d160);
+			int w2 = (int) context.getResources().getDimension(R.dimen.d152);
 			setHeight(w1+w2*(size>5?5:size));
-			mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+			mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 			mRecyclerView.setAdapter(new MyListPopupWindowAdapter(selecteds));
 			mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 				@Override
 				public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 					dismiss();
-					if(listener!=null){
-						listener.onClick(selecteds.get(i));
+					if(basePopupWindowListener!=null){
+						basePopupWindowListener.onClick(selecteds.get(i));
 					}
 				}
 			});
@@ -95,13 +91,14 @@ public class MyListPopupWindow extends BasePopupWindow {
 		}
 
 		private void construct(MyListPopupWindow dialog) {
+			dialog.setContext(context);
 			dialog.setPopSelecteds(selecteds);
 			dialog.setBasePopupWindowListener(listener);
 		}
 
 		@Override
 		public MyListPopupWindow build() {
-			MyListPopupWindow dialog = new MyListPopupWindow(context);
+			MyListPopupWindow dialog = new MyListPopupWindow();
 			construct(dialog);
 			return dialog;
 		}
