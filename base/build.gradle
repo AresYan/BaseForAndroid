@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'com.king.thread:nevercrash:1.0.0'
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
+    implementation 'io.netty:netty-all:4.1.8.Final'
 }
 configurations {
     compile.exclude module: 'annotations'

@@ -14,8 +14,8 @@ public class MyTimer {
     private boolean isPause = true;
 
     private long index = 0;
-    private long delay = 1000;  //1s
-    private long period = 1000;  //1s
+    private long delay = 1000;//1s
+    private long period = 1000;//1s
     private boolean isDownTimer;
     private boolean isMainTheard;
     private TimerListener listener;
