@@ -66,26 +66,26 @@ public abstract class BasePopupWindow extends PopupWindow {
 	}
 
 	public static abstract class Builder {
-		protected Context context;
-		protected BasePopupWindowListener listener;
+		public Context context;
+		public BasePopupWindowListener listener;
 
-		protected BasePopupWindow.Builder setContext(Context context){
+		public BasePopupWindow.Builder setContext(Context context){
 			this.context=context;
 			return this;
 		}
 
-		protected BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
+		public BasePopupWindow.Builder setBasePopupWindowListener(BasePopupWindowListener listener) {
 			this.listener = listener;
 			return this;
 		}
 
-		protected void construct(BasePopupWindow dialog) {
+		public void construct(BasePopupWindow dialog) {
 			dialog.setContext(context);
 			dialog.setBasePopupWindowListener(listener);
 			dialog.initView();
 		}
 
-		protected abstract BasePopupWindow build();
+		public abstract BasePopupWindow build();
 	}
 
 	public interface BasePopupWindowListener<T> {
