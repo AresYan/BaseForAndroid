@@ -2,11 +2,9 @@ package com.yz.base.ui.base;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -43,10 +41,6 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     @Override
     protected int getContentViewId() {
         return R.layout.common_refresh_activity;
-    }
-
-    protected void setBackground(int rid) {
-        getWindow().getDecorView().setBackgroundResource(rid);
     }
 
     protected void setTitle(String title){
@@ -90,6 +84,18 @@ public abstract class BaseRefreshActivity extends BaseActivity{
     protected void hideTitle(){
         if(mTitleLayout!=null){
             mTitleLayout.setVisibility(View.GONE);
+        }
+    }
+
+    protected void setTitleBackground(int rid){
+        if(mTitleLayout!=null){
+            mTitleLayout.setBackgroundResource(rid);
+        }
+    }
+
+    protected void setContentBackground(int rid){
+        if(mRecyclerView!=null){
+            mRecyclerView.setBackgroundResource(rid);
         }
     }
 

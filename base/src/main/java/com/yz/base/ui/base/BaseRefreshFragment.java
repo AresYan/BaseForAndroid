@@ -2,7 +2,6 @@ package com.yz.base.ui.base;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,10 +46,6 @@ public abstract class BaseRefreshFragment extends BaseFragment {
         return R.layout.common_refresh_activity;
     }
 
-    protected void setBackground(int rid) {
-        getView().setBackgroundResource(rid);
-    }
-
     protected void setTitle(String title){
         if(mTitleNameTv!=null){
             mTitleNameTv.setText(title);
@@ -92,6 +87,18 @@ public abstract class BaseRefreshFragment extends BaseFragment {
     protected void hideTitle(){
         if(mTitleLayout!=null){
             mTitleLayout.setVisibility(View.GONE);
+        }
+    }
+
+    protected void setTitleBackground(int rid){
+        if(mTitleLayout!=null){
+            mTitleLayout.setBackgroundResource(rid);
+        }
+    }
+
+    protected void setContentBackground(int rid){
+        if(mRecyclerView!=null){
+            mRecyclerView.setBackgroundResource(rid);
         }
     }
 
