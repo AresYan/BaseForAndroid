@@ -24,8 +24,9 @@ public interface IMarker extends IPoly{
     void setOnMarkerDragListener(OnMarkerDragListener listener);
     void setInfoWindow(IInfoWindow infoWindow);
     IInfoWindow getInfoWindow();
-    void setInfoWindowData(Object data);
     void setInfoWindowEnable(boolean isEnable);
+    void showInfoWindow();
+    void hideInfoWindow();
     boolean isInfoWindowShown();
     boolean isInfoWindowEnable();
 }
