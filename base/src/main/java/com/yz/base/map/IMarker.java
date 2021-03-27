@@ -1,6 +1,5 @@
 package com.yz.base.map;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -24,9 +23,9 @@ public interface IMarker extends IPoly{
     void setOnMarkerDragListener(OnMarkerDragListener listener);
     void setInfoWindow(IInfoWindow infoWindow);
     IInfoWindow getInfoWindow();
-    void setInfoWindowEnable(boolean isEnable);
     void showInfoWindow();
     void hideInfoWindow();
+    void setInfoWindowEnable(boolean isEnable);
     boolean isInfoWindowShown();
     boolean isInfoWindowEnable();
 }
