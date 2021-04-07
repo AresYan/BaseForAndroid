@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yz.base.R;
 import com.yz.base.R2;
 import com.yz.base.utils.MyMainHandler;
@@ -137,45 +139,45 @@ public abstract class BaseRefreshFragment extends BaseFragment {
     }
 
     protected void setEnableLoadMore(boolean enable){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).setEnableLoadMore(enable);
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).setEnableLoadMore(enable);
         }
     }
 
     protected <T> void setNewData(List<T> data){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).setNewData(data);
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).setNewData(data);
         }
     }
 
     protected <T> void addData(List<T> data){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).addData(data);
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).addData(data);
         }
     }
 
     protected <T> List<T> getData(){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            return ((BaseAdapter)mRecyclerView.getAdapter()).getData();
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            return ((BaseQuickAdapter)mRecyclerView.getAdapter()).getData();
         }
         return new ArrayList<T>();
     }
 
     protected void loadMoreComplete(){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).loadMoreComplete();
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).loadMoreComplete();
         }
     }
 
     protected void loadMoreFail(){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).loadMoreFail();
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).loadMoreFail();
         }
     }
 
     protected void loadMoreEnd(){
-        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseAdapter){
-            ((BaseAdapter)mRecyclerView.getAdapter()).loadMoreEnd();
+        if(mRecyclerView!=null&&mRecyclerView.getAdapter()!=null&&mRecyclerView.getAdapter() instanceof BaseQuickAdapter){
+            ((BaseQuickAdapter)mRecyclerView.getAdapter()).loadMoreEnd();
         }
     }
 
