@@ -58,6 +58,10 @@ public abstract class BaseEaseHttp {
         isPostParamsUrl = postParamsUrl;
     }
 
+    public void init(Application application){
+        init(application,mSuccess,mInvalid);
+    }
+
     public void init(Application application, int success, int invalid){
         mContext=application.getApplicationContext();
         mSuccess=success;
@@ -97,7 +101,7 @@ public abstract class BaseEaseHttp {
         StringBuffer buffer=new StringBuffer();
         if(params!=null && params instanceof Map && ! ((Map)params).isEmpty()){
             for (Object key : ((Map)params).keySet()) {
-                buffer.append(key).append("=").append(((Map) params).get(key));
+                buffer.append(key).append("=").append(((Map)params).get(key));
                 buffer.append("&");
             }
         }
@@ -198,7 +202,7 @@ public abstract class BaseEaseHttp {
         return execute(request,"POST",baseUrl+url,content,type,listener);
     }
 
-    public <T> Disposable execute(final BaseRequest request, final String mode, final String url, final String params, final Type type, final MyResultListener<T> listener){
+    public <T> Disposable execute(BaseRequest request, String mode, String url, String params, Type type, MyResultListener<T> listener){
         CallBack callBack=new CallBack<String>() {
             @Override
             public void onStart() {
@@ -233,7 +237,7 @@ public abstract class BaseEaseHttp {
         return null;
     }
 
-    public Disposable download(final String baseUrl, final String url, final String dir, final String name, final MyResultDownloadListener listener){
+    public Disposable download(String baseUrl, String url, String dir, String name, MyResultProgressListener listener){
         if(!isConnected(listener)){
             return null;
         }
@@ -253,7 +257,7 @@ public abstract class BaseEaseHttp {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
                 int progress = (int) (bytesRead * 100 / contentLength);
-                downloading(listener,progress,done);
+                progress(listener,progress);
             }
             @Override
             public void onComplete(String path) {
@@ -273,9 +277,9 @@ public abstract class BaseEaseHttp {
         return true;
     }
 
-    public abstract <T> void result(final String result, final Type type, final MyResultListener<T> listener);;
+    public abstract <T> void result(String result, Type type, MyResultListener<T> listener);;
 
-    public <T> void failure(final MyResultListener<T> listener, final String msg) {
+    public <T> void failure(MyResultListener<T> listener, final String msg) {
         MyMainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -288,7 +292,7 @@ public abstract class BaseEaseHttp {
         });
     }
 
-    public <T> void success(final MyResultListener<T> listener, final T t, final boolean hasMore) {
+    public <T> void success(MyResultListener<T> listener, T t, boolean hasMore) {
         MyMainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -301,7 +305,7 @@ public abstract class BaseEaseHttp {
         });
     }
 
-    public <T> void start(final MyResultListener<T> listener) {
+    public <T> void start(MyResultListener<T> listener) {
         MyMainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -310,11 +314,11 @@ public abstract class BaseEaseHttp {
         });
     }
 
-    public <T> void downloading(final MyResultDownloadListener listener, final int progress, final boolean done) {
+    public <T> void progress(MyResultProgressListener listener, int progress) {
         MyMainHandler.post(new Runnable() {
             @Override
             public void run() {
-                listener.onDownloading(progress,done);
+                listener.onProgress(progress);
             }
         });
     }
