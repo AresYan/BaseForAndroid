@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yz.base.R;
 import com.yz.base.http.MyEasyHttpHelper;
-import com.yz.base.http.MyResultDownloadListener;
+import com.yz.base.http.MyResultProgressListener;
 import com.yz.base.item.CommonItem;
 import com.yz.base.ui.base.BaseActivity;
 import com.yz.base.ui.base.BaseAlertDialog;
@@ -110,7 +110,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 		}
 		String dir = MyFileUtils.getTYJWPath();
 		String path = dir + name;
-		MyEasyHttpHelper.getInstance().download(url.replace(name,""), name, dir, name, new MyResultDownloadListener() {
+		MyEasyHttpHelper.getInstance().download(url.replace(name,""), name, dir, name, new MyResultProgressListener() {
 			@Override
 			public void onStart() {
 			}
@@ -121,15 +121,15 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 			public void onSuccess(Object result) {
 			}
 			@Override
-			public void onDownloading(int progress, boolean done) {
-				setProgress(progress);
-				if(done){
-					success(path);
-				}
-			}
-			@Override
 			public void onFailure(String msg) {
 				failure();
+			}
+			@Override
+			public void onProgress(int progress) {
+				setProgress(progress);
+				if(progress==100){
+					success(path);
+				}
 			}
 		});
 	}
