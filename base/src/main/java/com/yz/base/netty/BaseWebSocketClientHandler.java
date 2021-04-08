@@ -1,5 +1,7 @@
 package com.yz.base.netty;
 
+import com.yz.base.utils.MyLogger;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -82,6 +84,7 @@ public class BaseWebSocketClientHandler extends SimpleChannelInboundHandler<Obje
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        MyLogger.d("=====exceptionCaught : "+cause.getMessage());
         cause.printStackTrace();
         if (!handshakeFuture.isDone()) {
             handshakeFuture.setFailure(cause);
