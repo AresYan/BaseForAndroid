@@ -52,7 +52,7 @@ public abstract class BaseWebSocketClient extends BaseSocketClient {
             if(mGroup==null){
                 mGroup = new NioEventLoopGroup();
             }
-            BaseWebSocketClientHandler handler = new BaseWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, false, new DefaultHttpHeaders(), 5*1024*1024));
+            BaseWebSocketClientHandler handler = new BaseWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, false, new DefaultHttpHeaders(), 8*1024*1024));
             handler.setListener(new BaseWebSocketClientHandler.BaseWebSocketListener(){
                 @Override
                 public void connected() {
