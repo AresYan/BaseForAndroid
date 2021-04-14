@@ -16,15 +16,17 @@ public class MyActivityManager {
         if (instance == null) {
             instance = new MyActivityManager();
         }
+        if (activityStack == null) {
+            activityStack = new Stack<>();
+        }
         return instance;
     }
 
     // 添加Activity
     public void addActivity(Activity activity) {
-        if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+        if (activityStack != null) {
+            activityStack.add(activity);
         }
-        activityStack.add(activity);
     }
 
     // 移除Activity
@@ -35,16 +37,16 @@ public class MyActivityManager {
     }
 
     // 清空Activity
-    public void finishAllActivity(boolean iskillProcess) {
-        for (int i = 0; i < activityStack.size(); i++) {
-            if (activityStack.get(i) != null) {
-                activityStack.get(i).finish();
-                if (i == activityStack.size() - 1 && iskillProcess) {
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(1);
+    public void finishAllActivity() {
+        if(activityStack!=null){
+            int size=activityStack.size();
+            for (int i = 0; i < size; i++) {
+                Activity activity=activityStack.get(i);
+                if (activity!=null) {
+                    activity.finish();
                 }
             }
+            activityStack.clear();
         }
-        activityStack.clear();
     }
 }
