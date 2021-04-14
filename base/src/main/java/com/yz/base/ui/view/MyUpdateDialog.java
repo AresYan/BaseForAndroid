@@ -20,7 +20,6 @@ import com.yz.base.item.CommonItem;
 import com.yz.base.ui.base.BaseActivity;
 import com.yz.base.ui.base.BaseAlertDialog;
 import com.yz.base.ui.base.BaseRecyclerDialog;
-import com.yz.base.utils.MyActivityManager;
 import com.yz.base.utils.MyFileUtils;
 import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.MyStrHelper;
@@ -146,9 +145,10 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 			MyMainHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					MyActivityManager.getInstance().finishAllActivity(true);
+					android.os.Process.killProcess(android.os.Process.myPid());
+					System.exit(1);
 				}
-			},1000);
+			},1500);
 		}else{
 			MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
 		}
