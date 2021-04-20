@@ -3,7 +3,6 @@ package com.yz.base.ui.base;
 import android.content.Intent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.yz.base.utils.MyMainHandler;
 
 import java.util.List;
 
@@ -18,6 +17,9 @@ public abstract class BaseAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder> 
     }
 
     public void removeItem(int position){
+        if(getData()==null||getData().isEmpty()){
+            return;
+        }
         getData().remove(position);
         notifyItemRemoved(position);
         if(position != getData().size()){
