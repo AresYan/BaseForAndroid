@@ -121,7 +121,8 @@ public class MyGlideHelper {
                             @Override
                             public void run() {
                                 if(data!=null){
-                                    File file=new File(MyFileUtils.writeFile(MyFileUtils.getTYJWPath()+MyFileUtils.BITMAP_DIR, Md5Utils.MD5(object), data));
+                                    File file=new File(MyFileUtils.getTYJWPath()+MyFileUtils.BITMAP_DIR+Md5Utils.MD5(object));
+                                    MyFileUtils.writeFile(file, data, false);
                                     callback.result(file);
                                 }else{
                                     callback.result(null);
