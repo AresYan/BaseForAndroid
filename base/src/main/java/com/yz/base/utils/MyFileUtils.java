@@ -22,6 +22,9 @@ public class MyFileUtils {
 	public static final String CRASH_DIR="crash/";
 
 	public static String getTYJWPath(){
+		if(SDCardUtils.getMountedSDCardPath()!=null&&!SDCardUtils.getMountedSDCardPath().isEmpty()){
+			return SDCardUtils.getMountedSDCardPath().get(0) +"/tyjw/";
+		}
 		return SDCardUtils.getSDCardPathByEnvironment() +"/tyjw/";
 	}
 
