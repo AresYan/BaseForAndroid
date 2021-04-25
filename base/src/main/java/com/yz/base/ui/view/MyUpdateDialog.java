@@ -142,7 +142,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 	private void failure(){
 		dismiss();
 		if(isForce){
-			MyToasty.show((Activity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
+			MyToasty.show((BaseActivity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
 			MyMainHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -151,7 +151,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 				}
 			},1500);
 		}else{
-			MyToasty.show((Activity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
+			MyToasty.show((BaseActivity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
 		}
 	}
 

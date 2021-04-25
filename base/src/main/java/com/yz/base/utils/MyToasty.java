@@ -1,7 +1,17 @@
 package com.yz.base.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.yz.base.toast.SafeToastContext;
+
+import java.lang.reflect.Field;
+
 import es.dmoral.toasty.Toasty;
 
 /**
@@ -21,22 +31,37 @@ public class MyToasty {
 		if (activity == null||activity.isFinishing()) {
 			return;
 		}
+		Toast toast = Toast.makeText(activity, text, Toast.LENGTH_SHORT);
 		switch(tpye){
 			case TYPE_ERROR:
-				Toasty.error(activity, text, Toast.LENGTH_SHORT,true).show();
+				toast=Toasty.error(activity, text, Toast.LENGTH_SHORT,true);
 				break;
 			case TYPE_INFO:
-				Toasty.info(activity, text, Toast.LENGTH_SHORT,true).show();
+				toast=Toasty.info(activity, text, Toast.LENGTH_SHORT,true);
 				break;
 			case TYPE_NORMAL:
-				Toasty.normal(activity, text, Toast.LENGTH_SHORT).show();
+				toast=Toasty.normal(activity, text, Toast.LENGTH_SHORT);
 				break;
 			case TYPE_SUCCESS:
-				Toasty.success(activity, text, Toast.LENGTH_SHORT,true).show();
+				toast=Toasty.success(activity, text, Toast.LENGTH_SHORT,true);
 				break;
 			case TYPE_WARNING:
-				Toasty.warning(activity, text, Toast.LENGTH_SHORT,true).show();
+				toast=Toasty.warning(activity, text, Toast.LENGTH_SHORT,true);
 				break;
+		}
+		setContextCompat(toast.getView(), new SafeToastContext(activity, toast));
+		toast.show();
+	}
+
+	private static void setContextCompat(@NonNull View view, @NonNull Context context) {
+		if (Build.VERSION.SDK_INT == 25) {
+			try {
+				Field field = View.class.getDeclaredField("mContext");
+				field.setAccessible(true);
+				field.set(view, context);
+			} catch (Throwable throwable) {
+				throwable.printStackTrace();
+			}
 		}
 	}
 }
