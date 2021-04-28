@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.nio.NioEventLoopGroup;
 
 public abstract class BaseSocketClient {
@@ -25,6 +27,12 @@ public abstract class BaseSocketClient {
     protected ExecutorService mConnectThreadPool = Executors.newSingleThreadExecutor();
     protected ExecutorService mSendThreadPool = Executors.newSingleThreadExecutor();
     protected ExecutorService mHandleThreadPool = Executors.newSingleThreadExecutor();
+
+    private SendListener mSendListener;
+
+    public void setmSendListener(SendListener mSendListener) {
+        this.mSendListener = mSendListener;
+    }
 
     public void init() {
         isDestroy=false;
@@ -112,6 +120,9 @@ public abstract class BaseSocketClient {
 
     protected void send(Object object) {
         if(isDestroy()||isNetError()){
+            if(mSendListener!=null){
+                mSendListener.onFailure();
+            }
             return;
         }
         if (mSendThreadPool.isShutdown()) {
@@ -121,7 +132,24 @@ public abstract class BaseSocketClient {
             @Override
             public void run() {
                 if(mChannel!=null&&object!=null){
-                    mChannel.writeAndFlush(object);
+                    mChannel.writeAndFlush(object).addListener(new ChannelFutureListener() {
+                        @Override
+                        public void operationComplete(ChannelFuture future) throws Exception {
+                            if(future.isSuccess()){
+                                if(mSendListener!=null){
+                                    mSendListener.onSuccess();
+                                }
+                            }else{
+                                if(mSendListener!=null){
+                                    mSendListener.onFailure();
+                                }
+                            }
+                        }
+                    });
+                }else{
+                    if(mSendListener!=null){
+                        mSendListener.onFailure();
+                    }
                 }
             }
         });
@@ -149,4 +177,9 @@ public abstract class BaseSocketClient {
     protected abstract void register();
 
     protected abstract void handleMessage(Object object);
+
+    public interface SendListener {
+        void onSuccess();
+        void onFailure();
+    }
 }
