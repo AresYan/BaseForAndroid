@@ -121,7 +121,7 @@ public abstract class BaseSocketClient {
     protected void send(Object object) {
         if(isDestroy()||isNetError()){
             if(mSendListener!=null){
-                mSendListener.onFailure();
+                mSendListener.onSend(false,System.currentTimeMillis());
             }
             return;
         }
@@ -135,20 +135,14 @@ public abstract class BaseSocketClient {
                     mChannel.writeAndFlush(object).addListener(new ChannelFutureListener() {
                         @Override
                         public void operationComplete(ChannelFuture future) throws Exception {
-                            if(future.isSuccess()){
-                                if(mSendListener!=null){
-                                    mSendListener.onSuccess();
-                                }
-                            }else{
-                                if(mSendListener!=null){
-                                    mSendListener.onFailure();
-                                }
+                            if(mSendListener!=null){
+                                mSendListener.onSend(future.isSuccess(),System.currentTimeMillis());
                             }
                         }
                     });
                 }else{
                     if(mSendListener!=null){
-                        mSendListener.onFailure();
+                        mSendListener.onSend(false,System.currentTimeMillis());
                     }
                 }
             }
@@ -179,7 +173,6 @@ public abstract class BaseSocketClient {
     protected abstract void handleMessage(Object object);
 
     public interface SendListener {
-        void onSuccess();
-        void onFailure();
+        void onSend(boolean isSuccess,long timestamp);
     }
 }
