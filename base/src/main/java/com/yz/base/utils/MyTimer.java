@@ -20,7 +20,7 @@ public class MyTimer {
     private boolean isMainTheard;
     private TimerListener listener;
 
-    private MyTimer(){
+    public void init(){
         mTimer=new Timer();
         mTimerTask= new TimerTask() {
             @Override
@@ -184,6 +184,7 @@ public class MyTimer {
             timer.setDownTimer(isDownTimer);
             timer.setMainTheard(isMainTheard);
             timer.setListener(listener);
+            timer.init();
             return timer;
         }
     }
