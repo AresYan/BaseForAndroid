@@ -1,6 +1,5 @@
 package com.yz.base.ui.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,7 +23,7 @@ import com.yz.base.utils.MyActivityManager;
 import com.yz.base.utils.MyFileUtils;
 import com.yz.base.utils.MyMainHandler;
 import com.yz.base.utils.MyStrHelper;
-import com.yz.base.utils.MyToasty;
+import com.yz.base.utils.MyToastHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +141,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 	private void failure(){
 		dismiss();
 		if(isForce){
-			MyToasty.show((BaseActivity) getContext(),"强制更新失败，应用退出",MyToasty.TYPE_WARNING);
+			MyToastHelper.warning("强制更新失败，应用退出",MyToastHelper.TYPE_WARNING);
 			MyMainHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -151,7 +150,7 @@ public class MyUpdateDialog extends BaseRecyclerDialog {
 				}
 			},1500);
 		}else{
-			MyToasty.show((BaseActivity) getContext(),"更新失败",MyToasty.TYPE_WARNING);
+			MyToastHelper.warning("更新失败",MyToastHelper.TYPE_WARNING);
 		}
 	}
 
