@@ -8,6 +8,8 @@ package com.yz.base.map;
  */
 public interface IPoly {
 
+    void setExist(boolean isExist);
+    boolean isExist();
     void setVisible(boolean isVisible);
     boolean isVisible();
     void remove();

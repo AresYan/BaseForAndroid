@@ -11,8 +11,6 @@ import android.graphics.Bitmap;
 public interface IMarker extends IPoly{
 
     String getId();
-    void setExist(boolean exist);
-    boolean isExist();
     void setPosition(Point point);
     void setIcon(Bitmap bitmap);
     void setAnchor(float var1, float var2);
