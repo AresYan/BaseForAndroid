@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface IPolyline extends IPoly{
 
+    void addPoint(Point point);
     void setPoints(List<Point> points);
     void setColor(int color);
     void setWidth(int width);
